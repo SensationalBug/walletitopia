@@ -8,13 +8,13 @@ import Login from '../views/Login';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const homeIcon = () => {
-  <MaterialCommunityIcons name="home" color="red" size={26} />;
-};
+const homeIcon = (color: any) => (
+  <MaterialCommunityIcons name="home" color={color} size={26} />
+);
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator activeColor="#e91e63">
       <Tab.Screen
         name="Login"
         component={Login}
