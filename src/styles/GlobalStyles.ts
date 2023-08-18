@@ -1,10 +1,116 @@
+// #1F9FD0 Color de las cuentas
+// #122e49 Color del tabBar
 export const GlobalStyles: any = {
-  textStyle: {
-    padding: 10,
-    fontSize: 30,
-    color: '#fff',
-    borderRadius: 10,
-    textAlign: 'center',
-    backgroundColor: 'red',
-  },
+    textStyle: {
+        padding: 10,
+        fontSize: 30,
+        color: '#fff',
+        borderRadius: 10,
+        textAlign: 'center',
+        backgroundColor: 'red',
+    },
+};
+
+export const HomeStyles: any = {
+    container: {
+        flex: 1,
+    },
+    mainTitle: {
+        fontSize: 40,
+        color: '#000',
+        textAlign: 'center',
+    },
+    mainName: {
+        fontSize: 20,
+        color: '#000',
+        textAlign: 'center',
+    },
+    date: {
+        fontSize: 15,
+        color: '#000',
+        textAlign: 'right',
+        padding: 10,
+    },
+};
+
+export const AccountCardStyles: any = {
+    accContainer: {
+        backgroundColor: 'red',
+        marginVertical: 5,
+    },
+    accHeader: {
+        padding: 10,
+        paddingHorizontal: 20,
+    },
+    accTitle: {
+        color: '#000',
+        fontSize: 30,
+    },
+    accType: {
+        color: '#000',
+        fontSize: 10,
+    },
+    accAmount: {
+        color: '#000',
+        fontSize: 30,
+        paddingBottom: 10,
+        paddingHorizontal: 20,
+    },
+};
+
+export const CategoryStyles: any = {
+    catInputContainer: {
+        marginTop: 10,
+        marginHorizontal: 10,
+        flexDirection: 'row',
+    },
+    catNameInput: {
+        width: '80%',
+        fontSize: 23,
+        paddingHorizontal: 15,
+        borderTopLeftRadius: 4,
+        borderBottomLeftRadius: 4,
+        backgroundColor: '#DCDCDC',
+    },
+    addCatIcon: {
+        width: '20%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTopRightRadius: 4,
+        backgroundColor: '#DCDCDC',
+        borderBottomRightRadius: 4,
+    },
+    addCatButton: {
+        margin: 10,
+        padding: 10,
+        borderRadius: 4,
+        backgroundColor: '#1F8A70',
+    },
+    addCatButtonText: {
+        fontSize: 20,
+        color: '#fff',
+        textAlign: 'center',
+    },
+    catListMainTitle: {
+        fontSize: 35,
+        color: '#000',
+        textAlign: 'center',
+        paddingVertical: 20,
+    },
+};
+
+export const CategoryCardStyles: any = {
+    catBox: {
+        height: 80,
+        width: '30%',
+        margin: '1.65%',
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#20a5d8',
+    },
+    catData: {
+        color: '#fff',
+        textAlign: 'center',
+    },
 };
