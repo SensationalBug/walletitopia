@@ -1,14 +1,42 @@
-import React from 'react';
-import { Modal, StyleSheet, Text, View, Pressable } from 'react-native';
+import React, { useContext } from 'react';
+import {
+    Modal,
+    Text,
+    View,
+    FlatList,
+    Pressable,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { CatContext } from '../controller/CategoriesContext';
 
 const ModalCategoryIcons = ({ modalVisible, setModalVisible }: any) => {
+    const { getCatIcons, catIcons }: any = useContext(CatContext);
     return (
         <Modal animationType="fade" transparent={true} visible={modalVisible}>
             <View>
                 <View style={styles.modalView}>
+                    <FlatList
+                        numColumns={4}
+                        data={catIcons}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }: any) => {
+                            return (
+                                <TouchableOpacity>
+                                    <Icon
+                                        size={20}
+                                        color="#000"
+                                        name={item.IconName}
+                                    />
+                                </TouchableOpacity>
+                            );
+                        }}
+                    />
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
+                        onPress={() => getCatIcons()}>
+                        {/* onPress={() => setModalVisible(!modalVisible)}> */}
                         <Text>Hide Modal</Text>
                     </Pressable>
                 </View>

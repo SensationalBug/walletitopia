@@ -11,6 +11,98 @@ export const GlobalStyles: any = {
     },
 };
 
+export const LoginStyles: any = {
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#122e49',
+    },
+};
+
+export const CustomSwitchStlyes: any = {
+    container: {
+        alignItems: 'center',
+        padding: 20,
+    },
+    toggleContainer: {
+        height: 40,
+        width: 250,
+        borderRadius: 50,
+        borderWidth: 0.5,
+        overflow: 'hidden',
+        borderColor: '#999',
+    },
+    toggleBtn: {
+        width: '50%',
+        fontSize: 16,
+        color: '#122e49',
+        height: '100%',
+        fontWeight: '600',
+        textAlign: 'center',
+        verticalAlign: 'middle',
+    },
+    toggleBtnFalse: { backgroundColor: '#fff' },
+    toggleBtnTrue: {
+        alignSelf: 'flex-end',
+        backgroundColor: '#fff',
+    },
+};
+
+export const LoginBoxStyles: any = {
+    container: {
+        width: '90%',
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+    logo: {
+        height: 100,
+        width: '90%',
+        marginTop: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginHorizontal: 15,
+        justifyContent: 'center',
+    },
+    loginFormBox: {
+        height: 500,
+        width: '90%',
+        margin: 15,
+        borderRadius: 10,
+        paddingVertical: 10,
+        alignItems: 'center',
+    },
+    input: {
+        width: '85%',
+        fontSize: 18,
+        marginTop: 10,
+        paddingLeft: 10,
+        borderBottomWidth: 1,
+        marginHorizontal: 20,
+        borderBottomColor: '#000',
+    },
+    forgotTextButton: {
+        marginVertical: 20,
+        marginHorizontal: 20,
+        alignSelf: 'flex-end',
+    },
+    forgotText: {
+        fontSize: 12,
+        color: '#000',
+    },
+    submitButton: {
+        padding: 10,
+        width: '85%',
+        borderRadius: 10,
+        backgroundColor: '#1F8A70',
+    },
+    submitButtonText: {
+        fontSize: 20,
+        color: '#fff',
+        textAlign: 'center',
+    },
+};
+
 export const HomeStyles: any = {
     container: {
         flex: 1,

@@ -12,11 +12,12 @@ import { CategoryStyles } from '../styles/GlobalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { CatContext } from '../controller/CategoriesContext';
 import ModalCategoryIcons from '../components/ModalCategoryIcons';
+import { UserContext } from '../controller/UserContext';
 const Categories = () => {
-    const { categories, updCatData, addCat }: any = useContext(CatContext);
+    const { categories, addCat, setNewCategry }: any = useContext(CatContext);
+    const { updStateData }: any = useContext(UserContext);
     const layout = useWindowDimensions();
     const [modalVisible, setModalVisible] = useState(false);
-
     return (
         <View>
             <View>
@@ -25,7 +26,9 @@ const Categories = () => {
                         maxLength={20}
                         style={CategoryStyles.catNameInput}
                         placeholder="Agregar nueva categoría"
-                        onChangeText={value => updCatData(value, 'name')}
+                        onChangeText={value =>
+                            updStateData(setNewCategry, value, 'name')
+                        }
                     />
                     <TouchableOpacity
                         onPress={() => setModalVisible(true)}
