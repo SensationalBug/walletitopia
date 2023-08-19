@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     useWindowDimensions,
+    StyleSheet,
 } from 'react-native';
 import { LoginBoxStyles } from '../styles/GlobalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -49,8 +50,30 @@ const LoginBox = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
+            <Text style={styles.rightsText}>
+                © ITopia 2023, Todos los derechos reservados.
+            </Text>
         </View>
     );
 };
 
 export default LoginBox;
+
+const styles = StyleSheet.create({
+    submitButton: {
+        margin: 30,
+        padding: 10,
+        width: '85%',
+        borderRadius: 10,
+        backgroundColor: '#1F8A70',
+    },
+    submitButtonText: {
+        fontSize: 20,
+        color: '#fff',
+        textAlign: 'center',
+    },
+    rightsText: {
+        fontSize: 12,
+        color: '#c4c8c5',
+    },
+});

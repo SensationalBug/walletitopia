@@ -25,16 +25,19 @@ const UserProvider = ({ children }: props) => {
         }));
     };
     const userLogin = () => {
-        axios({
-            method: 'post',
-            url: `${URL}/users/signin`,
-            data: {
-                correo: userData.email,
-                password: userData.password,
-            },
-        })
-            .then(res => updStateData(setUserData, res.data, 'token'))
-            .catch(err => console.log(err.response.data.message));
+        // axios({
+        //     method: 'post',
+        //     url: `${URL}/users/signin`,
+        //     data: {
+        //         // correo: userData.email,
+        //         // password: userData.password,
+        //         correo: 'string',
+        //         password: 'string',
+        //     },
+        // })
+        //     .then(res => updStateData(setUserData, res.data, 'token'))
+        //     .catch(err => console.log(err.response.data.message));
+        console.log(userData);
     };
     return (
         <UserContext.Provider

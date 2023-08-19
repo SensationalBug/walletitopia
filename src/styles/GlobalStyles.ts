@@ -1,5 +1,7 @@
 // #1F9FD0 Color de las cuentas
 // #122e49 Color del tabBar
+// #F24C3D Color Rojo
+// #1F8A70 Color Verde
 export const GlobalStyles: any = {
     textStyle: {
         padding: 10,
@@ -65,7 +67,7 @@ export const LoginBoxStyles: any = {
         justifyContent: 'center',
     },
     loginFormBox: {
-        height: 500,
+        height: 485,
         width: '90%',
         margin: 15,
         borderRadius: 10,
@@ -91,6 +93,7 @@ export const LoginBoxStyles: any = {
         color: '#000',
     },
     submitButton: {
+        margin: 30,
         padding: 10,
         width: '85%',
         borderRadius: 10,
@@ -100,6 +103,24 @@ export const LoginBoxStyles: any = {
         fontSize: 20,
         color: '#fff',
         textAlign: 'center',
+    },
+    // SignupBox specific styles
+    terminos: {
+        marginTop: 20,
+        flexDirection: 'row',
+    },
+    terminosText: {
+        color: '#122e49',
+        paddingLeft: 20,
+        textDecorationLine: 'underline',
+    },
+    policies: {
+        paddingBottom: 10,
+        justifyContent: 'flex-end',
+    },
+    policiesText: {
+        color: '#122e49',
+        textDecorationLine: 'underline',
     },
 };
 

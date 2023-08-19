@@ -19,7 +19,7 @@ const CatProvider = ({ children }: props) => {
     const { userData }: any = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [catIcons, setCatIcons] = useState([]);
-    const [newCategoy, setNewCategry] = useState({
+    const [newCategoy, setNewCategory] = useState({
         name: '',
         iconName: '',
     });
@@ -35,26 +35,25 @@ const CatProvider = ({ children }: props) => {
             .then(res => setCategories(res.data))
             .catch(err => console.log('Categoria', err));
     }, [userData.token.accessToken]);
-    useEffect(() => {
-        getCat();
-    }, [getCat]);
 
-    // const addCat = (category_name: string, icon_name: string) => {
     const addCat = () => {
         // axios({
         //     method: 'post',
         //     url: `${URL}/categoria`,
         //     data: {
-        //         category_name: category_name,
-        //         icon_name: icon_name,
+        //         category_name: newCategoy.name,
+        //         icon_name: newCategoy.iconName,
+        //     },
+        //     headers: {
+        //         Authorization: `Bearer ${userData.token.accessToken}`,
         //     },
         // })
-        //     .then(res => console.log(res))
+        //     .then(() => getCat())
         //     .catch(err => console.log(err));
         console.log(newCategoy);
     };
 
-    const getCatIcons = () => {
+    const getCatIcons = useCallback(() => {
         axios({
             method: 'get',
             url: `${URL}/categoria/Icon`,
@@ -64,7 +63,12 @@ const CatProvider = ({ children }: props) => {
         })
             .then(res => setCatIcons(res.data))
             .catch(err => console.log(err));
-    };
+    }, [userData.token.accessToken]);
+
+    useEffect(() => {
+        getCat();
+        getCatIcons();
+    }, [getCat, getCatIcons]);
 
     return (
         <CatContext.Provider
@@ -73,8 +77,7 @@ const CatProvider = ({ children }: props) => {
                 getCat,
                 addCat,
                 catIcons,
-                getCatIcons,
-                setNewCategry,
+                setNewCategory,
             }}>
             {children}
         </CatContext.Provider>
