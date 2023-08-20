@@ -21,6 +21,14 @@ const UserProvider = ({ children }: props) => {
         rPassword: '',
         appTerms: false,
     });
+    // Funcion para manejar los mensajes de error
+    const showToastAlert = (type: string, message: string) => {
+        Toast.show({
+            type: type,
+            text1: message,
+            visibilityTime: 1200,
+        });
+    };
     // Funcion para editar un elemento en un useState de tipo {}
     const updStateData = (
         setState: Function,
@@ -83,40 +91,26 @@ const UserProvider = ({ children }: props) => {
                 });
             });
     };
+    // Funcion que valida los campos antes de registrar
     const userSignup = () => {
-        if (newUser.fullName !== '' && newUser.mail !== '') {
-            if (newUser.password !== '' && newUser.rPassword !== '') {
-                if (newUser.password === newUser.rPassword) {
-                    if (newUser.appTerms) {
-                        registerNewUser();
-                    } else {
-                        Toast.show({
-                            type: 'error',
-                            visibilityTime: 1200,
-                            text1: 'Debe aceptar los términos de uso',
-                        });
-                    }
-                } else {
-                    Toast.show({
-                        type: 'error',
-                        visibilityTime: 1200,
-                        text1: 'Las contraseñas deben ser iguales',
-                    });
-                }
-            } else {
-                Toast.show({
-                    type: 'error',
-                    visibilityTime: 1200,
-                    text1: 'Favor completar las contraseñas',
-                });
-            }
-        } else {
-            Toast.show({
-                type: 'error',
-                visibilityTime: 1200,
-                text1: 'Completar todos los campos',
-            });
+        const { fullName, mail, password, rPassword, appTerms } = newUser;
+        if (!fullName || !mail) {
+            showToastAlert('error', 'Completar todos los campos');
+            return;
         }
+        if (!password || !rPassword) {
+            showToastAlert('error', 'Favor completar las contraseñas');
+            return;
+        }
+        if (password !== rPassword) {
+            showToastAlert('error', 'Las contraseñas deben ser iguales');
+            return;
+        }
+        if (!appTerms) {
+            showToastAlert('error', 'Debe aceptar los términos de uso');
+            return;
+        }
+        registerNewUser();
     };
     // Funcion para hacer logout en la app
     const userLogout = (navigation: any, screen: string) => {
@@ -128,14 +122,15 @@ const UserProvider = ({ children }: props) => {
         <UserContext.Provider
             value={{
                 Toast,
+                newUser,
                 userData,
                 userLogin,
                 userSignup,
                 userLogout,
                 setNewUser,
-                newUser,
                 setUserData,
                 updStateData,
+                showToastAlert,
             }}>
             {children}
         </UserContext.Provider>

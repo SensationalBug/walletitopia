@@ -235,3 +235,40 @@ export const CategoryCardStyles: any = {
         textAlign: 'center',
     },
 };
+
+export const ModalCatStyles: any = {
+    modalContainer: {
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalView: {
+        padding: 15,
+        width: '90%',
+        height: '65%',
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#122e49',
+    },
+    buttonIcon: {
+        width: 50,
+        height: 50,
+        margin: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#1F9FD0',
+    },
+    buttonClose: {
+        width: 35,
+        height: 35,
+        padding: 5,
+        borderRadius: 5,
+        marginBottom: 15,
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: '#F24C3D',
+    },
+};

@@ -4,13 +4,13 @@ import {
     View,
     FlatList,
     Pressable,
-    StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconClose from 'react-native-vector-icons/FontAwesome';
-import { CatContext } from '../controller/CategoriesContext';
 import { UserContext } from '../controller/UserContext';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { CatContext } from '../controller/CategoriesContext';
+import IconClose from 'react-native-vector-icons/FontAwesome';
+import { ModalCatStyles } from '../styles/GlobalStyles';
 
 const ModalCategoryIcons = ({
     modalVisible,
@@ -22,10 +22,10 @@ const ModalCategoryIcons = ({
 
     return (
         <Modal transparent={true} animationType="fade" visible={modalVisible}>
-            <View style={styles.modalContainer}>
-                <View style={styles.modalView}>
+            <View style={ModalCatStyles.modalContainer}>
+                <View style={ModalCatStyles.modalView}>
                     <Pressable
-                        style={styles.buttonClose}
+                        style={ModalCatStyles.buttonClose}
                         onPress={() => setModalVisible(!modalVisible)}>
                         <IconClose name="close" size={15} color="#fff" />
                     </Pressable>
@@ -36,7 +36,7 @@ const ModalCategoryIcons = ({
                         renderItem={({ item }: any) => {
                             return (
                                 <TouchableOpacity
-                                    style={styles.buttonIcon}
+                                    style={ModalCatStyles.buttonIcon}
                                     onPress={() => {
                                         setModalVisible(!modalVisible);
                                         setSelectedCatIcon(item.IconName);
@@ -62,39 +62,3 @@ const ModalCategoryIcons = ({
 };
 
 export default ModalCategoryIcons;
-
-const styles = StyleSheet.create({
-    modalContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-    },
-    modalView: {
-        padding: 15,
-        borderRadius: 5,
-        alignItems: 'center',
-        backgroundColor: '#122e49',
-        justifyContent: 'center',
-        width: '90%',
-        height: '65%',
-    },
-    buttonIcon: {
-        width: 50,
-        height: 50,
-        margin: 15,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#1F9FD0',
-    },
-    buttonClose: {
-        width: 100,
-        height: 30,
-        padding: 5,
-        borderRadius: 5,
-        marginBottom: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F24C3D',
-    },
-});
