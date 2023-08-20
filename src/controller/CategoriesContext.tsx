@@ -37,20 +37,20 @@ const CatProvider = ({ children }: props) => {
     }, [userData.token.accessToken]);
 
     const addCat = () => {
-        // axios({
-        //     method: 'post',
-        //     url: `${URL}/categoria`,
-        //     data: {
-        //         category_name: newCategoy.name,
-        //         icon_name: newCategoy.iconName,
-        //     },
-        //     headers: {
-        //         Authorization: `Bearer ${userData.token.accessToken}`,
-        //     },
-        // })
-        //     .then(() => getCat())
-        //     .catch(err => console.log(err));
-        console.log(newCategoy);
+        axios({
+            method: 'post',
+            url: `${URL}/categoria`,
+            data: {
+                category_name: newCategoy.name,
+                icon_name: newCategoy.iconName,
+            },
+            headers: {
+                Authorization: `Bearer ${userData.token.accessToken}`,
+            },
+        })
+            .then(() => getCat())
+            .catch(err => console.log(err));
+        // console.log(newCategoy);
     };
 
     const getCatIcons = useCallback(() => {

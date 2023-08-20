@@ -24,7 +24,7 @@ export const LoginStyles: any = {
 export const CustomSwitchStlyes: any = {
     container: {
         alignItems: 'center',
-        padding: 20,
+        padding: 17,
     },
     toggleContainer: {
         height: 40,
@@ -48,6 +48,13 @@ export const CustomSwitchStlyes: any = {
         alignSelf: 'flex-end',
         backgroundColor: '#fff',
     },
+};
+
+export const ToastStyles: any = {
+    text1Style: { fontSize: 14 },
+    successColor: { borderLeftColor: '#1F8A70', borderLeftWidth: 10 },
+    errorColor: { borderLeftColor: '#F24C3D', borderLeftWidth: 10 },
+    infoColor: { borderLeftColor: '#1F9FD0', borderLeftWidth: 10 },
 };
 
 export const LoginBoxStyles: any = {
@@ -81,7 +88,7 @@ export const LoginBoxStyles: any = {
         paddingLeft: 10,
         borderBottomWidth: 1,
         marginHorizontal: 20,
-        borderBottomColor: '#000',
+        borderBottomColor: '#6a6a6a',
     },
     forgotTextButton: {
         marginVertical: 20,
@@ -214,7 +221,7 @@ export const CategoryStyles: any = {
 
 export const CategoryCardStyles: any = {
     catBox: {
-        height: 80,
+        height: 100,
         width: '30%',
         margin: '1.65%',
         borderRadius: 5,
@@ -224,6 +231,7 @@ export const CategoryCardStyles: any = {
     },
     catData: {
         color: '#fff',
+        paddingVertical: 5,
         textAlign: 'center',
     },
 };

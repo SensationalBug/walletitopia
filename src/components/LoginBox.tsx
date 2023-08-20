@@ -24,7 +24,7 @@ const LoginBox = () => {
             <View style={LoginBoxStyles.loginFormBox}>
                 <TextInput
                     onChangeText={value =>
-                        updStateData(setUserData, value, 'email')
+                        updStateData(setUserData, value, 'mail')
                     }
                     style={LoginBoxStyles.input}
                     placeholder="Correo electrónico"

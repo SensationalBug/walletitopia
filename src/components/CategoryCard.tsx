@@ -15,7 +15,7 @@ const CategoryCard = ({ _id, icon_name, category_name }: types) => {
             onPress={() => console.log(_id)}
             style={CategoryCardStyles.catBox}>
             <Icon
-                size={30}
+                size={35}
                 name={icon_name}
                 style={CategoryCardStyles.catData}
             />

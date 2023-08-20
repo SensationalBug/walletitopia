@@ -1,20 +1,22 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { LoginBoxStyles } from '../styles/GlobalStyles';
 import { UserContext } from '../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
     View,
     Text,
-    TextInput,
     TouchableOpacity,
     useWindowDimensions,
 } from 'react-native';
+import FormTextInput from './FormTextInput';
 
 const SignupBox = () => {
     const layout = useWindowDimensions();
-    const { userLogin, setUserData, updStateData }: any =
+    const { userSignup, setNewUser, updStateData, newUser }: any =
         useContext(UserContext);
-    const [showTerminosIcon, setShowTerminosIcon] = useState(false);
+    const toggleAppTerms = () => {
+        updStateData(setNewUser, !newUser.appTerms, 'appTerms');
+    };
     return (
         <View
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
@@ -22,40 +24,33 @@ const SignupBox = () => {
                 <Icon size={80} color="#122e49" name="angry" />
             </View>
             <View style={LoginBoxStyles.loginFormBox}>
-                <TextInput
-                    onChangeText={value =>
-                        updStateData(setUserData, value, 'email')
-                    }
-                    style={LoginBoxStyles.input}
-                    placeholder="Nombre"
+                <FormTextInput
+                    setState={setNewUser}
+                    fieldName="fullName"
+                    secureTextEntry={false}
+                    placeholder="Nombre completo"
                 />
-                <TextInput
-                    onChangeText={value =>
-                        updStateData(setUserData, value, 'email')
-                    }
-                    style={LoginBoxStyles.input}
+                <FormTextInput
+                    setState={setNewUser}
+                    fieldName="mail"
+                    secureTextEntry={false}
                     placeholder="Correo electrónico"
                 />
-                <TextInput
-                    onChangeText={value =>
-                        updStateData(setUserData, value, 'password')
-                    }
-                    secureTextEntry
-                    style={LoginBoxStyles.input}
+                <FormTextInput
+                    setState={setNewUser}
+                    fieldName="password"
+                    secureTextEntry={true}
                     placeholder="Contraseña"
                 />
-                <TextInput
-                    onChangeText={value =>
-                        updStateData(setUserData, value, 'password')
-                    }
-                    secureTextEntry
-                    style={LoginBoxStyles.input}
+                <FormTextInput
+                    setState={setNewUser}
+                    fieldName="rPassword"
+                    secureTextEntry={true}
                     placeholder="Repita su contraseña"
                 />
                 <View style={LoginBoxStyles.terminos}>
-                    <TouchableOpacity
-                        onPress={() => setShowTerminosIcon(!showTerminosIcon)}>
-                        {showTerminosIcon ? (
+                    <TouchableOpacity onPress={() => toggleAppTerms()}>
+                        {newUser.appTerms ? (
                             <Icon
                                 size={20}
                                 color="#122e49"
@@ -72,7 +67,7 @@ const SignupBox = () => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                    onPress={() => userLogin()}
+                    onPress={() => userSignup()}
                     style={LoginBoxStyles.submitButton}>
                     <Text style={LoginBoxStyles.submitButtonText}>
                         Registrarme
