@@ -49,10 +49,10 @@ const UserProvider = ({ children }: props) => {
                 'Content-Type': 'application/json',
             },
             data: {
-                mail: userData.mail,
-                password: userData.password,
-                // correo: 'string',
-                // password: 'string',
+                // mail: userData.mail,
+                // password: userData.password,
+                mail: 'z@z.com',
+                password: '1',
             },
         })
             .then(res => {

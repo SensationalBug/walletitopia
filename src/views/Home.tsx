@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { HomeStyles } from '../styles/GlobalStyles';
 import AccountCard from '../components/AccountCard';
-import { AccContext } from '../controller/AccountsContext';
+import { AccountContext } from '../controller/AccountsContext';
 
 const Home = () => {
-    const { accounts }: any = useContext(AccContext);
+    const { accounts }: any = useContext(AccountContext);
     return (
         <View style={HomeStyles.container}>
             <View>

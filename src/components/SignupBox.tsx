@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import FormTextInput from './FormTextInput';
 import TermsPrivacyModal from './TermsPrivacyModal';
+import { policies, privacy } from '../text/PoliciesAndPrivacy';
 
 const SignupBox = () => {
     const layout = useWindowDimensions();
@@ -19,15 +20,15 @@ const SignupBox = () => {
         updStateData(setNewUser, !newUser.appTerms, 'appTerms');
     };
     const [modalTermsVisible, setModalTermsVisible] = useState(false);
-    // const [modalPrivacyVisible, setModalPrivacyVisible] = useState(false);
+    const [modalPrivacyVisible, setModalPrivacyVisible] = useState(false);
 
     return (
         <View
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
-            <View style={LoginBoxStyles.logo}>
-                <Icon size={80} color="#122e49" name="angry" />
-            </View>
             <View style={LoginBoxStyles.loginFormBox}>
+                <View style={LoginBoxStyles.logo}>
+                    <Icon size={80} color="#122e49" name="angry" />
+                </View>
                 <FormTextInput
                     setState={setNewUser}
                     fieldName="fullName"
@@ -64,7 +65,10 @@ const SignupBox = () => {
                             <Icon size={20} name="square" color="#122e49" />
                         )}
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() =>
+                            setModalPrivacyVisible(!modalPrivacyVisible)
+                        }>
                         <Text style={LoginBoxStyles.terminosText}>
                             Términos y condiciones
                         </Text>
@@ -86,8 +90,16 @@ const SignupBox = () => {
                     </Text>
                 </TouchableOpacity>
                 <TermsPrivacyModal
+                    title="Politicas de privacidad"
+                    message={policies}
                     modalVisible={modalTermsVisible}
                     setModalVisible={setModalTermsVisible}
+                />
+                <TermsPrivacyModal
+                    title="Términos y condiciones de uso"
+                    message={privacy}
+                    modalVisible={modalPrivacyVisible}
+                    setModalVisible={setModalPrivacyVisible}
                 />
             </View>
         </View>

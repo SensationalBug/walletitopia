@@ -12,10 +12,11 @@ const FormTextInput = ({
     const { updStateData }: any = useContext(UserContext);
     return (
         <TextInput
-            onChangeText={value => updStateData(setState, value, fieldName)}
-            secureTextEntry={secureTextEntry}
+            placeholderTextColor="#bfbfbf"
             placeholder={placeholder}
             style={LoginBoxStyles.input}
+            secureTextEntry={secureTextEntry}
+            onChangeText={value => updStateData(setState, value, fieldName)}
         />
     );
 };

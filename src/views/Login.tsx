@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 const Login = ({ navigation }: any) => {
     const { userData, Toast }: any = useContext(UserContext);
-    const [window, setWindow] = useState(true);
+    const [window, setWindow] = useState(false);
     useEffect(() => {
         userData.token ? navigation.navigate('Main') : null;
     }, [navigation, userData.token]);

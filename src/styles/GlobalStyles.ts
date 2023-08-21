@@ -2,16 +2,6 @@
 // #122e49 Color del tabBar
 // #F24C3D Color Rojo
 // #1F8A70 Color Verde
-export const GlobalStyles: any = {
-    textStyle: {
-        padding: 10,
-        fontSize: 30,
-        color: '#fff',
-        borderRadius: 10,
-        textAlign: 'center',
-        backgroundColor: 'red',
-    },
-};
 
 export const LoginStyles: any = {
     container: {
@@ -37,8 +27,8 @@ export const CustomSwitchStlyes: any = {
     toggleBtn: {
         width: '50%',
         fontSize: 16,
-        color: '#122e49',
         height: '100%',
+        color: '#122e49',
         fontWeight: '600',
         textAlign: 'center',
         verticalAlign: 'middle',
@@ -63,6 +53,7 @@ export const LoginBoxStyles: any = {
         borderRadius: 10,
         alignItems: 'center',
         backgroundColor: '#fff',
+        justifyContent: 'space-between',
     },
     logo: {
         height: 100,
@@ -74,9 +65,8 @@ export const LoginBoxStyles: any = {
         justifyContent: 'center',
     },
     loginFormBox: {
-        height: 485,
-        width: '90%',
         margin: 15,
+        width: '90%',
         borderRadius: 10,
         paddingVertical: 10,
         alignItems: 'center',
@@ -84,6 +74,7 @@ export const LoginBoxStyles: any = {
     input: {
         width: '85%',
         fontSize: 18,
+        color: '#000',
         marginTop: 10,
         paddingLeft: 10,
         borderBottomWidth: 1,
@@ -110,6 +101,11 @@ export const LoginBoxStyles: any = {
         fontSize: 20,
         color: '#fff',
         textAlign: 'center',
+    },
+    rightsText: {
+        fontSize: 12,
+        color: '#c4c8c5',
+        marginVertical: 10,
     },
     // SignupBox specific styles
     terminos: {
