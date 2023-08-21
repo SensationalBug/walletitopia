@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { LoginBoxStyles } from '../styles/GlobalStyles';
 import { UserContext } from '../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -9,6 +9,7 @@ import {
     useWindowDimensions,
 } from 'react-native';
 import FormTextInput from './FormTextInput';
+import TermsPrivacyModal from './TermsPrivacyModal';
 
 const SignupBox = () => {
     const layout = useWindowDimensions();
@@ -17,6 +18,9 @@ const SignupBox = () => {
     const toggleAppTerms = () => {
         updStateData(setNewUser, !newUser.appTerms, 'appTerms');
     };
+    const [modalTermsVisible, setModalTermsVisible] = useState(false);
+    // const [modalPrivacyVisible, setModalPrivacyVisible] = useState(false);
+
     return (
         <View
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
@@ -75,11 +79,16 @@ const SignupBox = () => {
                 </TouchableOpacity>
             </View>
             <View style={LoginBoxStyles.policies}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => setModalTermsVisible(!modalTermsVisible)}>
                     <Text style={LoginBoxStyles.policiesText}>
                         Políticas de privacidad y seguridad
                     </Text>
                 </TouchableOpacity>
+                <TermsPrivacyModal
+                    modalVisible={modalTermsVisible}
+                    setModalVisible={setModalTermsVisible}
+                />
             </View>
         </View>
     );

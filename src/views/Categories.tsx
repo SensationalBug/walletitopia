@@ -27,20 +27,6 @@ const Categories = () => {
     }: any = useContext(CatContext);
     const { updStateData }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
-    // const showAlert = (catId: string) => {
-    //     Alert.alert(
-    //         'Advertencia',
-    //         `Seguro que quieres eliminar esta categoría?${catId}`,
-    //         [
-    //             {
-    //                 text: 'Si',
-    //             },
-    //             {
-    //                 text: 'No',
-    //             },
-    //         ],
-    //     );
-    // };
     return (
         <View>
             <View>

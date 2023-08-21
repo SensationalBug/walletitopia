@@ -1,21 +1,21 @@
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import Navigation from './src/router/Navigation';
-import AccProvider from './src/controller/AccountsContext';
+import AccountProvider from './src/controller/AccountsContext';
 import CatProvider from './src/controller/CategoriesContext';
 import UserProvider from './src/controller/UserContext';
 
 function App(): JSX.Element {
     return (
         <UserProvider>
-            <AccProvider>
+            <AccountProvider>
                 <CatProvider>
                     <View style={styles.sectionContainer}>
                         <StatusBar barStyle="default" />
                         <Navigation />
                     </View>
                 </CatProvider>
-            </AccProvider>
+            </AccountProvider>
         </UserProvider>
     );
 }

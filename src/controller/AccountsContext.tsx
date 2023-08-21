@@ -1,34 +1,43 @@
-import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import React, {
+    useState,
+    useEffect,
+    useContext,
+    useCallback,
+    createContext,
+} from 'react';
+import { UserContext } from './UserContext';
 
 interface props {
     children: JSX.Element;
 }
 
-export const AccContext = createContext({});
+export const AccountContext = createContext({});
 
-const AccProvider = ({ children }: props) => {
+const AccountProvider = ({ children }: props) => {
     const URL = 'http://45.77.161.230:3000';
+    const { userData }: any = useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
 
-    useEffect(() => {
-        getAcc();
-    }, []);
-
-    const getAcc = () => {
+    const getAccounts = useCallback(() => {
         axios({
             method: 'get',
             url: `${URL}/cuenta`,
+            headers: {
+                Authorization: `Bearer ${userData.token}`,
+            },
         })
             .then(res => setAccounts(res.data))
             .catch(err => console.log(err));
-    };
-
+    }, [userData.token]);
+    useEffect(() => {
+        userData.token ? getAccounts() : null;
+    }, [getAccounts, userData.token]);
     return (
-        <AccContext.Provider value={{ accounts }}>
+        <AccountContext.Provider value={{ accounts, getAccounts }}>
             {children}
-        </AccContext.Provider>
+        </AccountContext.Provider>
     );
 };
 
-export default AccProvider;
+export default AccountProvider;

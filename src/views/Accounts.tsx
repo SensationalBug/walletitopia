@@ -1,13 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { GlobalStyles } from '../styles/GlobalStyles';
+import { AccountContext } from '../controller/AccountsContext';
 
-const Accounts = ({ navigation }: any) => {
+const Accounts = () => {
+    const { getAccounts }: any = useContext(AccountContext);
     return (
-        <View>
-            <TouchableOpacity
-                onPress={() => navigation.navigate('Inicio')}
-                style={styles.container}>
+        <View style={styles.container}>
+            <TouchableOpacity onPress={() => getAccounts()}>
                 <Text style={GlobalStyles.textStyle}>Accounts</Text>
             </TouchableOpacity>
         </View>
@@ -18,8 +18,8 @@ export default Accounts;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 10,
-        height: '100%',
         backgroundColor: 'green',
     },
 });
