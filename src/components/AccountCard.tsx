@@ -1,22 +1,30 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
 // import { AccountCardStyles } from '../styles/GlobalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccountContext } from '../controller/AccountsContext';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 interface types {
     item: {
+        _id: string;
         acc_name: string;
         monto_inicial: number;
         tipo_de_cuenta: string;
     };
-    isEditable: boolean;
     setIsEditable: any;
+    selectedAccount: any;
+    selectedAccColor: string;
 }
 
-const AccountCard = ({ item, isEditable, setIsEditable }: types) => {
-    const { formatter }: any = useContext(AccountContext);
-    const { acc_name, monto_inicial, tipo_de_cuenta } = item;
+const AccountCard = ({
+    item,
+    setIsEditable,
+    selectedAccount,
+    selectedAccColor,
+}: types) => {
+    const { formatter, setAccountToDelete, getAccountById }: any =
+        useContext(AccountContext);
+    const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
     const accountIcon = (icon: string): any => {
         switch (icon) {
             case 'Efectivo':
@@ -29,10 +37,30 @@ const AccountCard = ({ item, isEditable, setIsEditable }: types) => {
                 return 'credit-card';
         }
     };
+    const colors = {
+        selected: '#122e49',
+        noSelected: '#20a5d8',
+    };
     return (
         <TouchableOpacity
-            style={styles.cuentaContainer}
-            onLongPress={() => setIsEditable(!isEditable)}>
+            style={[
+                styles.cuentaContainer,
+                {
+                    backgroundColor:
+                        selectedAccColor === _id
+                            ? colors.selected
+                            : colors.noSelected,
+                },
+            ]}
+            onLongPress={() => {
+                setAccountToDelete({
+                    id: _id,
+                    accountName: acc_name,
+                });
+                setIsEditable(true);
+                selectedAccount(_id);
+                getAccountById(_id);
+            }}>
             <View style={styles.dataContainer}>
                 <Text style={styles.cuentaName}>{acc_name}</Text>
                 <Text style={styles.cuentaType}>{tipo_de_cuenta}</Text>
@@ -60,12 +88,11 @@ const styles = StyleSheet.create({
     },
     cuentaContainer: {
         marginHorizontal: 10,
-        marginTop: 10,
+        marginTop: 8,
         padding: 10,
         paddingHorizontal: 20,
         borderRadius: 10,
         flexDirection: 'row',
-        backgroundColor: '#1F9FD0',
         justifyContent: 'space-between',
     },
     dataContainer: {

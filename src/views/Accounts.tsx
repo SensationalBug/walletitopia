@@ -2,14 +2,43 @@ import { FAB } from 'react-native-paper';
 import React, { useContext, useState } from 'react';
 import AccountCard from '../components/AccountCard';
 import AccountModal from '../components/AccountModal';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { toastConfig } from '../styles/ToastStyles';
+import { UserContext } from '../controller/UserContext';
+import AccountEditModal from '../components/AccountEditModal';
 import { AccountContext } from '../controller/AccountsContext';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 
 const Accounts = () => {
-    const { accounts }: any = useContext(AccountContext);
+    const { accounts, deleteAccount, accountToDelete }: any =
+        useContext(AccountContext);
+    const { Toast }: any = useContext(UserContext);
     const [isEditable, setIsEditable] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [modalEditVisible, setModalEditVisible] = useState(false);
+    const [selectedAccColor, setSelectedAccColor] = useState('');
+    // Funcion para mostrar el alert previo a borrar una cuenta
+    const showAlert = () => {
+        Alert.alert(
+            'Advertencia',
+            `Seguro que quieres eliminar la cuenta ${accountToDelete.accountName} ?`,
+            [
+                {
+                    text: 'Si',
+                    onPress: () => deleteAccount(),
+                },
+                {
+                    text: 'No',
+                    onPress: () => setSelectedAccColor(''),
+                },
+            ],
+        );
+    };
+    // Funcion para cambiar el color de una cuenta seleccionada
+    const selectedAccount = (id: string) => {
+        selectedAccColor === id
+            ? setSelectedAccColor('')
+            : setSelectedAccColor(id);
+    };
     return (
         <View style={styles.container}>
             <FlatList
@@ -18,8 +47,9 @@ const Accounts = () => {
                 renderItem={(item: any) => (
                     <AccountCard
                         {...item}
-                        isEditable={isEditable}
                         setIsEditable={setIsEditable}
+                        selectedAccount={selectedAccount}
+                        selectedAccColor={selectedAccColor}
                     />
                 )}
             />
@@ -30,20 +60,28 @@ const Accounts = () => {
                             icon="trash-can-outline"
                             color="#fff"
                             style={[styles.FABStyle, styles.FABDelete]}
-                            onPress={() => setIsEditable(!isEditable)}
+                            onPress={() => {
+                                showAlert();
+                                setIsEditable(false);
+                            }}
                         />
                         <View style={styles.FABEdit}>
                             <FAB
                                 icon="window-close"
                                 color="#fff"
                                 style={[styles.FABStyle, styles.FABCancel]}
-                                onPress={() => setIsEditable(!isEditable)}
+                                onPress={() => {
+                                    setSelectedAccColor('');
+                                    setIsEditable(false);
+                                }}
                             />
                             <FAB
                                 icon="square-edit-outline"
                                 color="#fff"
                                 style={[styles.FABStyle, styles.FABEditButton]}
-                                onPress={() => setIsEditable(!isEditable)}
+                                onPress={() => {
+                                    setModalEditVisible(true);
+                                }}
                             />
                         </View>
                     </View>
@@ -53,7 +91,7 @@ const Accounts = () => {
                             icon="plus"
                             color="#fff"
                             style={[styles.FABStyle, styles.FABPlusButton]}
-                            onPress={() => setModalVisible(!modalVisible)}
+                            onPress={() => setModalVisible(true)}
                         />
                     </View>
                 )}
@@ -62,6 +100,13 @@ const Accounts = () => {
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
             />
+            <AccountEditModal
+                setIsEditable={setIsEditable}
+                modalVisible={modalEditVisible}
+                setModalVisible={setModalEditVisible}
+                setSelectedAccColor={setSelectedAccColor}
+            />
+            <Toast config={toastConfig} />
         </View>
     );
 };
@@ -70,6 +115,7 @@ export default Accounts;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         justifyContent: 'space-between',
     },
     cuentaContainer: {

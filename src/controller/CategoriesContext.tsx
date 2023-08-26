@@ -85,7 +85,6 @@ const CatProvider = ({ children }: props) => {
             .catch(() =>
                 showToastAlert('error', 'Esto es una categoría por defecto'),
             );
-        // console.log(catId);
     };
     // Funcion para obtener los iconos de las categorias a seleccionar
     const getCatIcons = useCallback(() => {
