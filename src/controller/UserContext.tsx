@@ -56,7 +56,6 @@ const UserProvider = ({ children }: props) => {
             },
         })
             .then(res => {
-                console.log(res.data);
                 updStateData(setUserData, res.data.acces_token, 'token');
             })
             .catch(() => {
@@ -66,7 +65,6 @@ const UserProvider = ({ children }: props) => {
                     text1: 'Credenciales inválidas',
                 });
             });
-        console.log(userData);
     };
     // Funcion para registrar un nuevo usuario
     const registerNewUser = () => {
@@ -82,8 +80,7 @@ const UserProvider = ({ children }: props) => {
             .then(res =>
                 updStateData(setUserData, res.data.acces_token, 'token'),
             )
-            .catch(err => {
-                console.log(err);
+            .catch(() => {
                 Toast.show({
                     type: 'error',
                     visibilityTime: 1200,

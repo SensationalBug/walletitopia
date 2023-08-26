@@ -6,16 +6,19 @@ import { LoginBoxStyles } from '../styles/GlobalStyles';
 const FormTextInput = ({
     setState,
     fieldName,
+    textColor,
     placeholder,
+    keyboardType,
     secureTextEntry,
 }: any) => {
     const { updStateData }: any = useContext(UserContext);
     return (
         <TextInput
-            placeholderTextColor="#bfbfbf"
             placeholder={placeholder}
-            style={LoginBoxStyles.input}
+            placeholderTextColor="#bfbfbf"
             secureTextEntry={secureTextEntry}
+            keyboardType={keyboardType || 'default'}
+            style={[LoginBoxStyles.input, { color: textColor || '#000' }]}
             onChangeText={value => updStateData(setState, value, fieldName)}
         />
     );

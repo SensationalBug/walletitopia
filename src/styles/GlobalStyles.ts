@@ -73,7 +73,7 @@ export const LoginBoxStyles: any = {
     },
     input: {
         width: '85%',
-        fontSize: 18,
+        fontSize: 20,
         color: '#000',
         marginTop: 10,
         paddingLeft: 10,
@@ -124,6 +124,50 @@ export const LoginBoxStyles: any = {
     policiesText: {
         color: '#122e49',
         textDecorationLine: 'underline',
+    },
+};
+
+export const TermsPrivacyStyles: any = {
+    modalContainer: {
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalView: {
+        padding: 15,
+        width: '80%',
+        height: '75%',
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#122e49',
+    },
+    header: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 5,
+        justifyContent: 'space-between',
+    },
+    title: {
+        fontSize: 20,
+        color: '#fff',
+    },
+    buttonClose: {
+        width: 30,
+        height: 30,
+        padding: 5,
+        borderRadius: 5,
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: '#F24C3D',
+    },
+    messageContainer: {
+        marginVertical: 5,
+        marginHorizontal: 5,
+    },
+    message: {
+        color: '#fff',
     },
 };
 

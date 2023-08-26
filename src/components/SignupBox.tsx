@@ -90,16 +90,16 @@ const SignupBox = () => {
                     </Text>
                 </TouchableOpacity>
                 <TermsPrivacyModal
+                    title="Términos y condiciones"
+                    message={privacy}
+                    modalVisible={modalPrivacyVisible}
+                    setModalVisible={setModalPrivacyVisible}
+                />
+                <TermsPrivacyModal
                     title="Politicas de privacidad"
                     message={policies}
                     modalVisible={modalTermsVisible}
                     setModalVisible={setModalTermsVisible}
-                />
-                <TermsPrivacyModal
-                    title="Términos y condiciones de uso"
-                    message={privacy}
-                    modalVisible={modalPrivacyVisible}
-                    setModalVisible={setModalPrivacyVisible}
                 />
             </View>
         </View>

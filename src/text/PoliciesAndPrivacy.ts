@@ -172,5 +172,7 @@ de cualesquiera daños o perjuicios que pudieran causarse por incumplimiento de 
 
 12. Estos Términos y Condiciones de Uso se rigen íntegramente por la legislación española. Para la
 resolución de cualquier conflicto relativo a su interpretación o aplicación, el Usuario se somete
-expresamente a la jurisdicción de los tribunales de _____________________________ (República Dominicana).
+expresamente a la jurisdicción de los tribunales de _____________________________ 
+
+República Dominicana.
  `;

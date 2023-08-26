@@ -18,11 +18,21 @@ const AccountProvider = ({ children }: props) => {
     const URL = 'http://45.77.161.230:3000';
     const { userData }: any = useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
-
+    const [newAccountData, setNewAccountData] = useState({
+        accountType: '',
+        accountName: '',
+        accountAmount: '',
+    });
+    // Funcion para formatear el dinero
+    const formatter = new Intl.NumberFormat('es-DO', {
+        style: 'currency',
+        currency: 'DOP',
+    });
+    // Funcion para obtener las cuentas
     const getAccounts = useCallback(() => {
         axios({
             method: 'get',
-            url: `${URL}/cuenta`,
+            url: `${URL}/cuentas`,
             headers: {
                 Authorization: `Bearer ${userData.token}`,
             },
@@ -30,11 +40,40 @@ const AccountProvider = ({ children }: props) => {
             .then(res => setAccounts(res.data))
             .catch(err => console.log(err));
     }, [userData.token]);
+    // Funcion para añadir cuentas
+    const addAccount = () => {
+        const { accountName, accountAmount, accountType } = newAccountData;
+        axios({
+            method: 'post',
+            url: `${URL}/cuentas`,
+            headers: {
+                Authorization: `Bearer ${userData.token}`,
+            },
+            data: {
+                acc_name: accountName,
+                monto_inicial: accountAmount,
+                tipo_de_cuenta: accountType,
+                fecha_de_creacion: 'fecha',
+            },
+        })
+            .then(() => {
+                getAccounts();
+            })
+            .catch(err => console.log(err));
+    };
+    // UseEffect que trae todas las cuentas al abrir la app
     useEffect(() => {
         userData.token ? getAccounts() : null;
     }, [getAccounts, userData.token]);
     return (
-        <AccountContext.Provider value={{ accounts, getAccounts }}>
+        <AccountContext.Provider
+            value={{
+                accounts,
+                getAccounts,
+                setNewAccountData,
+                addAccount,
+                formatter,
+            }}>
             {children}
         </AccountContext.Provider>
     );
