@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import URL from '../../URL';
 
 interface props {
     children: JSX.Element;
@@ -15,7 +16,6 @@ interface props {
 export const CatContext = createContext({});
 
 const CatProvider = ({ children }: props) => {
-    const URL = 'http://45.77.161.230:3000';
     const { userData, showToastAlert, updStateData }: any =
         useContext(UserContext);
     const [categories, setCategories] = useState([]);

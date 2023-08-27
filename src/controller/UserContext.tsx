@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import React, { createContext, useState } from 'react';
+import URL from '../../URL';
 
 interface props {
     children: JSX.Element;
@@ -8,7 +9,6 @@ interface props {
 
 export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
-    const URL = 'http://45.77.161.230:3000';
     const [userData, setUserData] = useState({
         mail: '',
         password: '',
@@ -49,10 +49,10 @@ const UserProvider = ({ children }: props) => {
                 'Content-Type': 'application/json',
             },
             data: {
-                mail: userData.mail,
-                password: userData.password,
-                // mail: 'z@z.com',
-                // password: '1',
+                // mail: userData.mail,
+                // password: userData.password,
+                mail: 'z@z.com',
+                password: '1',
             },
         })
             .then(res => {

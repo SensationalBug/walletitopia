@@ -7,6 +7,7 @@ import React, {
     createContext,
 } from 'react';
 import { UserContext } from './UserContext';
+import URL from '../../URL';
 
 interface props {
     children: JSX.Element;
@@ -15,7 +16,6 @@ interface props {
 export const AccountContext = createContext({});
 
 const AccountProvider = ({ children }: props) => {
-    const URL = 'http://45.77.161.230:3000';
     const { userData, showToastAlert }: any = useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
     const [editAccountData, setEditAccountData] = useState<any>([]);
@@ -33,6 +33,19 @@ const AccountProvider = ({ children }: props) => {
         accountEditName: '',
         accountEditAmount: '',
     });
+    // Funcion que retorna el icono de la cuenta correspondiente
+    const accountIcon = (icon: string): any => {
+        switch (icon) {
+            case 'Efectivo':
+                return 'dollar';
+            case 'Cuenta corriente':
+                return 'bank';
+            case 'Cuenta de ahorros':
+                return 'money';
+            case 'Tarjeta de crédito':
+                return 'credit-card';
+        }
+    };
     // Funcion para formatear el dinero
     const formatter = new Intl.NumberFormat('es-DO', {
         style: 'currency',
@@ -142,6 +155,7 @@ const AccountProvider = ({ children }: props) => {
                 getAccountById,
                 editAccountData,
                 setAccountToEditData,
+                accountIcon,
             }}>
             {children}
         </AccountContext.Provider>

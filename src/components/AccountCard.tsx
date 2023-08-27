@@ -22,21 +22,9 @@ const AccountCard = ({
     selectedAccount,
     selectedAccColor,
 }: types) => {
-    const { formatter, setAccountToDelete, getAccountById }: any =
+    const { formatter, setAccountToDelete, getAccountById, accountIcon }: any =
         useContext(AccountContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
-    const accountIcon = (icon: string): any => {
-        switch (icon) {
-            case 'Efectivo':
-                return 'dollar';
-            case 'Cuenta corriente':
-                return 'bank';
-            case 'Cuenta de ahorros':
-                return 'money';
-            case 'Tarjeta de crédito':
-                return 'credit-card';
-        }
-    };
     const colors = {
         selected: '#122e49',
         noSelected: '#20a5d8',
@@ -70,9 +58,9 @@ const AccountCard = ({
             </View>
             <View style={styles.banco}>
                 <Icon
-                    name={accountIcon(tipo_de_cuenta)}
                     size={70}
                     color="#fff"
+                    name={accountIcon(tipo_de_cuenta)}
                 />
             </View>
         </TouchableOpacity>

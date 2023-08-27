@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { HomeStyles } from '../styles/GlobalStyles';
-import AccountCard from '../components/AccountCard';
 import { AccountContext } from '../controller/AccountsContext';
+import HomeCard from '../components/HomeCard';
 
-const Home = () => {
+const Home = ({ navigation }: any) => {
     const { accounts }: any = useContext(AccountContext);
     return (
         <View style={HomeStyles.container}>
@@ -15,8 +15,10 @@ const Home = () => {
             </View>
             <FlatList
                 data={accounts}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => <AccountCard {...item} />}
+                keyExtractor={item => item._id}
+                renderItem={(item: any) => (
+                    <HomeCard {...item} navigation={navigation} />
+                )}
             />
         </View>
     );
