@@ -4,17 +4,20 @@ import Navigation from './src/router/Navigation';
 import AccountProvider from './src/controller/AccountsContext';
 import CatProvider from './src/controller/CategoriesContext';
 import UserProvider from './src/controller/UserContext';
+import GastosProvider from './src/controller/GastosContext';
 
 function App(): JSX.Element {
     return (
         <UserProvider>
             <AccountProvider>
-                <CatProvider>
-                    <View style={styles.sectionContainer}>
-                        <StatusBar barStyle="default" />
-                        <Navigation />
-                    </View>
-                </CatProvider>
+                <GastosProvider>
+                    <CatProvider>
+                        <View style={styles.sectionContainer}>
+                            <StatusBar barStyle="default" />
+                            <Navigation />
+                        </View>
+                    </CatProvider>
+                </GastosProvider>
             </AccountProvider>
         </UserProvider>
     );

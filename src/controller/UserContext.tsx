@@ -111,7 +111,9 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para hacer logout en la app
     const userLogout = (navigation: any, screen: string) => {
+        updStateData(setUserData, '', 'mail');
         updStateData(setUserData, '', 'token');
+        updStateData(setUserData, '', 'password');
         navigation.navigate(screen);
     };
 

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-// import { AccountCardStyles } from '../styles/GlobalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AccountCardStyles } from '../styles/GlobalStyles';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { AccountContext } from '../controller/AccountsContext';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 interface types {
     item: {
@@ -32,7 +32,7 @@ const AccountCard = ({
     return (
         <TouchableOpacity
             style={[
-                styles.cuentaContainer,
+                AccountCardStyles.cuentaContainer,
                 {
                     backgroundColor:
                         selectedAccColor === _id
@@ -49,14 +49,16 @@ const AccountCard = ({
                 selectedAccount(_id);
                 getAccountById(_id);
             }}>
-            <View style={styles.dataContainer}>
-                <Text style={styles.cuentaName}>{acc_name}</Text>
-                <Text style={styles.cuentaType}>{tipo_de_cuenta}</Text>
-                <Text style={[styles.cuentaName]}>
+            <View style={AccountCardStyles.dataContainer}>
+                <Text style={AccountCardStyles.cuentaName}>{acc_name}</Text>
+                <Text style={AccountCardStyles.cuentaType}>
+                    {tipo_de_cuenta}
+                </Text>
+                <Text style={[AccountCardStyles.cuentaName]}>
                     {formatter.format(monto_inicial)}
                 </Text>
             </View>
-            <View style={styles.banco}>
+            <View style={AccountCardStyles.accType}>
                 <Icon
                     size={70}
                     color="#fff"
@@ -68,35 +70,3 @@ const AccountCard = ({
 };
 
 export default AccountCard;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'space-between',
-    },
-    cuentaContainer: {
-        marginHorizontal: 10,
-        marginTop: 8,
-        padding: 10,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    dataContainer: {
-        width: '70%',
-    },
-    cuentaName: {
-        color: '#fff',
-        fontSize: 30,
-    },
-    cuentaType: {
-        color: '#fff',
-        marginBottom: 10,
-    },
-    banco: {
-        width: '30%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

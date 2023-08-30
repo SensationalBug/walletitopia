@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import {
     View,
     Text,
@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccountContext } from '../controller/AccountsContext';
+import { GastosContext } from '../controller/GastosContext';
+import AddGastoModal from './AddGastoModal';
+import { UserContext } from '../controller/UserContext';
 
 const rightButtons = ['plus', 'minus', 'details'];
 const color = {
@@ -20,8 +23,14 @@ const btnWidth = 80;
 const offset = [-btnWidth * 2, 0];
 
 const HomeCard = ({ item, navigation }: any) => {
+    const [modalVisible, setModalVisible] = useState(false);
+
     const { formatter, accountIcon }: any = useContext(AccountContext);
-    const { acc_name, monto_inicial, tipo_de_cuenta } = item;
+    const { setNewGasto }: any = useContext(GastosContext);
+    const { updStateData }: any = useContext(UserContext);
+
+    const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
+
     let panValue = { x: 0, y: 0 };
     let isOpenState = useRef(false).current;
     const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
@@ -93,9 +102,28 @@ const HomeCard = ({ item, navigation }: any) => {
                     styles.btnContainer,
                     { transform: [{ translateX: translateRightBtns }] },
                 ]}>
+                <View style={styles.btnGastoContainer}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setModalVisible(true);
+                            updStateData(setNewGasto, _id, 'id_cuentas');
+                            updStateData(setNewGasto, 'debito', 'tipo_gastos');
+                        }}
+                        style={[styles.btn, { backgroundColor: color.verde }]}>
+                        <Icon name="plus" size={20} color="#fff" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setModalVisible(true);
+                            updStateData(setNewGasto, _id, 'id_cuentas');
+                            updStateData(setNewGasto, 'credito', 'tipo_gastos');
+                        }}
+                        style={[styles.btn, { backgroundColor: color.rojo }]}>
+                        <Icon name="minus" size={20} color="#fff" />
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity
                     onPress={() => {
-                        reset;
                         navigation.navigate('AccountDetails');
                     }}
                     style={[
@@ -103,26 +131,9 @@ const HomeCard = ({ item, navigation }: any) => {
                         styles.btnMore,
                         { backgroundColor: color.base },
                     ]}>
-                    <Icon name="navicon" size={20} color="#fff" />
+                    {/* <Icon name="navicon" size={20} color="#fff" /> */}
+                    <Text style={styles.btnMoreText}>Detalles</Text>
                 </TouchableOpacity>
-                <View>
-                    <TouchableOpacity
-                        onPress={() => {
-                            reset;
-                            navigation.navigate('AddGasto', { gastoType: 1 });
-                        }}
-                        style={[styles.btn, { backgroundColor: color.verde }]}>
-                        <Icon name="plus" size={20} color="#fff" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            reset;
-                            navigation.navigate('AddGasto', { gastoType: 2 });
-                        }}
-                        style={[styles.btn, { backgroundColor: color.rojo }]}>
-                        <Icon name="minus" size={20} color="#fff" />
-                    </TouchableOpacity>
-                </View>
             </Animated.View>
             <Animated.View
                 style={[
@@ -138,14 +149,22 @@ const HomeCard = ({ item, navigation }: any) => {
                     </Text>
                 </View>
                 <View style={styles.iconContainer}>
-                    <Icon
-                        size={80}
-                        color="#fff"
-                        name={accountIcon(tipo_de_cuenta)}
-                    />
+                    <View style={styles.mainIcon}>
+                        <Icon
+                            size={80}
+                            color="#fff"
+                            name={accountIcon(tipo_de_cuenta)}
+                        />
+                    </View>
                     <Icon name="chevron-left" color="#fff" size={20} />
                 </View>
             </Animated.View>
+            <AddGastoModal
+                id={_id}
+                resetSlider={reset}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
         </View>
     );
 };
@@ -173,6 +192,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
+    mainIcon: {
+        justifyContent: 'center',
+        width: '60%',
+        alignItems: 'center',
+    },
     mainText: {
         color: '#fff',
         fontSize: 30,
@@ -187,22 +211,28 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
     btnContainer: {
-        height: '100%',
+        height: '50%',
         position: 'absolute',
-        flexDirection: 'row',
         alignSelf: 'flex-end',
-        justifyContent: 'center',
+        backgroundColor: 'red',
+    },
+    btnGastoContainer: {
+        flexDirection: 'row',
+        height: '100%',
     },
     btn: {
-        height: '49.9%',
+        height: '100%',
         width: btnWidth,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
         borderColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
     },
     btnMore: {
-        height: '100%',
+        width: '100%',
+    },
+    btnMoreText: {
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: '500',
     },
 });

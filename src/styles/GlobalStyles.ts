@@ -194,27 +194,34 @@ export const HomeStyles: any = {
 };
 
 export const AccountCardStyles: any = {
-    accContainer: {
-        backgroundColor: 'red',
-        marginVertical: 5,
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
     },
-    accHeader: {
+    cuentaContainer: {
+        marginHorizontal: 10,
+        marginTop: 8,
         padding: 10,
         paddingHorizontal: 20,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    accTitle: {
-        color: '#000',
+    dataContainer: {
+        width: '70%',
+    },
+    cuentaName: {
+        color: '#fff',
         fontSize: 30,
+    },
+    cuentaType: {
+        color: '#fff',
+        marginBottom: 10,
     },
     accType: {
-        color: '#000',
-        fontSize: 10,
-    },
-    accAmount: {
-        color: '#000',
-        fontSize: 30,
-        paddingBottom: 10,
-        paddingHorizontal: 20,
+        width: '30%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 };
 
@@ -261,7 +268,7 @@ export const CategoryStyles: any = {
 
 export const CategoryCardStyles: any = {
     catBox: {
-        height: 100,
+        padding: 5,
         width: '30%',
         margin: '1.65%',
         borderRadius: 5,

@@ -54,7 +54,7 @@ const Categories = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ height: layout.height - 245 }}>
+            <View style={{ height: layout.height - 270 }}>
                 <Text style={CategoryStyles.catListMainTitle}>
                     Categorias disponibles
                 </Text>

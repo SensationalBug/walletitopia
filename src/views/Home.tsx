@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { HomeStyles } from '../styles/GlobalStyles';
-import { AccountContext } from '../controller/AccountsContext';
 import HomeCard from '../components/HomeCard';
+import { HomeStyles } from '../styles/GlobalStyles';
+import { View, Text, FlatList } from 'react-native';
+import { AccountContext } from '../controller/AccountsContext';
 
 const Home = ({ navigation }: any) => {
     const { accounts }: any = useContext(AccountContext);
