@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { createContext, useState, useContext } from 'react';
 import URL from '../../URL';
 import { UserContext } from './UserContext';
+import React, { createContext, useState, useContext } from 'react';
 
 interface props {
     children: JSX.Element;
@@ -10,62 +10,79 @@ interface props {
 export const GastosContext = createContext({});
 
 const GastosProvider = ({ children }: props) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [gastos, setGastos] = useState([]);
     const [newGasto, setNewGasto] = useState({
-        id_cuentas: '',
+        id_cuenta: '',
         tipo_gastos: '',
         id_categoria: '',
         concepto: '',
         monto: 0,
-        fecha_de_creacion: '',
+        fecha_de_creacion: 'date',
     });
+    // Funcion para limpiar los newGastos
+    const clearNewGastos = () => {
+        setNewGasto({
+            id_cuenta: '',
+            tipo_gastos: '',
+            id_categoria: '',
+            concepto: '',
+            monto: 0,
+            fecha_de_creacion: 'date',
+        });
+    };
     const { userData }: any = useContext(UserContext);
     // Funcion para obtener los gastos
-    const getGastos = () => {
+    const getGastos = (id_cuenta: string, navigation: any) => {
         axios({
             method: 'get',
-            url: `${URL}/gastos`,
+            url: `${URL}/gastos/${id_cuenta}`,
             headers: {
                 Authorization: `Bearer ${userData.token}`,
             },
         })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+            .then(res => {
+                setGastos(res.data);
+                navigation.navigate('AccountDetails', res.data);
+            })
+            .catch(() => navigation.navigate('AccountDetails'));
     };
     // Funcion para agregar un gasto
     const addGasto = () => {
-        console.log(newGasto);
-        // axios({
-        //     method: 'post',
-        //     url: `${URL}/gastos`,
-        //     headers: {
-        //         Authorization: `Bearer ${userData.token}`,
-        //     },
-        //     data: {
-        //         id_cuentas: 'string',
-        //         tipo_gastos: 'string',
-        //         id_categoria: 'string',
-        //         concepto: 'string',
-        //         monto: 0,
-        //         fecha_de_creacion: 'string',
-        //     },
-        // })
-        //     .then(res => console.log(res))
-        //     .catch(() => {
-        //         setNewGasto({
-        //             id_cuentas: '',
-        //             tipo_gastos: '',
-        //             id_categoria: '',
-        //             concepto: '',
-        //             monto: 0,
-        //             fecha_de_creacion: '',
-        //         });
-        //     });
+        const {
+            id_cuenta,
+            tipo_gastos,
+            id_categoria,
+            concepto,
+            monto,
+            fecha_de_creacion,
+        } = newGasto;
+        axios({
+            method: 'post',
+            url: `${URL}/gastos`,
+            headers: {
+                Authorization: `Bearer ${userData.token}`,
+            },
+            data: {
+                id_cuenta,
+                tipo_gastos,
+                id_categoria,
+                concepto,
+                monto,
+                fecha_de_creacion,
+            },
+        })
+            .then(() => clearNewGastos())
+            .catch(() => clearNewGastos());
     };
     return (
         <GastosContext.Provider
-            value={{ getGastos, gastos, setNewGasto, addGasto }}>
+            value={{
+                getGastos,
+                gastos,
+                setNewGasto,
+                addGasto,
+                clearNewGastos,
+            }}>
             {children}
         </GastosContext.Provider>
     );

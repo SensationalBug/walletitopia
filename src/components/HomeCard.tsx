@@ -26,7 +26,7 @@ const HomeCard = ({ item, navigation }: any) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const { formatter, accountIcon }: any = useContext(AccountContext);
-    const { setNewGasto }: any = useContext(GastosContext);
+    const { setNewGasto, getGastos }: any = useContext(GastosContext);
     const { updStateData }: any = useContext(UserContext);
 
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
@@ -106,7 +106,7 @@ const HomeCard = ({ item, navigation }: any) => {
                     <TouchableOpacity
                         onPress={() => {
                             setModalVisible(true);
-                            updStateData(setNewGasto, _id, 'id_cuentas');
+                            updStateData(setNewGasto, _id, 'id_cuenta');
                             updStateData(setNewGasto, 'debito', 'tipo_gastos');
                         }}
                         style={[styles.btn, { backgroundColor: color.verde }]}>
@@ -115,7 +115,7 @@ const HomeCard = ({ item, navigation }: any) => {
                     <TouchableOpacity
                         onPress={() => {
                             setModalVisible(true);
-                            updStateData(setNewGasto, _id, 'id_cuentas');
+                            updStateData(setNewGasto, _id, 'id_cuenta');
                             updStateData(setNewGasto, 'credito', 'tipo_gastos');
                         }}
                         style={[styles.btn, { backgroundColor: color.rojo }]}>
@@ -124,7 +124,7 @@ const HomeCard = ({ item, navigation }: any) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('AccountDetails');
+                        getGastos(_id, navigation);
                     }}
                     style={[
                         styles.btn,

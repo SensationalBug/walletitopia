@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FormTextInput from './FormTextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -7,15 +7,16 @@ import {
     FlatList,
     StyleSheet,
     TouchableOpacity,
-    Text,
 } from 'react-native';
 import { GastosContext } from '../controller/GastosContext';
 import { CatContext } from '../controller/CategoriesContext';
 import HomeCategoryButton from './HomeCategoryButton';
 
 const AddGastoModal = ({ modalVisible, setModalVisible, resetSlider }: any) => {
-    const { setNewGasto, addGasto }: any = useContext(GastosContext);
+    const { setNewGasto, addGasto, clearNewGastos }: any =
+        useContext(GastosContext);
     const { categories }: any = useContext(CatContext);
+    const [selectedId, setSelectedId] = useState('');
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>
             <View style={styles.modalContainer}>
@@ -38,15 +39,16 @@ const AddGastoModal = ({ modalVisible, setModalVisible, resetSlider }: any) => {
                                 placeholder="Monto"
                             />
                         </View>
-                        {/* <View style={{ backgroundColor: 'red', paddingTop: 15, paddingHorizontal: 10 }}>
-                            <Text>Tipo de gasto</Text>
-                        </View> */}
                         <View style={styles.categoriesContainer}>
                             <FlatList
                                 numColumns={3}
                                 data={categories}
                                 renderItem={({ item }: any) => (
-                                    <HomeCategoryButton {...item} />
+                                    <HomeCategoryButton
+                                        {...item}
+                                        selectedId={selectedId}
+                                        setSelectedId={setSelectedId}
+                                    />
                                 )}
                             />
                         </View>
@@ -56,27 +58,19 @@ const AddGastoModal = ({ modalVisible, setModalVisible, resetSlider }: any) => {
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => {
                                 resetSlider();
+                                clearNewGastos();
+                                setSelectedId('');
                                 setModalVisible(!modalVisible);
-                                setNewGasto({
-                                    id_cuentas: '',
-                                    tipo_gastos: '',
-                                    id_categoria: '',
-                                    concepto: '',
-                                    monto: 0,
-                                    fecha_de_creacion: '',
-                                });
                             }}>
-                            <Icon name="close" size={20} color="#fff" />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => addGasto()}>
                             <Icon name="close" size={20} color="#fff" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.button, styles.buttonSave]}
                             onPress={() => {
+                                addGasto();
                                 resetSlider();
+                                clearNewGastos();
+                                setSelectedId('');
                                 setModalVisible(!modalVisible);
                             }}>
                             <Icon name="check" size={20} color="#fff" />
@@ -98,8 +92,6 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: '100%',
-        paddingTop: 10,
-        paddingHorizontal: 10,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         backgroundColor: '#122e49',
@@ -113,7 +105,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     buttonGroup: {
-        marginVertical: 20,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
     },

@@ -6,8 +6,8 @@ import React, {
     useCallback,
 } from 'react';
 import axios from 'axios';
-import { UserContext } from './UserContext';
 import URL from '../../URL';
+import { UserContext } from './UserContext';
 
 interface props {
     children: JSX.Element;
