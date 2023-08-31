@@ -6,13 +6,14 @@ import { CatContext } from '../controller/CategoriesContext';
 const AccountDetails = ({ route }: any) => {
     const { params } = route;
     const { categories }: any = useContext(CatContext);
-    console.log(categories);
     return (
         <View>
             <FlatList
                 data={params}
                 keyExtractor={item => item._id}
-                renderItem={({ item }: any) => <TableData {...item} />}
+                renderItem={({ item }: any) => (
+                    <TableData {...item} categories={categories} />
+                )}
             />
         </View>
     );

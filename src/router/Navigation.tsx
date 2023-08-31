@@ -26,6 +26,7 @@ const Navigation = () => {
                     component={AccountDetails}
                     options={{
                         title: 'Detalles',
+                        headerTintColor: '#fff',
                         headerTitleStyle: { color: '#fff' },
                         headerStyle: { backgroundColor: '#122e49' },
                     }}

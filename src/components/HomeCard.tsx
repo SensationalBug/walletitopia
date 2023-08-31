@@ -1,4 +1,10 @@
-import React, { useRef, useContext, useState } from 'react';
+import React, {
+    useRef,
+    useState,
+    useContext,
+    useEffect,
+    useCallback,
+} from 'react';
 import {
     View,
     Text,
@@ -7,11 +13,12 @@ import {
     PanResponder,
     TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { AccountContext } from '../controller/AccountsContext';
-import { GastosContext } from '../controller/GastosContext';
 import AddGastoModal from './AddGastoModal';
 import { UserContext } from '../controller/UserContext';
+import { useIsFocused } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { GastosContext } from '../controller/GastosContext';
+import { AccountContext } from '../controller/AccountsContext';
 
 const rightButtons = ['plus', 'minus', 'details'];
 const color = {
@@ -23,14 +30,17 @@ const btnWidth = 80;
 const offset = [-btnWidth * 2, 0];
 
 const HomeCard = ({ item, navigation }: any) => {
+    const focused = useIsFocused();
     const [modalVisible, setModalVisible] = useState(false);
 
-    const { formatter, accountIcon }: any = useContext(AccountContext);
-    const { setNewGasto, getGastos }: any = useContext(GastosContext);
     const { updStateData }: any = useContext(UserContext);
+    const { setNewGasto, getGastosByAccountId }: any =
+        useContext(GastosContext);
+    const { formatter, accountIcon }: any = useContext(AccountContext);
 
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
 
+    // Funciones para deslizar los botones hacia un lado
     let panValue = { x: 0, y: 0 };
     let isOpenState = useRef(false).current;
     const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
@@ -76,14 +86,15 @@ const HomeCard = ({ item, navigation }: any) => {
             },
         }),
     ).current;
-    const reset = () => {
+    const reset = useCallback(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         isOpenState = false;
         Animated.spring(pan, {
             toValue: { x: 0, y: 0 },
             useNativeDriver: true,
             bounciness: 0,
         }).start();
-    };
+    }, [isOpenState]);
     const move = (toLeft: any) => {
         isOpenState = true;
         Animated.spring(pan, {
@@ -95,6 +106,12 @@ const HomeCard = ({ item, navigation }: any) => {
             bounciness: 0,
         }).start();
     };
+
+    // useEffect para cerrar el slider
+    useEffect(() => {
+        focused ? reset() : null;
+    }, [focused, reset]);
+
     return (
         <View style={styles.container}>
             <Animated.View
@@ -124,14 +141,13 @@ const HomeCard = ({ item, navigation }: any) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        getGastos(_id, navigation);
+                        getGastosByAccountId(_id, navigation);
                     }}
                     style={[
                         styles.btn,
                         styles.btnMore,
                         { backgroundColor: color.base },
                     ]}>
-                    {/* <Icon name="navicon" size={20} color="#fff" /> */}
                     <Text style={styles.btnMoreText}>Detalles</Text>
                 </TouchableOpacity>
             </Animated.View>
@@ -214,7 +230,6 @@ const styles = StyleSheet.create({
         height: '50%',
         position: 'absolute',
         alignSelf: 'flex-end',
-        backgroundColor: 'red',
     },
     btnGastoContainer: {
         flexDirection: 'row',

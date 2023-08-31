@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState, useEffect, useContext } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { AccountContext } from '../controller/AccountsContext';
 
 const color = {
     credito: '#1F8A70',
@@ -12,7 +13,17 @@ const TableData = ({
     tipo_gastos,
     id_categoria,
     fecha_de_creacion,
+    categories,
 }: any) => {
+    const [categoryName, setCategoryName] = useState('');
+    const { formatter }: any = useContext(AccountContext);
+    useEffect(() => {
+        for (let category of categories) {
+            if (category._id === id_categoria) {
+                setCategoryName(category.icon_name);
+            }
+        }
+    }, [categories, id_categoria]);
     return (
         <View
             style={[
@@ -24,13 +35,13 @@ const TableData = ({
                             : color.debito,
                 },
             ]}>
-            <View>
+            <View style={styles.dataContainer}>
                 <Text style={styles.mainText}>{concepto}</Text>
-                <Text style={styles.mainText}>{monto}</Text>
+                <Text style={styles.mainText}>{formatter.format(monto)}</Text>
+                <Text style={styles.dateText}>{fecha_de_creacion}</Text>
             </View>
             <View style={styles.iconContainer}>
-                <Icon name={id_categoria} />
-                <Text style={styles.typeText}>{fecha_de_creacion}</Text>
+                <Icon name={categoryName} size={60} color="#fff" />
             </View>
         </View>
     );
@@ -40,19 +51,19 @@ export default TableData;
 
 const styles = StyleSheet.create({
     item: {
-        width: '100%',
-        flexDirection: 'row',
-        paddingHorizontal: 15,
-        backgroundColor: '#1F9FD0',
-        justifyContent: 'space-between',
         marginTop: 3,
+        flexDirection: 'row',
+    },
+    dataContainer: {
+        width: '70%',
+        paddingVertical: 5,
+        paddingHorizontal: 20,
     },
     mainText: {
-        color: '#fff',
         fontSize: 30,
-        paddingVertical: 5,
+        color: '#fff',
     },
-    typeText: {
+    dateText: {
         color: '#fff',
         fontSize: 15,
     },
@@ -61,6 +72,8 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
     iconContainer: {
-        justifyContent: 'space-between',
+        width: '30%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

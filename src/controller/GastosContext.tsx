@@ -10,6 +10,7 @@ interface props {
 export const GastosContext = createContext({});
 
 const GastosProvider = ({ children }: props) => {
+    const { userData }: any = useContext(UserContext);
     const [gastos, setGastos] = useState([]);
     const [newGasto, setNewGasto] = useState({
         id_cuenta: '',
@@ -30,9 +31,8 @@ const GastosProvider = ({ children }: props) => {
             fecha_de_creacion: 'date',
         });
     };
-    const { userData }: any = useContext(UserContext);
     // Funcion para obtener los gastos
-    const getGastos = (id_cuenta: string, navigation: any) => {
+    const getGastosByAccountId = (id_cuenta: string, navigation: any) => {
         axios({
             method: 'get',
             url: `${URL}/gastos/${id_cuenta}`,
@@ -77,7 +77,7 @@ const GastosProvider = ({ children }: props) => {
     return (
         <GastosContext.Provider
             value={{
-                getGastos,
+                getGastosByAccountId,
                 gastos,
                 setNewGasto,
                 addGasto,
