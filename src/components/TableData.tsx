@@ -31,14 +31,16 @@ const TableData = ({
                 {
                     backgroundColor:
                         tipo_gastos === 'credito'
-                            ? color.credito
-                            : color.debito,
+                            ? color.debito
+                            : color.credito,
                 },
             ]}>
             <View style={styles.dataContainer}>
                 <Text style={styles.mainText}>{concepto}</Text>
                 <Text style={styles.mainText}>{formatter.format(monto)}</Text>
-                <Text style={styles.dateText}>{fecha_de_creacion}</Text>
+                <Text style={styles.dateText}>
+                    {fecha_de_creacion.split('T')[0]}
+                </Text>
             </View>
             <View style={styles.iconContainer}>
                 <Icon name={categoryName} size={60} color="#fff" />

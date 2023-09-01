@@ -5,12 +5,7 @@ import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Dropdown from './Dropdown';
 import { AccountContext } from '../controller/AccountsContext';
 
-const AccountEditModal = ({
-    modalVisible,
-    setIsEditable,
-    setModalVisible,
-    setSelectedAccColor,
-}: any) => {
+const AccountEditModal = ({ modalVisible, setModalVisible }: any) => {
     const { setAccountToEditData, editAccount, editAccountData }: any =
         useContext(AccountContext);
     return (
@@ -50,8 +45,6 @@ const AccountEditModal = ({
                             style={[styles.button, styles.buttonSave]}
                             onPress={() => {
                                 editAccount();
-                                setIsEditable(false);
-                                setSelectedAccColor('');
                                 setModalVisible(!modalVisible);
                             }}>
                             <Icon name="check" size={20} color="#fff" />

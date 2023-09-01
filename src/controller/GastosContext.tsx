@@ -7,6 +7,12 @@ interface props {
     children: JSX.Element;
 }
 
+// Funcion que trae la Hora
+const creationDate = () => {
+    const date = new Date();
+    return date;
+};
+
 export const GastosContext = createContext({});
 
 const GastosProvider = ({ children }: props) => {
@@ -18,8 +24,9 @@ const GastosProvider = ({ children }: props) => {
         id_categoria: '',
         concepto: '',
         monto: 0,
-        fecha_de_creacion: 'date',
+        fecha_de_creacion: creationDate(),
     });
+    creationDate();
     // Funcion para limpiar los newGastos
     const clearNewGastos = () => {
         setNewGasto({
@@ -28,7 +35,7 @@ const GastosProvider = ({ children }: props) => {
             id_categoria: '',
             concepto: '',
             monto: 0,
-            fecha_de_creacion: 'date',
+            fecha_de_creacion: creationDate(),
         });
     };
     // Funcion para obtener los gastos

@@ -19,10 +19,6 @@ const AccountProvider = ({ children }: props) => {
     const { userData, showToastAlert }: any = useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
     const [editAccountData, setEditAccountData] = useState<any>([]);
-    const [accountToDelete, setAccountToDelete] = useState({
-        id: '',
-        accountName: '',
-    });
     const [newAccountData, setNewAccountData] = useState({
         accountType: '',
         accountName: '',
@@ -97,10 +93,10 @@ const AccountProvider = ({ children }: props) => {
             .catch(() => showToastAlert('error', 'Completa todos los campos'));
     };
     // Funcion para borrar cuentas
-    const deleteAccount = () => {
+    const deleteAccount = (id: string) => {
         axios({
             method: 'delete',
-            url: `${URL}/cuentas/${accountToDelete.id}`,
+            url: `${URL}/cuentas/${id}`,
             headers: {
                 Authorization: `Bearer ${userData.token}`,
             },
@@ -148,8 +144,6 @@ const AccountProvider = ({ children }: props) => {
                 addAccount,
                 formatter,
                 deleteAccount,
-                accountToDelete,
-                setAccountToDelete,
                 editAccount,
                 setEditAccountData,
                 getAccountById,
