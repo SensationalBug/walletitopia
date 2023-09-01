@@ -11,7 +11,6 @@ import { View, StyleSheet, FlatList } from 'react-native';
 const Accounts = () => {
     const { accounts }: any = useContext(AccountContext);
     const { Toast }: any = useContext(UserContext);
-    const [isEditable, setIsEditable] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalEditVisible, setModalEditVisible] = useState(false);
 
@@ -20,53 +19,28 @@ const Accounts = () => {
             <FlatList
                 data={accounts}
                 keyExtractor={(item: any) => item._id}
-                renderItem={(item: any) => <AccountCard {...item} />}
+                renderItem={(item: any) => (
+                    <AccountCard
+                        {...item}
+                        setModalEditVisible={setModalEditVisible}
+                    />
+                )}
             />
             <View style={styles.buttonsContainer}>
-                {isEditable ? (
-                    <View style={styles.FABContainer}>
-                        <FAB
-                            icon="trash-can-outline"
-                            color="#fff"
-                            style={[styles.FABStyle, styles.FABDelete]}
-                            onPress={() => {
-                                setIsEditable(false);
-                            }}
-                        />
-                        <View style={styles.FABEdit}>
-                            <FAB
-                                icon="window-close"
-                                color="#fff"
-                                style={[styles.FABStyle, styles.FABCancel]}
-                                onPress={() => setIsEditable(false)}
-                            />
-                            <FAB
-                                icon="square-edit-outline"
-                                color="#fff"
-                                style={[styles.FABStyle, styles.FABEditButton]}
-                                onPress={() => {
-                                    setModalEditVisible(true);
-                                }}
-                            />
-                        </View>
-                    </View>
-                ) : (
-                    <View style={[styles.FABContainer, styles.FABPlus]}>
-                        <FAB
-                            icon="plus"
-                            color="#fff"
-                            style={[styles.FABStyle, styles.FABPlusButton]}
-                            onPress={() => setModalVisible(true)}
-                        />
-                    </View>
-                )}
+                <View style={[styles.FABContainer, styles.FABPlus]}>
+                    <FAB
+                        icon="plus"
+                        color="#fff"
+                        style={[styles.FABStyle, styles.FABPlusButton]}
+                        onPress={() => setModalVisible(true)}
+                    />
+                </View>
             </View>
             <AccountModal
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
             />
             <AccountEditModal
-                setIsEditable={setIsEditable}
                 modalVisible={modalEditVisible}
                 setModalVisible={setModalEditVisible}
             />

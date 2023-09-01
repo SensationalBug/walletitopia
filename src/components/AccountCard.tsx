@@ -20,9 +20,7 @@ interface types {
         monto_inicial: number;
         tipo_de_cuenta: string;
     };
-    setIsEditable: any;
-    selectedAccount: any;
-    selectedAccColor: string;
+    setModalEditVisible: any;
 }
 
 const rightButtons = ['plus', 'minus', 'details'];
@@ -33,7 +31,7 @@ const color = {
 const btnWidth = 80;
 const offset = [-btnWidth, 0];
 
-const AccountCard = ({ item }: types) => {
+const AccountCard = ({ item, setModalEditVisible }: types) => {
     const focused = useIsFocused();
     const {
         formatter,
@@ -140,7 +138,7 @@ const AccountCard = ({ item }: types) => {
                     { transform: [{ translateX: translateRightBtns }] },
                 ]}>
                 <TouchableOpacity
-                    onPress={() => console.log(_id)}
+                    onPress={() => setModalEditVisible(true)}
                     style={[styles.btn, { backgroundColor: color.amarillo }]}>
                     <Icon name="edit" size={25} color="#fff" />
                 </TouchableOpacity>
@@ -174,7 +172,7 @@ const AccountCard = ({ item }: types) => {
                     <Icon name="chevron-left" color="#fff" size={20} />
                 </View>
             </Animated.View>
-        </View >
+        </View>
     );
 };
 
