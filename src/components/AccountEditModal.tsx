@@ -1,20 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import FormTextInput from './FormTextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Dropdown from './Dropdown';
 import { AccountContext } from '../controller/AccountsContext';
+import { UserContext } from '../controller/UserContext';
 
-const AccountEditModal = ({ modalVisible, setModalVisible }: any) => {
-    const { setAccountToEditData, editAccount, editAccountData }: any =
+const AccountEditModal = ({ modalVisible, setModalVisible, data }: any) => {
+    const { setAccountToEditData, editAccount }: any =
         useContext(AccountContext);
+    const { updStateData }: any = useContext(UserContext);
+    const { acc_name, monto_inicial, tipo_de_cuenta, _id } = data;
+    useEffect(() => {
+        updStateData(setAccountToEditData, _id, 'accountId');
+    }, [setAccountToEditData, updStateData, _id]);
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>
             <View style={styles.modalContainer}>
                 <View style={styles.modalView}>
                     <View style={styles.formBox}>
                         <Dropdown
-                            label={editAccountData.tipo_de_cuenta}
+                            label={tipo_de_cuenta}
                             onSelect={setAccountToEditData}
                         />
                         <FormTextInput
@@ -22,7 +28,7 @@ const AccountEditModal = ({ modalVisible, setModalVisible }: any) => {
                             textColor="#fff"
                             fieldName="accountEditName"
                             secureTextEntry={false}
-                            placeholder={editAccountData.acc_name}
+                            placeholder={acc_name}
                         />
                         <FormTextInput
                             keyboardType="numeric"
@@ -30,7 +36,7 @@ const AccountEditModal = ({ modalVisible, setModalVisible }: any) => {
                             textColor="#fff"
                             fieldName="accountEditAmount"
                             secureTextEntry={false}
-                            placeholder={`${editAccountData.monto_inicial}`}
+                            placeholder={`${monto_inicial}`}
                         />
                     </View>
                     <View style={styles.buttonGroup}>

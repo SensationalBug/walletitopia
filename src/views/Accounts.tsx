@@ -11,6 +11,8 @@ import { View, StyleSheet, FlatList } from 'react-native';
 const Accounts = () => {
     const { accounts }: any = useContext(AccountContext);
     const { Toast }: any = useContext(UserContext);
+
+    const [data, setData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [modalEditVisible, setModalEditVisible] = useState(false);
 
@@ -22,6 +24,7 @@ const Accounts = () => {
                 renderItem={(item: any) => (
                     <AccountCard
                         {...item}
+                        setData={setData}
                         setModalEditVisible={setModalEditVisible}
                     />
                 )}
@@ -41,6 +44,7 @@ const Accounts = () => {
                 setModalVisible={setModalVisible}
             />
             <AccountEditModal
+                data={data}
                 modalVisible={modalEditVisible}
                 setModalVisible={setModalEditVisible}
             />

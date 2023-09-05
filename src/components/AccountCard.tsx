@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useCallback, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { AccountCardStyles } from '../styles/GlobalStyles';
+// import { AccountCardStyles } from '../styles/GlobalStyles';
 import {
     View,
     Text,
@@ -21,6 +21,7 @@ interface types {
         tipo_de_cuenta: string;
     };
     setModalEditVisible: any;
+    setData: any;
 }
 
 const rightButtons = ['plus', 'minus', 'details'];
@@ -31,14 +32,10 @@ const color = {
 const btnWidth = 80;
 const offset = [-btnWidth, 0];
 
-const AccountCard = ({ item, setModalEditVisible }: types) => {
+const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const focused = useIsFocused();
-    const {
-        formatter,
-        // getAccountById,
-        accountIcon,
-        deleteAccount,
-    }: any = useContext(AccountContext);
+    const { formatter, accountIcon, deleteAccount }: any =
+        useContext(AccountContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
 
     // Funciones para deslizar los botones hacia un lado
@@ -110,7 +107,7 @@ const AccountCard = ({ item, setModalEditVisible }: types) => {
 
     // useEffect para cerrar el slider
     useEffect(() => {
-        focused ? reset() : null;
+        !focused ? reset() : null;
     }, [focused, reset]);
 
     // Funcion para mostrar el alert previo a borrar una cuenta
@@ -130,6 +127,13 @@ const AccountCard = ({ item, setModalEditVisible }: types) => {
         );
     };
 
+    const setItemData = () => {
+        return new Promise(resolve => {
+            setData(item);
+            resolve('ok');
+        });
+    };
+
     return (
         <View style={styles.container}>
             <Animated.View
@@ -138,7 +142,9 @@ const AccountCard = ({ item, setModalEditVisible }: types) => {
                     { transform: [{ translateX: translateRightBtns }] },
                 ]}>
                 <TouchableOpacity
-                    onPress={() => setModalEditVisible(true)}
+                    onPress={() => {
+                        setItemData().then(() => setModalEditVisible(true));
+                    }}
                     style={[styles.btn, { backgroundColor: color.amarillo }]}>
                     <Icon name="edit" size={25} color="#fff" />
                 </TouchableOpacity>

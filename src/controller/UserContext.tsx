@@ -31,7 +31,7 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para editar un elemento en un useState de tipo {}
     const updStateData = (
-        setState: Function,
+        setState: React.Dispatch<React.SetStateAction<any>>,
         value: string,
         fieldName: string,
     ) => {

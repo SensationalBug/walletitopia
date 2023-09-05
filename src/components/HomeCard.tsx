@@ -1,10 +1,4 @@
-import React, {
-    useRef,
-    useState,
-    useContext,
-    useEffect,
-    useCallback,
-} from 'react';
+import React, { useRef, useContext, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -13,7 +7,6 @@ import {
     PanResponder,
     TouchableOpacity,
 } from 'react-native';
-import AddGastoModal from './AddGastoModal';
 import { UserContext } from '../controller/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,9 +22,8 @@ const color = {
 const btnWidth = 80;
 const offset = [-btnWidth * 2, 0];
 
-const HomeCard = ({ item, navigation }: any) => {
+const HomeCard = ({ item, navigation, setModalVisible }: any) => {
     const focused = useIsFocused();
-    const [modalVisible, setModalVisible] = useState(false);
 
     const { updStateData }: any = useContext(UserContext);
     const { setNewGasto, getGastosByAccountId }: any =
@@ -109,7 +101,7 @@ const HomeCard = ({ item, navigation }: any) => {
 
     // useEffect para cerrar el slider
     useEffect(() => {
-        focused ? reset() : null;
+        !focused ? reset() : null;
     }, [focused, reset]);
 
     return (
@@ -175,12 +167,6 @@ const HomeCard = ({ item, navigation }: any) => {
                     <Icon name="chevron-left" color="#fff" size={20} />
                 </View>
             </Animated.View>
-            <AddGastoModal
-                id={_id}
-                resetSlider={reset}
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-            />
         </View>
     );
 };

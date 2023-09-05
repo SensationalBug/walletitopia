@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import HomeCard from '../components/HomeCard';
 import { HomeStyles } from '../styles/GlobalStyles';
 import { View, Text, FlatList } from 'react-native';
 import { AccountContext } from '../controller/AccountsContext';
+import AddGastoModal from '../components/AddGastoModal';
 
 const Home = ({ navigation }: any) => {
     const { accounts }: any = useContext(AccountContext);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [data, setData] = useState({});
     return (
         <View style={HomeStyles.container}>
             <View>
@@ -17,8 +20,18 @@ const Home = ({ navigation }: any) => {
                 data={accounts}
                 keyExtractor={item => item._id}
                 renderItem={(item: any) => (
-                    <HomeCard {...item} navigation={navigation} />
+                    <HomeCard
+                        {...item}
+                        setData={setData}
+                        navigation={navigation}
+                        setModalVisible={setModalVisible}
+                    />
                 )}
+            />
+            <AddGastoModal
+                data={data}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
             />
         </View>
     );

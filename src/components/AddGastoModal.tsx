@@ -12,7 +12,7 @@ import { GastosContext } from '../controller/GastosContext';
 import { CatContext } from '../controller/CategoriesContext';
 import HomeCategoryButton from './HomeCategoryButton';
 
-const AddGastoModal = ({ modalVisible, setModalVisible, resetSlider }: any) => {
+const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
     const { setNewGasto, addGasto, clearNewGastos }: any =
         useContext(GastosContext);
     const { categories }: any = useContext(CatContext);
@@ -57,10 +57,9 @@ const AddGastoModal = ({ modalVisible, setModalVisible, resetSlider }: any) => {
                         <TouchableOpacity
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => {
-                                resetSlider();
                                 clearNewGastos();
                                 setSelectedId('');
-                                setModalVisible(!modalVisible);
+                                setModalVisible(false);
                             }}>
                             <Icon name="close" size={20} color="#fff" />
                         </TouchableOpacity>
@@ -68,10 +67,9 @@ const AddGastoModal = ({ modalVisible, setModalVisible, resetSlider }: any) => {
                             style={[styles.button, styles.buttonSave]}
                             onPress={() => {
                                 addGasto();
-                                resetSlider();
                                 clearNewGastos();
                                 setSelectedId('');
-                                setModalVisible(!modalVisible);
+                                setModalVisible(false);
                             }}>
                             <Icon name="check" size={20} color="#fff" />
                         </TouchableOpacity>

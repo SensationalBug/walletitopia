@@ -13,22 +13,36 @@ interface props {
     children: JSX.Element;
 }
 
+// Funcion que trae la Hora
+const creationDate = () => {
+    const date = new Date();
+    return date;
+};
+
 export const AccountContext = createContext({});
 
 const AccountProvider = ({ children }: props) => {
     const { userData, showToastAlert }: any = useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
-    const [editAccountData, setEditAccountData] = useState<any>([]);
     const [newAccountData, setNewAccountData] = useState({
         accountType: '',
         accountName: '',
         accountAmount: '',
     });
     const [accountToEditData, setAccountToEditData] = useState({
+        accountId: '',
         accountType: '',
         accountEditName: '',
         accountEditAmount: '',
     });
+    const clearFields = () => {
+        setAccountToEditData((prevState: any) => ({
+            ...prevState,
+            accountType: '',
+            accountEditName: '',
+            accountEditAmount: '',
+        }));
+    };
     // Funcion que retorna el icono de la cuenta correspondiente
     const accountIcon = (icon: string): any => {
         switch (icon) {
@@ -59,18 +73,6 @@ const AccountProvider = ({ children }: props) => {
             .then(res => setAccounts(res.data))
             .catch(err => console.log(err));
     }, [userData.token]);
-    // Funcion para obtener por ID
-    const getAccountById = (id: string) => {
-        axios({
-            method: 'get',
-            url: `${URL}/cuentas/${id}`,
-            headers: {
-                Authorization: `Bearer ${userData.token}`,
-            },
-        })
-            .then(res => setEditAccountData(res.data))
-            .catch(err => console.log(err));
-    };
     // Funcion para añadir cuentas
     const addAccount = () => {
         const { accountName, accountAmount, accountType } = newAccountData;
@@ -84,7 +86,7 @@ const AccountProvider = ({ children }: props) => {
                 acc_name: accountName,
                 monto_inicial: accountAmount,
                 tipo_de_cuenta: accountType,
-                fecha_de_creacion: 'fecha',
+                fecha_de_creacion: creationDate(),
             },
         })
             .then(() => {
@@ -106,11 +108,15 @@ const AccountProvider = ({ children }: props) => {
     };
     // Funcion para editar cuentas
     const editAccount = () => {
-        const { accountType, accountEditName, accountEditAmount }: any =
-            accountToEditData;
+        const {
+            accountId,
+            accountType,
+            accountEditName,
+            accountEditAmount,
+        }: any = accountToEditData;
         axios({
             method: 'patch',
-            url: `${URL}/cuentas/${editAccountData.id}`,
+            url: `${URL}/cuentas/${accountId}`,
             headers: {
                 Authorization: `Bearer ${userData.token}`,
             },
@@ -118,16 +124,12 @@ const AccountProvider = ({ children }: props) => {
                 acc_name: accountEditName,
                 monto_inicial: accountEditAmount,
                 tipo_de_cuenta: accountType,
-                fecha_de_creacion: '',
+                fecha_de_creacion: creationDate(),
             },
         })
             .then(() => {
                 getAccounts();
-                setAccountToEditData({
-                    accountType: '',
-                    accountEditName: '',
-                    accountEditAmount: '',
-                });
+                clearFields();
             })
             .catch(err => console.log(err));
     };
@@ -145,9 +147,6 @@ const AccountProvider = ({ children }: props) => {
                 formatter,
                 deleteAccount,
                 editAccount,
-                setEditAccountData,
-                getAccountById,
-                editAccountData,
                 setAccountToEditData,
                 accountIcon,
             }}>
