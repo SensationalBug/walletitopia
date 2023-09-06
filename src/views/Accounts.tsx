@@ -1,25 +1,125 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
-import {GlobalStyles} from '../styles/GlobalStyles';
+import { FAB } from 'react-native-paper';
+import React, { useContext, useState } from 'react';
+import AccountCard from '../components/AccountCard';
+import AccountModal from '../components/AccountModal';
+import { toastConfig } from '../styles/ToastStyles';
+import { UserContext } from '../controller/UserContext';
+import AccountEditModal from '../components/AccountEditModal';
+import { AccountContext } from '../controller/AccountsContext';
+import { View, StyleSheet, FlatList } from 'react-native';
 
-const Accounts = ({navigation}: any) => {
-  return (
-    <View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
-        style={styles.container}>
-        <Text style={GlobalStyles.textStyle}>Accounts</Text>
-      </TouchableOpacity>
-    </View>
-  );
+const Accounts = () => {
+    const { accounts }: any = useContext(AccountContext);
+    const { Toast }: any = useContext(UserContext);
+
+    const [data, setData] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalEditVisible, setModalEditVisible] = useState(false);
+
+    return (
+        <View style={styles.container}>
+            <FlatList
+                data={accounts}
+                keyExtractor={(item: any) => item._id}
+                renderItem={(item: any) => (
+                    <AccountCard
+                        {...item}
+                        setData={setData}
+                        setModalEditVisible={setModalEditVisible}
+                    />
+                )}
+            />
+            <View style={styles.buttonsContainer}>
+                <View style={[styles.FABContainer, styles.FABPlus]}>
+                    <FAB
+                        icon="plus"
+                        color="#fff"
+                        style={[styles.FABStyle, styles.FABPlusButton]}
+                        onPress={() => setModalVisible(true)}
+                    />
+                </View>
+            </View>
+            <AccountModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
+            <AccountEditModal
+                data={data}
+                modalVisible={modalEditVisible}
+                setModalVisible={setModalEditVisible}
+            />
+            <Toast config={toastConfig} />
+        </View>
+    );
 };
 
 export default Accounts;
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    height: '100%',
-    backgroundColor: 'green',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    cuentaContainer: {
+        marginHorizontal: 10,
+        marginTop: 10,
+        padding: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        flexDirection: 'row',
+        backgroundColor: '#1F9FD0',
+        justifyContent: 'space-between',
+    },
+    dataContainer: {
+        width: '70%',
+    },
+    cuentaName: {
+        color: '#fff',
+        fontSize: 30,
+    },
+    cuentaType: {
+        color: '#fff',
+        marginBottom: 10,
+    },
+    banco: {
+        width: '30%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonsContainer: {
+        right: 0,
+        bottom: 0,
+        width: '100%',
+        position: 'absolute',
+    },
+    FABContainer: {
+        margin: 10,
+        borderRadius: 10,
+        textAlign: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    FABEdit: {
+        flexDirection: 'row',
+    },
+    FABPlus: {
+        justifyContent: 'flex-end',
+    },
+    FABStyle: {
+        marginHorizontal: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    FABPlusButton: {
+        backgroundColor: '#122e49',
+    },
+    FABDelete: {
+        backgroundColor: '#F24C3D',
+    },
+    FABCancel: {
+        backgroundColor: '#b3b329',
+    },
+    FABEditButton: {
+        backgroundColor: '#1F8A70',
+    },
 });

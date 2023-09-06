@@ -1,41 +1,35 @@
-import React, { useContext, useRef, useCallback, useEffect } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-// import { AccountCardStyles } from '../styles/GlobalStyles';
+import React, { useRef, useContext, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
-    Alert,
     Animated,
     StyleSheet,
     PanResponder,
     TouchableOpacity,
 } from 'react-native';
+import { UserContext } from '../controller/UserContext';
 import { useIsFocused } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { GastosContext } from '../controller/GastosContext';
 import { AccountContext } from '../controller/AccountsContext';
-
-interface types {
-    item: {
-        _id: string;
-        acc_name: string;
-        monto_inicial: number;
-        tipo_de_cuenta: string;
-    };
-    setModalEditVisible: any;
-    setData: any;
-}
 
 const rightButtons = ['plus', 'minus', 'details'];
 const color = {
     rojo: '#F24C3D',
-    amarillo: '#b3b329',
+    verde: '#1F8A70',
+    base: '#122e49',
 };
 const btnWidth = 80;
-const offset = [-btnWidth, 0];
+const offset = [-btnWidth * 2, 0];
 
-const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
+const HomeCard = ({ item, navigation, setModalVisible }: any) => {
     const focused = useIsFocused();
-    const { formatter, accountIcon, deleteAccount }: any =
-        useContext(AccountContext);
+
+    const { updStateData }: any = useContext(UserContext);
+    const { setNewGasto, getGastosByAccountId }: any =
+        useContext(GastosContext);
+    const { formatter, accountIcon }: any = useContext(AccountContext);
+
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
 
     // Funciones para deslizar los botones hacia un lado
@@ -110,30 +104,6 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
         !focused ? reset() : null;
     }, [focused, reset]);
 
-    // Funcion para mostrar el alert previo a borrar una cuenta
-    const showAlert = () => {
-        Alert.alert(
-            'Advertencia',
-            `Seguro que quieres eliminar la cuenta ${acc_name} ?`,
-            [
-                {
-                    text: 'Si',
-                    onPress: () => deleteAccount(_id),
-                },
-                {
-                    text: 'No',
-                },
-            ],
-        );
-    };
-
-    const setItemData = () => {
-        return new Promise(resolve => {
-            setData(item);
-            resolve('ok');
-        });
-    };
-
     return (
         <View style={styles.container}>
             <Animated.View
@@ -141,17 +111,36 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
                     styles.btnContainer,
                     { transform: [{ translateX: translateRightBtns }] },
                 ]}>
+                <View style={styles.btnGastoContainer}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setModalVisible(true);
+                            updStateData(setNewGasto, _id, 'id_cuenta');
+                            updStateData(setNewGasto, 'debito', 'tipo_gastos');
+                        }}
+                        style={[styles.btn, { backgroundColor: color.verde }]}>
+                        <Icon name="plus" size={20} color="#fff" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setModalVisible(true);
+                            updStateData(setNewGasto, _id, 'id_cuenta');
+                            updStateData(setNewGasto, 'credito', 'tipo_gastos');
+                        }}
+                        style={[styles.btn, { backgroundColor: color.rojo }]}>
+                        <Icon name="minus" size={20} color="#fff" />
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity
                     onPress={() => {
-                        setItemData().then(() => setModalEditVisible(true));
+                        getGastosByAccountId(_id, navigation);
                     }}
-                    style={[styles.btn, { backgroundColor: color.amarillo }]}>
-                    <Icon name="edit" size={25} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => showAlert()}
-                    style={[styles.btn, { backgroundColor: color.rojo }]}>
-                    <Icon name="trash" size={25} color="#fff" />
+                    style={[
+                        styles.btn,
+                        styles.btnMore,
+                        { backgroundColor: color.base },
+                    ]}>
+                    <Text style={styles.btnMoreText}>Detalles</Text>
                 </TouchableOpacity>
             </Animated.View>
             <Animated.View
@@ -182,7 +171,7 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     );
 };
 
-export default AccountCard;
+export default HomeCard;
 
 const styles = StyleSheet.create({
     container: {
@@ -227,6 +216,10 @@ const styles = StyleSheet.create({
         height: '50%',
         position: 'absolute',
         alignSelf: 'flex-end',
+    },
+    btnGastoContainer: {
+        flexDirection: 'row',
+        height: '100%',
     },
     btn: {
         height: '100%',
