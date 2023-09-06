@@ -1,4 +1,10 @@
-import React, { useRef, useContext, useEffect, useCallback } from 'react';
+import React, {
+    useRef,
+    useContext,
+    useEffect,
+    useCallback,
+    useState,
+} from 'react';
 import {
     View,
     Text,
@@ -24,13 +30,12 @@ const offset = [-btnWidth * 2, 0];
 
 const HomeCard = ({ item, navigation, setModalVisible }: any) => {
     const focused = useIsFocused();
-
     const { updStateData }: any = useContext(UserContext);
-    const { setNewGasto, getGastosByAccountId }: any =
-        useContext(GastosContext);
     const { formatter, accountIcon }: any = useContext(AccountContext);
-
+    const { setNewGasto, getGastosByAccountId, gastos }: any =
+        useContext(GastosContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
+    const [totalGastos, setTotalGastos] = useState(monto_inicial);
 
     // Funciones para deslizar los botones hacia un lado
     let panValue = { x: 0, y: 0 };
@@ -99,10 +104,28 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
         }).start();
     };
 
+    const gastosResult = useCallback(() => {
+        let total = monto_inicial;
+        gastos.map((elem: any) => {
+            if (_id === elem.id_cuenta) {
+                if (elem.tipo_gastos === 'credito') {
+                    total -= elem.monto;
+                } else {
+                    total += elem.monto;
+                }
+            }
+        });
+        setTotalGastos(total);
+    }, [_id, gastos, monto_inicial]);
+
     // useEffect para cerrar el slider
     useEffect(() => {
         !focused ? reset() : null;
     }, [focused, reset]);
+    // useEffect para calcular el total restante de la cuenta
+    useEffect(() => {
+        gastosResult();
+    }, [gastosResult]);
 
     return (
         <View style={styles.container}>
@@ -153,7 +176,7 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
                     <Text style={styles.mainText}>{acc_name}</Text>
                     <Text style={styles.typeText}>{tipo_de_cuenta}</Text>
                     <Text style={styles.amountText}>
-                        {formatter.format(monto_inicial)}
+                        {formatter.format(totalGastos)}
                     </Text>
                 </View>
                 <View style={styles.iconContainer}>
@@ -177,7 +200,7 @@ const styles = StyleSheet.create({
     container: {
         height: 140,
         width: '100%',
-        marginBottom: 3,
+        marginBottom: 2,
     },
     item: {
         width: '100%',

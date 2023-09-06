@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     container: {
         height: 140,
         width: '100%',
-        marginBottom: 3,
+        marginBottom: 1,
     },
     item: {
         width: '100%',
@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     mainIcon: {
-        justifyContent: 'center',
         width: '60%',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     mainText: {
         color: '#fff',
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
     btnContainer: {
-        height: '50%',
+        height: '49.9%',
         position: 'absolute',
         alignSelf: 'flex-end',
     },

@@ -30,11 +30,11 @@ const Accounts = () => {
                 )}
             />
             <View style={styles.buttonsContainer}>
-                <View style={[styles.FABContainer, styles.FABPlus]}>
+                <View style={styles.FABContainer}>
                     <FAB
                         icon="plus"
                         color="#fff"
-                        style={[styles.FABStyle, styles.FABPlusButton]}
+                        style={styles.FABStyle}
                         onPress={() => setModalVisible(true)}
                     />
                 </View>
@@ -59,32 +59,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
-    },
-    cuentaContainer: {
-        marginHorizontal: 10,
-        marginTop: 10,
-        padding: 10,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        flexDirection: 'row',
-        backgroundColor: '#1F9FD0',
-        justifyContent: 'space-between',
-    },
-    dataContainer: {
-        width: '70%',
-    },
-    cuentaName: {
-        color: '#fff',
-        fontSize: 30,
-    },
-    cuentaType: {
-        color: '#fff',
-        marginBottom: 10,
-    },
-    banco: {
-        width: '30%',
-        alignItems: 'center',
-        justifyContent: 'center',
+        marginVertical: 3,
     },
     buttonsContainer: {
         right: 0,
@@ -97,29 +72,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         textAlign: 'center',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    FABEdit: {
-        flexDirection: 'row',
-    },
-    FABPlus: {
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
     },
     FABStyle: {
         marginHorizontal: 10,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    FABPlusButton: {
         backgroundColor: '#122e49',
-    },
-    FABDelete: {
-        backgroundColor: '#F24C3D',
-    },
-    FABCancel: {
-        backgroundColor: '#b3b329',
-    },
-    FABEditButton: {
-        backgroundColor: '#1F8A70',
     },
 });
