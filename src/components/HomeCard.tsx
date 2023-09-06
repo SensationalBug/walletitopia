@@ -106,15 +106,24 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
 
     const gastosResult = useCallback(() => {
         let total = monto_inicial;
-        gastos.map((elem: any) => {
-            if (_id === elem.id_cuenta) {
-                if (elem.tipo_gastos === 'credito') {
-                    total -= elem.monto;
+        // gastos.map((elem: any) => {
+        //     if (_id === elem.id_cuenta) {
+        //         if (elem.tipo_gastos === 'credito') {
+        //             total -= elem.monto;
+        //         } else {
+        //             total += elem.monto;
+        //         }
+        //     }
+        // });
+        for (let gasto of gastos) {
+            if (_id === gasto.id_cuenta) {
+                if (gasto.tipo_gastos === 'debito') {
+                    total -= gasto.monto;
                 } else {
-                    total += elem.monto;
+                    total += gasto.monto;
                 }
             }
-        });
+        }
         setTotalGastos(total);
     }, [_id, gastos, monto_inicial]);
 
@@ -124,8 +133,29 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
     }, [focused, reset]);
     // useEffect para calcular el total restante de la cuenta
     useEffect(() => {
-        gastosResult();
-    }, [gastosResult]);
+        // gastos.map((elem: any) => {
+        //     if (_id === elem.id_cuenta) {
+        //         if (elem.tipo_gastos === 'credito') {
+        //             total -= elem.monto;
+        //         } else {
+        //             total += elem.monto;
+        //         }
+        //     }
+        // });
+        // let total = monto_inicial;
+        let total = monto_inicial;
+        for (let gasto of gastos) {
+            if (_id === gasto.id_cuenta) {
+                if (gasto.tipo_gastos === 'debito') {
+                    total = total - 1;
+                } else {
+                    total = total + 2;
+                }
+            }
+            setTotalGastos(total);
+            console.log(total);
+        }
+    }, [_id, gastos, monto_inicial]);
 
     return (
         <View style={styles.container}>
@@ -236,7 +266,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
     btnContainer: {
-        height: '50%',
+        height: '49.9%',
         position: 'absolute',
         alignSelf: 'flex-end',
     },

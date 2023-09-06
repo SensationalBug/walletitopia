@@ -71,7 +71,7 @@ const AccountProvider = ({ children }: props) => {
             },
         })
             .then(res => setAccounts(res.data))
-            .catch(err => console.log(err));
+            .catch(() => setAccounts([]));
     }, [userData.token]);
     // Funcion para añadir cuentas
     const addAccount = () => {
