@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { UserContext } from '../controller/UserContext';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { GastosContext } from '../controller/GastosContext';
 import { CategoryCardStyles } from '../styles/GlobalStyles';
 

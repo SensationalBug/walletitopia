@@ -1,10 +1,4 @@
-import React, {
-    useRef,
-    useContext,
-    useEffect,
-    useCallback,
-    useState,
-} from 'react';
+import React, { useRef, useContext, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -24,6 +18,8 @@ const color = {
     rojo: '#F24C3D',
     verde: '#1F8A70',
     base: '#122e49',
+    blanco: '#ffffff',
+    bRojo: '#ff0000',
 };
 const btnWidth = 80;
 const offset = [-btnWidth * 2, 0];
@@ -32,11 +28,9 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
     const focused = useIsFocused();
     const { updStateData }: any = useContext(UserContext);
     const { formatter, accountIcon }: any = useContext(AccountContext);
-    const { setNewGasto, getGastosByAccountId, gastos }: any =
+    const { setNewGasto, getGastosByAccountId }: any =
         useContext(GastosContext);
-    const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
-    const [totalGastos, setTotalGastos] = useState(monto_inicial);
-
+    const { _id, acc_name, monto_corriente, tipo_de_cuenta } = item;
     // Funciones para deslizar los botones hacia un lado
     let panValue = { x: 0, y: 0 };
     let isOpenState = useRef(false).current;
@@ -104,59 +98,10 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
         }).start();
     };
 
-    const gastosResult = useCallback(() => {
-        let total = monto_inicial;
-        // gastos.map((elem: any) => {
-        //     if (_id === elem.id_cuenta) {
-        //         if (elem.tipo_gastos === 'credito') {
-        //             total -= elem.monto;
-        //         } else {
-        //             total += elem.monto;
-        //         }
-        //     }
-        // });
-        for (let gasto of gastos) {
-            if (_id === gasto.id_cuenta) {
-                if (gasto.tipo_gastos === 'debito') {
-                    total -= gasto.monto;
-                } else {
-                    total += gasto.monto;
-                }
-            }
-        }
-        setTotalGastos(total);
-    }, [_id, gastos, monto_inicial]);
-
     // useEffect para cerrar el slider
     useEffect(() => {
         !focused ? reset() : null;
     }, [focused, reset]);
-    // useEffect para calcular el total restante de la cuenta
-    useEffect(() => {
-        // gastos.map((elem: any) => {
-        //     if (_id === elem.id_cuenta) {
-        //         if (elem.tipo_gastos === 'credito') {
-        //             total -= elem.monto;
-        //         } else {
-        //             total += elem.monto;
-        //         }
-        //     }
-        // });
-        // let total = monto_inicial;
-        let total = monto_inicial;
-        for (let gasto of gastos) {
-            if (_id === gasto.id_cuenta) {
-                if (gasto.tipo_gastos === 'debito') {
-                    total = total - 1;
-                } else {
-                    total = total + 2;
-                }
-            }
-            setTotalGastos(total);
-            console.log(total);
-        }
-    }, [_id, gastos, monto_inicial]);
-
     return (
         <View style={styles.container}>
             <Animated.View
@@ -169,7 +114,7 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
                         onPress={() => {
                             setModalVisible(true);
                             updStateData(setNewGasto, _id, 'id_cuenta');
-                            updStateData(setNewGasto, 'debito', 'tipo_gastos');
+                            updStateData(setNewGasto, 1, 'tipo_gasto');
                         }}
                         style={[styles.btn, { backgroundColor: color.verde }]}>
                         <Icon name="plus" size={20} color="#fff" />
@@ -178,7 +123,7 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
                         onPress={() => {
                             setModalVisible(true);
                             updStateData(setNewGasto, _id, 'id_cuenta');
-                            updStateData(setNewGasto, 'credito', 'tipo_gastos');
+                            updStateData(setNewGasto, 0, 'tipo_gasto');
                         }}
                         style={[styles.btn, { backgroundColor: color.rojo }]}>
                         <Icon name="minus" size={20} color="#fff" />
@@ -205,8 +150,17 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
                 <View>
                     <Text style={styles.mainText}>{acc_name}</Text>
                     <Text style={styles.typeText}>{tipo_de_cuenta}</Text>
-                    <Text style={styles.amountText}>
-                        {formatter.format(totalGastos)}
+                    <Text
+                        style={[
+                            styles.amountText,
+                            {
+                                color:
+                                    monto_corriente < 0
+                                        ? color.bRojo
+                                        : color.blanco,
+                            },
+                        ]}>
+                        {formatter.format(monto_corriente)}
                     </Text>
                 </View>
                 <View style={styles.iconContainer}>
@@ -262,7 +216,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     amountText: {
-        color: '#fff',
         fontSize: 25,
     },
     btnContainer: {

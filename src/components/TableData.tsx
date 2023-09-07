@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { AccountContext } from '../controller/AccountsContext';
 
 const color = {
@@ -10,7 +10,7 @@ const color = {
 const TableData = ({
     concepto,
     monto,
-    tipo_gastos,
+    tipo_gasto,
     id_categoria,
     fecha_de_creacion,
     categories,
@@ -23,16 +23,14 @@ const TableData = ({
                 setCategoryName(category.icon_name);
             }
         }
-    }, [categories, id_categoria]);
+        console.log(tipo_gasto);
+    }, [categories, id_categoria, tipo_gasto]);
     return (
         <View
             style={[
                 styles.item,
                 {
-                    backgroundColor:
-                        tipo_gastos === 'credito'
-                            ? color.debito
-                            : color.credito,
+                    backgroundColor: !tipo_gasto ? color.debito : color.credito,
                 },
             ]}>
             <View style={styles.dataContainer}>

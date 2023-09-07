@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { UserContext } from '../controller/UserContext';
 import { ModalCatStyles } from '../styles/GlobalStyles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { CatContext } from '../controller/CategoriesContext';
 import IconClose from 'react-native-vector-icons/FontAwesome';
 

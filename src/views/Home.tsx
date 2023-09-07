@@ -1,33 +1,49 @@
-import React, { useContext, useState } from 'react';
 import HomeCard from '../components/HomeCard';
+import React, { useContext, useEffect, useState } from 'react';
 import { HomeStyles } from '../styles/GlobalStyles';
 import { View, Text, FlatList } from 'react-native';
-import { AccountContext } from '../controller/AccountsContext';
 import AddGastoModal from '../components/AddGastoModal';
+import NoAccountMessage from '../components/NoAccountMessage';
+import { AccountContext } from '../controller/AccountsContext';
 
 const Home = ({ navigation }: any) => {
-    const { accounts }: any = useContext(AccountContext);
+    const { accounts, getAccounts }: any = useContext(AccountContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [data, setData] = useState({});
+    useEffect(() => {
+        getAccounts();
+    }, [getAccounts, accounts]);
+    const fecha = () => {
+        const date = new Date();
+        return (
+            <Text style={HomeStyles.date}>
+                {date.getMonth() + 1}/{date.getDate()}/{date.getFullYear()}
+            </Text>
+        );
+    };
     return (
         <View style={HomeStyles.container}>
             <View>
                 <Text style={HomeStyles.mainTitle}>Bienvenido</Text>
                 <Text style={HomeStyles.mainName}>Nombre de usuario</Text>
-                <Text style={HomeStyles.date}>Fecha Actual</Text>
+                {fecha()}
             </View>
-            <FlatList
-                data={accounts}
-                keyExtractor={item => item._id}
-                renderItem={(item: any) => (
-                    <HomeCard
-                        {...item}
-                        setData={setData}
-                        navigation={navigation}
-                        setModalVisible={setModalVisible}
-                    />
-                )}
-            />
+            {accounts.length ? (
+                <FlatList
+                    data={accounts}
+                    keyExtractor={item => item._id}
+                    renderItem={(item: any) => (
+                        <HomeCard
+                            {...item}
+                            setData={setData}
+                            navigation={navigation}
+                            setModalVisible={setModalVisible}
+                        />
+                    )}
+                />
+            ) : (
+                <NoAccountMessage />
+            )}
             <AddGastoModal
                 data={data}
                 modalVisible={modalVisible}

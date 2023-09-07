@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Text, TouchableOpacity, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { CategoryCardStyles } from '../styles/GlobalStyles';
 import { CatContext } from '../controller/CategoriesContext';
 

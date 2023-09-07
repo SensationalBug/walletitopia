@@ -11,7 +11,7 @@ import React, { useContext, useState } from 'react';
 import CategoryCard from '../components/CategoryCard';
 import { CategoryStyles } from '../styles/GlobalStyles';
 import { UserContext } from '../controller/UserContext';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { CatContext } from '../controller/CategoriesContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import ModalCategoryIcons from '../components/ModalCategoryIcons';

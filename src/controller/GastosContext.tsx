@@ -7,6 +7,15 @@ interface props {
     children: JSX.Element;
 }
 
+interface types {
+    id_cuenta: string;
+    tipo_gasto: number;
+    id_categoria: string;
+    concepto: string;
+    monto: string;
+    fecha_de_creacion: any;
+}
+
 // Funcion que trae la Hora
 const creationDate = () => {
     const date = new Date();
@@ -18,12 +27,12 @@ export const GastosContext = createContext({});
 const GastosProvider = ({ children }: props) => {
     const { userData }: any = useContext(UserContext);
     const [gastos, setGastos] = useState([]);
-    const [newGasto, setNewGasto] = useState({
+    const [newGasto, setNewGasto] = useState<types>({
         id_cuenta: '',
-        tipo_gastos: '',
+        tipo_gasto: 0,
         id_categoria: '',
         concepto: '',
-        monto: 0,
+        monto: '',
         fecha_de_creacion: creationDate(),
     });
     creationDate();
@@ -31,10 +40,10 @@ const GastosProvider = ({ children }: props) => {
     const clearNewGastos = () => {
         setNewGasto({
             id_cuenta: '',
-            tipo_gastos: '',
+            tipo_gasto: 0,
             id_categoria: '',
             concepto: '',
-            monto: 0,
+            monto: '',
             fecha_de_creacion: creationDate(),
         });
     };
@@ -49,20 +58,24 @@ const GastosProvider = ({ children }: props) => {
         })
             .then(res => {
                 setGastos(res.data);
-                navigation.navigate('AccountDetails', res.data);
+                navigation
+                    ? navigation.navigate('AccountDetails', res.data)
+                    : null;
             })
-            .catch(() => navigation.navigate('AccountDetails'));
+            .catch(() =>
+                navigation ? navigation.navigate('AccountDetails') : null,
+            );
     };
     // Funcion para agregar un gasto
     const addGasto = () => {
         const {
             id_cuenta,
-            tipo_gastos,
+            tipo_gasto,
             id_categoria,
             concepto,
             monto,
             fecha_de_creacion,
-        } = newGasto;
+        }: types = newGasto;
         axios({
             method: 'post',
             url: `${URL}/gastos`,
@@ -71,10 +84,10 @@ const GastosProvider = ({ children }: props) => {
             },
             data: {
                 id_cuenta,
-                tipo_gastos,
+                tipo_gasto,
                 id_categoria,
                 concepto,
-                monto,
+                monto: parseInt(monto, 10),
                 fecha_de_creacion,
             },
         })

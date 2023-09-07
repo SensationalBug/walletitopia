@@ -1,12 +1,13 @@
 import { FAB } from 'react-native-paper';
 import React, { useContext, useState } from 'react';
 import AccountCard from '../components/AccountCard';
-import AccountModal from '../components/AccountModal';
 import { toastConfig } from '../styles/ToastStyles';
+import AccountModal from '../components/AccountModal';
 import { UserContext } from '../controller/UserContext';
+import { View, StyleSheet, FlatList } from 'react-native';
 import AccountEditModal from '../components/AccountEditModal';
 import { AccountContext } from '../controller/AccountsContext';
-import { View, StyleSheet, FlatList } from 'react-native';
+import NoAccountMessage from '../components/NoAccountMessage';
 
 const Accounts = () => {
     const { accounts }: any = useContext(AccountContext);
@@ -15,20 +16,23 @@ const Accounts = () => {
     const [data, setData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [modalEditVisible, setModalEditVisible] = useState(false);
-
     return (
         <View style={styles.container}>
-            <FlatList
-                data={accounts}
-                keyExtractor={(item: any) => item._id}
-                renderItem={(item: any) => (
-                    <AccountCard
-                        {...item}
-                        setData={setData}
-                        setModalEditVisible={setModalEditVisible}
-                    />
-                )}
-            />
+            {accounts.length ? (
+                <FlatList
+                    data={accounts}
+                    keyExtractor={(item: any) => item._id}
+                    renderItem={(item: any) => (
+                        <AccountCard
+                            {...item}
+                            setData={setData}
+                            setModalEditVisible={setModalEditVisible}
+                        />
+                    )}
+                />
+            ) : (
+                <NoAccountMessage position="center" />
+            )}
             <View style={styles.buttonsContainer}>
                 <View style={styles.FABContainer}>
                     <FAB
@@ -58,8 +62,8 @@ export default Accounts;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-between',
         marginVertical: 3,
+        justifyContent: 'space-between',
     },
     buttonsContainer: {
         right: 0,
