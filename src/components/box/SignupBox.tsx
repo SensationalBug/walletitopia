@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { LoginBoxStyles } from '../styles/GlobalStyles';
-import { UserContext } from '../controller/UserContext';
+import { LoginBoxStyles } from '../../styles/GlobalStyles';
+import { UserContext } from '../../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
     View,
@@ -8,9 +8,9 @@ import {
     TouchableOpacity,
     useWindowDimensions,
 } from 'react-native';
-import FormTextInput from './FormTextInput';
-import TermsPrivacyModal from './TermsPrivacyModal';
-import { policies, privacy } from '../text/PoliciesAndPrivacy';
+import FormTextInput from '../customComponents/FormTextInput';
+import TermsPrivacyModal from '../customComponents/TermsPrivacyModal';
+import { policies, privacy } from '../../text/PoliciesAndPrivacy';
 
 const SignupBox = () => {
     const layout = useWindowDimensions();

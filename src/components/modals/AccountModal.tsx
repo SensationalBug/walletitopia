@@ -1,12 +1,13 @@
+import Dropdown from '../customComponents/Dropdown';
 import React, { useContext } from 'react';
-import FormTextInput from './FormTextInput';
+import FormTextInput from '../customComponents/FormTextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AccountContext } from '../../controller/AccountsContext';
 import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native';
-import Dropdown from './Dropdown';
-import { AccountContext } from '../controller/AccountsContext';
 
 const AccountModal = ({ modalVisible, setModalVisible }: any) => {
-    const { setNewAccountData, addAccount }: any = useContext(AccountContext);
+    const { setNewAccountData, validateAddAccount }: any =
+        useContext(AccountContext);
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>
             <View style={styles.modalContainer}>
@@ -41,8 +42,9 @@ const AccountModal = ({ modalVisible, setModalVisible }: any) => {
                         <TouchableOpacity
                             style={[styles.button, styles.buttonSave]}
                             onPress={() => {
-                                addAccount();
-                                setModalVisible(!modalVisible);
+                                validateAddAccount().then(() =>
+                                    setModalVisible(!modalVisible),
+                                );
                             }}>
                             <Icon name="check" size={20} color="#fff" />
                         </TouchableOpacity>

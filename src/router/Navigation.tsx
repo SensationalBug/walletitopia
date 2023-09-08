@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Main from '../Main';
 import Login from '../views/Login';
-import AccountDetails from '../views/AccountDetails';
+import HomeDetail from '../views/HomeDetail';
 
 const Navigation = () => {
     const Stack = createNativeStackNavigator();
@@ -23,7 +23,7 @@ const Navigation = () => {
                 />
                 <Stack.Screen
                     name="AccountDetails"
-                    component={AccountDetails}
+                    component={HomeDetail}
                     options={{
                         title: 'Detalles',
                         headerTintColor: '#fff',

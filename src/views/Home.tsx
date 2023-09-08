@@ -1,9 +1,9 @@
-import HomeCard from '../components/HomeCard';
-import React, { useContext, useEffect, useState } from 'react';
+import HomeCard from '../components/cards/HomeCard';
 import { HomeStyles } from '../styles/GlobalStyles';
 import { View, Text, FlatList } from 'react-native';
-import AddGastoModal from '../components/AddGastoModal';
-import NoAccountMessage from '../components/NoAccountMessage';
+import React, { useContext, useEffect, useState } from 'react';
+import AddGastoModal from '../components/modals/AddGastoModal';
+import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 import { AccountContext } from '../controller/AccountsContext';
 
 const Home = ({ navigation }: any) => {

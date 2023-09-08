@@ -35,7 +35,6 @@ const GastosProvider = ({ children }: props) => {
         monto: '',
         fecha_de_creacion: creationDate(),
     });
-    creationDate();
     // Funcion para limpiar los newGastos
     const clearNewGastos = () => {
         setNewGasto({
@@ -47,7 +46,7 @@ const GastosProvider = ({ children }: props) => {
             fecha_de_creacion: creationDate(),
         });
     };
-    // Funcion para obtener los gastos
+    // Funcion para obtener los gastos por cuenta
     const getGastosByAccountId = (id_cuenta: string, navigation: any) => {
         axios({
             method: 'get',
@@ -94,6 +93,18 @@ const GastosProvider = ({ children }: props) => {
             .then(() => clearNewGastos())
             .catch(() => clearNewGastos());
     };
+    // Funcion para borrar gasto
+    const deleteGasto = (id_gasto: string, id_cuenta: string) => {
+        axios({
+            method: 'delete',
+            url: `${URL}/gastos/${id_gasto}`,
+            headers: {
+                Authorization: `Bearer ${userData.token}`,
+            },
+        })
+            .then(() => getGastosByAccountId(id_cuenta, null))
+            .catch(() => setGastos([]));
+    };
     return (
         <GastosContext.Provider
             value={{
@@ -102,6 +113,7 @@ const GastosProvider = ({ children }: props) => {
                 setNewGasto,
                 addGasto,
                 clearNewGastos,
+                deleteGasto,
             }}>
             {children}
         </GastosContext.Provider>

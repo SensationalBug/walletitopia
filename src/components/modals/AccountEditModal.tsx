@@ -1,10 +1,10 @@
+import Dropdown from '../customComponents/Dropdown';
 import React, { useContext, useEffect } from 'react';
-import FormTextInput from './FormTextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { UserContext } from '../../controller/UserContext';
+import FormTextInput from '../customComponents/FormTextInput';
+import { AccountContext } from '../../controller/AccountsContext';
 import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native';
-import Dropdown from './Dropdown';
-import { AccountContext } from '../controller/AccountsContext';
-import { UserContext } from '../controller/UserContext';
 
 const AccountEditModal = ({ modalVisible, setModalVisible, data }: any) => {
     const { setAccountToEditData, editAccount }: any =

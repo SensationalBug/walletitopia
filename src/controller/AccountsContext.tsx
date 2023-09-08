@@ -91,8 +91,21 @@ const AccountProvider = ({ children }: props) => {
         })
             .then(() => {
                 getAccounts();
+                showToastAlert('success', 'Cuenta agregada');
             })
             .catch(() => showToastAlert('error', 'Completa todos los campos'));
+    };
+    // Funcion para validar los campos antes de agregar la cuenta
+    const validateAddAccount = () => {
+        return new Promise(resolve => {
+            const { accountAmount, accountType } = newAccountData;
+            if (!accountAmount || !accountAmount || !accountType) {
+                showToastAlert('error', 'Completar todos los campos');
+                return;
+            }
+            addAccount();
+            resolve('ok');
+        });
     };
     // Funcion para borrar cuentas
     const deleteAccount = (id: string) => {
@@ -103,7 +116,10 @@ const AccountProvider = ({ children }: props) => {
                 Authorization: `Bearer ${userData.token}`,
             },
         })
-            .then(() => getAccounts())
+            .then(() => {
+                getAccounts();
+                showToastAlert('success', 'Cuenta eliminada');
+            })
             .catch(err => console.log(err));
     };
     // Funcion para editar cuentas
@@ -130,6 +146,10 @@ const AccountProvider = ({ children }: props) => {
             .then(() => {
                 getAccounts();
                 clearFields();
+                if (accountType || accountEditName || accountEditAmount) {
+                    showToastAlert('success', 'Cuenta editada');
+                    return;
+                }
             })
             .catch(err => console.log(err));
     };
@@ -143,7 +163,7 @@ const AccountProvider = ({ children }: props) => {
                 accounts,
                 getAccounts,
                 setNewAccountData,
-                addAccount,
+                validateAddAccount,
                 formatter,
                 deleteAccount,
                 editAccount,

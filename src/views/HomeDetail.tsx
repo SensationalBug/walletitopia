@@ -1,18 +1,19 @@
-import { View, FlatList } from 'react-native';
 import React, { useContext } from 'react';
-import TableData from '../components/TableData';
+import { View, FlatList } from 'react-native';
+import { GastosContext } from '../controller/GastosContext';
 import { CatContext } from '../controller/CategoriesContext';
+import HomeDetailCard from '../components/cards/HomeDetailCard';
 
-const AccountDetails = ({ route }: any) => {
-    const { params } = route;
+const AccountDetails = () => {
+    const { gastos }: any = useContext(GastosContext);
     const { categories }: any = useContext(CatContext);
     return (
         <View>
             <FlatList
-                data={params}
+                data={gastos}
                 keyExtractor={item => item._id}
                 renderItem={({ item }: any) => (
-                    <TableData {...item} categories={categories} />
+                    <HomeDetailCard {...item} categories={categories} />
                 )}
             />
         </View>

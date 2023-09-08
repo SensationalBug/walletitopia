@@ -5,9 +5,9 @@ import {
     TouchableOpacity,
     useWindowDimensions,
 } from 'react-native';
-import FormTextInput from './FormTextInput';
-import { LoginBoxStyles } from '../styles/GlobalStyles';
-import { UserContext } from '../controller/UserContext';
+import FormTextInput from '../customComponents/FormTextInput';
+import { LoginBoxStyles } from '../../styles/GlobalStyles';
+import { UserContext } from '../../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const LoginBox = () => {

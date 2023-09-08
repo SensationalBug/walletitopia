@@ -56,10 +56,9 @@ const UserProvider = ({ children }: props) => {
                 password: '1',
             },
         })
-            .then(res => {
-                console.log(res);
-                updStateData(setUserData, res.data.acces_token, 'token');
-            })
+            .then(res =>
+                updStateData(setUserData, res.data.acces_token, 'token'),
+            )
             .catch(() => {
                 Toast.show({
                     type: 'error',

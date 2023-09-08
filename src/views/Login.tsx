@@ -1,9 +1,9 @@
 import { View } from 'react-native';
-import LoginBox from '../components/LoginBox';
-import SignupBox from '../components/SignupBox';
+import LoginBox from '../components/box/LoginBox';
+import SignupBox from '../components/box/SignupBox';
 import { toastConfig } from '../styles/ToastStyles';
 import { LoginStyles } from '../styles/GlobalStyles';
-import CustomSwitch from '../components/CustomSwitch';
+import CustomSwitch from '../components/customComponents/CustomSwitch';
 import { UserContext } from '../controller/UserContext';
 import React, { useContext, useEffect, useState } from 'react';
 

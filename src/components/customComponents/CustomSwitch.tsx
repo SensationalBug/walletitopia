@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import { CustomSwitchStlyes } from '../styles/GlobalStyles';
+import { CustomSwitchStlyes } from '../../styles/GlobalStyles';
 UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const CustomSwitch = ({ window, setWindow }: any) => {

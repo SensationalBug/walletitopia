@@ -1,7 +1,7 @@
 import { TextInput } from 'react-native';
 import React, { useContext } from 'react';
-import { UserContext } from '../controller/UserContext';
-import { LoginBoxStyles } from '../styles/GlobalStyles';
+import { UserContext } from '../../controller/UserContext';
+import { LoginBoxStyles } from '../../styles/GlobalStyles';
 
 const FormTextInput = ({
     setState,

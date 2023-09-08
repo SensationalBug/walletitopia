@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { UserContext } from '../controller/UserContext';
+import { UserContext } from '../../controller/UserContext';
 
 interface Props {
     label: string;

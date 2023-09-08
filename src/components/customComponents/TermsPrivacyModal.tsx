@@ -1,7 +1,7 @@
 import React from 'react';
 import IconClose from 'react-native-vector-icons/FontAwesome';
 import { Modal, View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { TermsPrivacyStyles } from '../styles/GlobalStyles';
+import { TermsPrivacyStyles } from '../../styles/GlobalStyles';
 
 const TermsPrivacyModal = ({
     title,

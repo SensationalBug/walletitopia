@@ -1,5 +1,5 @@
 import React from 'react';
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../views/Home';
@@ -17,17 +17,20 @@ const TabNavigator = () => {
         <Tab.Navigator
             initialRouteName="Inicio"
             screenOptions={{
-                tabBarActiveTintColor: '#fff',
-                tabBarInactiveTintColor: '#616161',
+                tabBarActiveTintColor: '#122e49',
+                tabBarInactiveTintColor: '#c4c4c4',
                 tabBarItemStyle: { paddingVertical: 5 },
-                tabBarStyle: { backgroundColor: '#122e49', height: 60 },
+                tabBarStyle: { backgroundColor: '#ffffff', height: 60 },
             }}>
             <Tab.Screen
                 name="Inicio"
                 component={Home}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({ color }: any) => homeIcon(color, 'home'),
+                    tabBarIcon: ({ focused, color }: any) =>
+                        focused
+                            ? homeIcon(color, 'home')
+                            : homeIcon(color, 'home-outline'),
                 }}
             />
             <Tab.Screen
@@ -35,7 +38,10 @@ const TabNavigator = () => {
                 component={Accounts}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({ color }: any) => homeIcon(color, 'wallet'),
+                    tabBarIcon: ({ focused, color }: any) =>
+                        focused
+                            ? homeIcon(color, 'cash')
+                            : homeIcon(color, 'cash-outline'),
                 }}
             />
             <Tab.Screen
@@ -45,7 +51,10 @@ const TabNavigator = () => {
                     headerTitle: 'Nueva Categoria',
                     headerTitleStyle: { color: '#fff' },
                     headerStyle: { backgroundColor: '#122e49' },
-                    tabBarIcon: ({ color }: any) => homeIcon(color, 'stream'),
+                    tabBarIcon: ({ focused, color }: any) =>
+                        focused
+                            ? homeIcon(color, 'layers')
+                            : homeIcon(color, 'layers-outline'),
                 }}
             />
             <Tab.Screen
@@ -53,7 +62,10 @@ const TabNavigator = () => {
                 component={Settings}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({ color }: any) => homeIcon(color, 'cog'),
+                    tabBarIcon: ({ focused, color }: any) =>
+                        focused
+                            ? homeIcon(color, 'cog')
+                            : homeIcon(color, 'cog-outline'),
                 }}
             />
         </Tab.Navigator>

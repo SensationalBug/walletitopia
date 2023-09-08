@@ -1,13 +1,13 @@
 import { FAB } from 'react-native-paper';
 import React, { useContext, useState } from 'react';
-import AccountCard from '../components/AccountCard';
 import { toastConfig } from '../styles/ToastStyles';
-import AccountModal from '../components/AccountModal';
 import { UserContext } from '../controller/UserContext';
+import AccountCard from '../components/cards/AccountCard';
 import { View, StyleSheet, FlatList } from 'react-native';
-import AccountEditModal from '../components/AccountEditModal';
+import AccountModal from '../components/modals/AccountModal';
+import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 import { AccountContext } from '../controller/AccountsContext';
-import NoAccountMessage from '../components/NoAccountMessage';
+import AccountEditModal from '../components/modals/AccountEditModal';
 
 const Accounts = () => {
     const { accounts }: any = useContext(AccountContext);

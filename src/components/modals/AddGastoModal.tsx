@@ -1,5 +1,5 @@
+import FormTextInput from '../customComponents/FormTextInput';
 import React, { useContext, useState } from 'react';
-import FormTextInput from './FormTextInput';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View,
@@ -8,9 +8,9 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { GastosContext } from '../controller/GastosContext';
-import { CatContext } from '../controller/CategoriesContext';
-import HomeCategoryButton from './HomeCategoryButton';
+import HomeCategoryButton from '../customComponents/HomeCategoryButton';
+import { GastosContext } from '../../controller/GastosContext';
+import { CatContext } from '../../controller/CategoriesContext';
 
 const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
     const { setNewGasto, addGasto, clearNewGastos }: any =
