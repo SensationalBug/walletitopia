@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import SlidableCard from './SlidableCard';
 import { View, Text, StyleSheet } from 'react-native';
-import { UserContext } from '../../controller/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { UserContext } from '../../controller/UserContext';
 import { GastosContext } from '../../controller/GastosContext';
 import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsHome from '../sliderButtons/SliderButtonsHome';
@@ -17,7 +17,8 @@ const color = {
 };
 const HomeCard = ({ item, navigation, setModalVisible }: any) => {
     const focused = useIsFocused();
-    const { updStateData }: any = useContext(UserContext);
+    const { updStateData, resetSlider, setResetSlider }: any =
+        useContext(UserContext);
     const { formatter, accountIcon }: any = useContext(AccountContext);
     const { setNewGasto, getGastosByAccountId }: any =
         useContext(GastosContext);
@@ -27,16 +28,21 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
         <SliderButtonsHome
             {...props}
             onAddGasto={() => {
+                setResetSlider(false);
                 setModalVisible(true);
                 updStateData(setNewGasto, _id, 'id_cuenta');
                 updStateData(setNewGasto, 1, 'tipo_gasto');
             }}
             onAddDebito={() => {
+                setResetSlider(false);
                 setModalVisible(true);
                 updStateData(setNewGasto, _id, 'id_cuenta');
                 updStateData(setNewGasto, 0, 'tipo_gasto');
             }}
-            onViewDetails={() => getGastosByAccountId(_id, navigation)}
+            onViewDetails={() => {
+                setResetSlider(false);
+                getGastosByAccountId(_id, navigation);
+            }}
         />
     );
 
@@ -44,6 +50,7 @@ const HomeCard = ({ item, navigation, setModalVisible }: any) => {
         <SlidableCard
             slideWidth={2}
             resetOnBlur={!focused}
+            resetSlider={resetSlider}
             backgroundColor="#1F9FD0"
             buttonsComponent={(props: any) => buttons(props)}>
             <View>

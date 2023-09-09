@@ -1,6 +1,3 @@
-import FormTextInput from '../customComponents/FormTextInput';
-import React, { useContext, useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View,
     Modal,
@@ -8,14 +5,19 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import HomeCategoryButton from '../customComponents/HomeCategoryButton';
+import React, { useContext, useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { UserContext } from '../../controller/UserContext';
+import FormTextInput from '../customComponents/FormTextInput';
 import { GastosContext } from '../../controller/GastosContext';
 import { CatContext } from '../../controller/CategoriesContext';
+import HomeCategoryButton from '../customComponents/HomeCategoryButton';
 
 const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
     const { setNewGasto, validateAddGasto, clearNewGastos }: any =
         useContext(GastosContext);
     const { categories }: any = useContext(CatContext);
+    const { setResetSlider }: any = useContext(UserContext);
     const [selectedId, setSelectedId] = useState('');
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>
@@ -59,6 +61,7 @@ const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
                             onPress={() => {
                                 clearNewGastos();
                                 setSelectedId('');
+                                setResetSlider(true);
                                 setModalVisible(false);
                             }}>
                             <Icon name="close" size={20} color="#fff" />
@@ -68,6 +71,7 @@ const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
                             onPress={() => {
                                 validateAddGasto().then(() => {
                                     setSelectedId('');
+                                    setResetSlider(true);
                                     setModalVisible(false);
                                 });
                             }}>

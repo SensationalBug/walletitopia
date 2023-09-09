@@ -1,12 +1,12 @@
 import HomeCard from '../components/cards/HomeCard';
 import { HomeStyles } from '../styles/GlobalStyles';
 import { View, Text, FlatList } from 'react-native';
+import { toastConfig } from '../styles/ToastStyles';
 import { UserContext } from '../controller/UserContext';
 import React, { useContext, useEffect, useState } from 'react';
 import AddGastoModal from '../components/modals/AddGastoModal';
 import { AccountContext } from '../controller/AccountsContext';
 import NoAccountMessage from '../components/customComponents/NoAccountMessage';
-import { toastConfig } from '../styles/ToastStyles';
 
 const Home = ({ navigation }: any) => {
     const { accounts, getAccounts }: any = useContext(AccountContext);

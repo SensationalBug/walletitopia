@@ -7,9 +7,9 @@ import { AccountContext } from '../../controller/AccountsContext';
 import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 const AccountEditModal = ({ modalVisible, setModalVisible, data }: any) => {
+    const { updStateData, setResetSlider }: any = useContext(UserContext);
     const { setAccountToEditData, editAccount }: any =
         useContext(AccountContext);
-    const { updStateData }: any = useContext(UserContext);
     const { acc_name, monto_inicial, tipo_de_cuenta, _id } = data;
     useEffect(() => {
         updStateData(setAccountToEditData, _id, 'accountId');
@@ -43,6 +43,7 @@ const AccountEditModal = ({ modalVisible, setModalVisible, data }: any) => {
                         <TouchableOpacity
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => {
+                                setResetSlider(true);
                                 setModalVisible(!modalVisible);
                             }}>
                             <Icon name="close" size={20} color="#fff" />
@@ -51,6 +52,7 @@ const AccountEditModal = ({ modalVisible, setModalVisible, data }: any) => {
                             style={[styles.button, styles.buttonSave]}
                             onPress={() => {
                                 editAccount();
+                                setResetSlider(true);
                                 setModalVisible(!modalVisible);
                             }}>
                             <Icon name="check" size={20} color="#fff" />

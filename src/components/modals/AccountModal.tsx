@@ -1,7 +1,7 @@
-import Dropdown from '../customComponents/Dropdown';
 import React, { useContext } from 'react';
-import FormTextInput from '../customComponents/FormTextInput';
+import Dropdown from '../customComponents/Dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import FormTextInput from '../customComponents/FormTextInput';
 import { AccountContext } from '../../controller/AccountsContext';
 import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native';
 

@@ -9,7 +9,7 @@ interface props {
 
 export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
-    // const [currentUser, setCurrentUser] = useState('');
+    const [resetSlider, setResetSlider] = useState(false);
     const [userData, setUserData] = useState({
         mail: '',
         password: '',
@@ -131,6 +131,8 @@ const UserProvider = ({ children }: props) => {
                 setUserData,
                 updStateData,
                 showToastAlert,
+                resetSlider,
+                setResetSlider,
             }}>
             {children}
         </UserContext.Provider>

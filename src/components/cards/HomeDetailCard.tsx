@@ -1,11 +1,12 @@
 import SlidableCard from './SlidableCard';
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { UserContext } from '../../controller/UserContext';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
+import { GastosContext } from '../../controller/GastosContext';
 import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
-import { GastosContext } from '../../controller/GastosContext';
 
 const color = {
     credito: '#1F8A70',
@@ -25,6 +26,7 @@ const HomeDetailCard = ({
     const [categoryName, setCategoryName] = useState('');
     const { formatter }: any = useContext(AccountContext);
     const { deleteGasto }: any = useContext(GastosContext);
+    const { setResetSlider, resetSlider }: any = useContext(UserContext);
     useEffect(() => {
         for (let category of categories) {
             if (category._id === id_categoria) {
@@ -45,6 +47,7 @@ const HomeDetailCard = ({
                 },
                 {
                     text: 'No',
+                    onPress: () => setResetSlider(true),
                 },
             ],
         );
@@ -54,13 +57,17 @@ const HomeDetailCard = ({
         <SliderButtonsAccount
             {...props}
             onEdit={() => showAlert()}
-            onDelete={() => showAlert()}
+            onDelete={() => {
+                showAlert();
+                setResetSlider(false);
+            }}
         />
     );
     return (
         <SlidableCard
             slideWidth={1}
             resetOnBlur={!focused}
+            resetSlider={resetSlider}
             backgroundColor={!tipo_gasto ? color.debito : color.credito}
             buttonsComponent={(props: any) => buttons(props)}>
             <View style={styles.item}>

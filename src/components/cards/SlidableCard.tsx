@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { View, Animated, PanResponder, StyleSheet } from 'react-native';
 
 const SlidableCard = ({
+    resetSlider,
     slideWidth,
     children,
     resetOnBlur,
@@ -85,7 +86,10 @@ const SlidableCard = ({
         if (resetOnBlur && !focused) {
             reset();
         }
-    }, [focused, reset, resetOnBlur]);
+        if (resetSlider) {
+            reset();
+        }
+    }, [focused, reset, resetOnBlur, resetSlider]);
 
     return (
         <View style={styles.container}>

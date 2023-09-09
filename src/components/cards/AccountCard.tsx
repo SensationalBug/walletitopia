@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, Alert, StyleSheet } from 'react-native';
 import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
+import { UserContext } from '../../controller/UserContext';
 
 interface types {
     item: {
@@ -19,6 +20,7 @@ interface types {
 
 const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const focused = useIsFocused();
+    const { resetSlider, setResetSlider }: any = useContext(UserContext);
     const { formatter, accountIcon, deleteAccount }: any =
         useContext(AccountContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
@@ -34,6 +36,7 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
                 },
                 {
                     text: 'No',
+                    onPress: () => setResetSlider(true),
                 },
             ],
         );
@@ -49,8 +52,14 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const buttons = (props: any) => (
         <SliderButtonsAccount
             {...props}
-            onEdit={() => setItemData().then(() => setModalEditVisible(true))}
-            onDelete={() => showAlert()}
+            onEdit={() => {
+                setResetSlider(false);
+                setItemData().then(() => setModalEditVisible(true));
+            }}
+            onDelete={() => {
+                showAlert();
+                setResetSlider(false);
+            }}
         />
     );
 
@@ -58,6 +67,7 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
         <SlidableCard
             slideWidth={1}
             resetOnBlur={!focused}
+            resetSlider={resetSlider}
             backgroundColor="#1F9FD0"
             buttonsComponent={(props: any) => buttons(props)}>
             <View>
