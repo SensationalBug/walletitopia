@@ -13,7 +13,7 @@ import { GastosContext } from '../../controller/GastosContext';
 import { CatContext } from '../../controller/CategoriesContext';
 
 const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
-    const { setNewGasto, addGasto, clearNewGastos }: any =
+    const { setNewGasto, validateAddGasto, clearNewGastos }: any =
         useContext(GastosContext);
     const { categories }: any = useContext(CatContext);
     const [selectedId, setSelectedId] = useState('');
@@ -66,10 +66,10 @@ const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
                         <TouchableOpacity
                             style={[styles.button, styles.buttonSave]}
                             onPress={() => {
-                                addGasto();
-                                clearNewGastos();
-                                setSelectedId('');
-                                setModalVisible(false);
+                                validateAddGasto().then(() => {
+                                    setSelectedId('');
+                                    setModalVisible(false);
+                                });
                             }}>
                             <Icon name="check" size={20} color="#fff" />
                         </TouchableOpacity>

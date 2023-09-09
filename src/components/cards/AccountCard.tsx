@@ -22,7 +22,6 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const { formatter, accountIcon, deleteAccount }: any =
         useContext(AccountContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
-
     // Funcion para mostrar el alert previo a borrar una cuenta
     const showAlert = () => {
         Alert.alert(

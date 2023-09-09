@@ -18,7 +18,7 @@ const Accounts = () => {
     const [modalEditVisible, setModalEditVisible] = useState(false);
     return (
         <View style={styles.container}>
-            {accounts.length ? (
+            {accounts?.length ? (
                 <FlatList
                     data={accounts}
                     keyExtractor={(item: any) => item._id}

@@ -25,7 +25,7 @@ const creationDate = () => {
 export const GastosContext = createContext({});
 
 const GastosProvider = ({ children }: props) => {
-    const { userData }: any = useContext(UserContext);
+    const { userData, showToastAlert }: any = useContext(UserContext);
     const [gastos, setGastos] = useState([]);
     const [newGasto, setNewGasto] = useState<types>({
         id_cuenta: '',
@@ -61,9 +61,10 @@ const GastosProvider = ({ children }: props) => {
                     ? navigation.navigate('AccountDetails', res.data)
                     : null;
             })
-            .catch(() =>
-                navigation ? navigation.navigate('AccountDetails') : null,
-            );
+            .catch(() => {
+                setGastos([]);
+                navigation ? navigation.navigate('AccountDetails') : null;
+            });
     };
     // Funcion para agregar un gasto
     const addGasto = () => {
@@ -90,8 +91,23 @@ const GastosProvider = ({ children }: props) => {
                 fecha_de_creacion,
             },
         })
-            .then(() => clearNewGastos())
+            .then(() => {
+                clearNewGastos();
+                showToastAlert('success', 'Gasto agregado');
+            })
             .catch(() => clearNewGastos());
+    };
+    // Funcion para validar los campos al agregar un gasto
+    const validateAddGasto = () => {
+        return new Promise(resolve => {
+            const { concepto, monto, id_categoria } = newGasto;
+            if (!concepto || !monto || !id_categoria) {
+                showToastAlert('error', 'Complete todos los campos');
+                return;
+            }
+            addGasto();
+            resolve('ok');
+        });
     };
     // Funcion para borrar gasto
     const deleteGasto = (id_gasto: string, id_cuenta: string) => {
@@ -103,7 +119,7 @@ const GastosProvider = ({ children }: props) => {
             },
         })
             .then(() => getGastosByAccountId(id_cuenta, null))
-            .catch(() => setGastos([]));
+            .catch(err => console.log(err));
     };
     return (
         <GastosContext.Provider
@@ -111,7 +127,7 @@ const GastosProvider = ({ children }: props) => {
                 getGastosByAccountId,
                 gastos,
                 setNewGasto,
-                addGasto,
+                validateAddGasto,
                 clearNewGastos,
                 deleteGasto,
             }}>

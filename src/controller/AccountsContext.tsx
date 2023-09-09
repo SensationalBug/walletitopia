@@ -22,26 +22,29 @@ const creationDate = () => {
 export const AccountContext = createContext({});
 
 const AccountProvider = ({ children }: props) => {
-    const { userData, showToastAlert }: any = useContext(UserContext);
+    const { userData, showToastAlert, updStateData }: any =
+        useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
     const [newAccountData, setNewAccountData] = useState({
         accountType: '',
         accountName: '',
-        accountAmount: '',
+        accountAmount: 0,
     });
     const [accountToEditData, setAccountToEditData] = useState({
         accountId: '',
         accountType: '',
         accountEditName: '',
-        accountEditAmount: '',
+        accountEditAmount: 0,
     });
-    const clearFields = () => {
-        setAccountToEditData((prevState: any) => ({
-            ...prevState,
-            accountType: '',
-            accountEditName: '',
-            accountEditAmount: '',
-        }));
+    const clearFields = (
+        setFunction: any,
+        Type: string,
+        Name: string,
+        Amount: string,
+    ) => {
+        updStateData(setFunction, '', Type);
+        updStateData(setFunction, '', Name);
+        updStateData(setFunction, 0, Amount);
     };
     // Funcion que retorna el icono de la cuenta correspondiente
     const accountIcon = (icon: string): any => {
@@ -91,15 +94,21 @@ const AccountProvider = ({ children }: props) => {
         })
             .then(() => {
                 getAccounts();
+                clearFields(
+                    setNewAccountData,
+                    'accountType',
+                    'accountName',
+                    'accountAmount',
+                );
                 showToastAlert('success', 'Cuenta agregada');
             })
-            .catch(() => showToastAlert('error', 'Completa todos los campos'));
+            .catch(err => console.log(err));
     };
     // Funcion para validar los campos antes de agregar la cuenta
     const validateAddAccount = () => {
         return new Promise(resolve => {
-            const { accountAmount, accountType } = newAccountData;
-            if (!accountAmount || !accountAmount || !accountType) {
+            const { accountName, accountAmount, accountType } = newAccountData;
+            if (!accountName || !accountAmount || !accountType) {
                 showToastAlert('error', 'Completar todos los campos');
                 return;
             }
@@ -144,11 +153,16 @@ const AccountProvider = ({ children }: props) => {
             },
         })
             .then(() => {
-                getAccounts();
-                clearFields();
                 if (accountType || accountEditName || accountEditAmount) {
+                    getAccounts();
+                    clearFields(
+                        setAccountToEditData,
+                        'accountType',
+                        'accountEditName',
+                        'accountEditAmount',
+                    );
+                    // clearFields2();
                     showToastAlert('success', 'Cuenta editada');
-                    return;
                 }
             })
             .catch(err => console.log(err));
