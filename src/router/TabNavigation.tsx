@@ -6,6 +6,7 @@ import Home from '../views/Home';
 import Accounts from '../views/Accounts';
 import Categories from '../views/Categories';
 import Settings from '../views/Settings';
+import Metrics from '../views/Metrics';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,8 +41,8 @@ const TabNavigator = () => {
                     headerShown: false,
                     tabBarIcon: ({ focused, color }: any) =>
                         focused
-                            ? homeIcon(color, 'cash')
-                            : homeIcon(color, 'cash-outline'),
+                            ? homeIcon(color, 'wallet')
+                            : homeIcon(color, 'wallet-outline'),
                 }}
             />
             <Tab.Screen
@@ -55,6 +56,20 @@ const TabNavigator = () => {
                         focused
                             ? homeIcon(color, 'layers')
                             : homeIcon(color, 'layers-outline'),
+                }}
+            />
+            <Tab.Screen
+                name="Métricas"
+                component={Metrics}
+                options={{
+                    headerShown: false,
+                    headerTitle: 'Nueva Categoria',
+                    headerTitleStyle: { color: '#fff' },
+                    headerStyle: { backgroundColor: '#122e49' },
+                    tabBarIcon: ({ focused, color }: any) =>
+                        focused
+                            ? homeIcon(color, 'stats-chart')
+                            : homeIcon(color, 'stats-chart-outline'),
                 }}
             />
             <Tab.Screen

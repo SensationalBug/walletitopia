@@ -10,8 +10,8 @@ import { AccountContext } from '../controller/AccountsContext';
 import AccountEditModal from '../components/modals/AccountEditModal';
 
 const Accounts = () => {
-    const { accounts }: any = useContext(AccountContext);
     const { Toast }: any = useContext(UserContext);
+    const { accounts }: any = useContext(AccountContext);
 
     const [data, setData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);

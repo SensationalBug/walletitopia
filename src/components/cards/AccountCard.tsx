@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import SlidableCard from './SlidableCard';
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { UserContext } from '../../controller/UserContext';
 import { View, Text, Alert, StyleSheet } from 'react-native';
 import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
-import { UserContext } from '../../controller/UserContext';
 
 interface types {
     item: {
@@ -31,12 +31,12 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
             `Seguro que quieres eliminar la cuenta ${acc_name} ?`,
             [
                 {
-                    text: 'Si',
-                    onPress: () => deleteAccount(_id),
-                },
-                {
                     text: 'No',
                     onPress: () => setResetSlider(true),
+                },
+                {
+                    text: 'Si',
+                    onPress: () => deleteAccount(_id),
                 },
             ],
         );

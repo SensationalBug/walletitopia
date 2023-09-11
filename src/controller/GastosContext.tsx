@@ -121,6 +121,28 @@ const GastosProvider = ({ children }: props) => {
             .then(() => getGastosByAccountId(id_cuenta, null))
             .catch(err => console.log(err));
     };
+    const editGastoById = (
+        id: string,
+        concepto: string,
+        monto: number,
+        id_categoria: string,
+        id_cuenta: string,
+    ) => {
+        axios({
+            method: 'patch',
+            url: `${URL}/gastos/${id}`,
+            headers: {
+                Authorization: `Bearer ${userData.token}`,
+            },
+            data: {
+                concepto,
+                monto,
+                id_categoria,
+            },
+        })
+            .then(() => getGastosByAccountId(id_cuenta, null))
+            .catch(err => console.log(err));
+    };
     return (
         <GastosContext.Provider
             value={{
@@ -130,6 +152,7 @@ const GastosProvider = ({ children }: props) => {
                 validateAddGasto,
                 clearNewGastos,
                 deleteGasto,
+                editGastoById,
             }}>
             {children}
         </GastosContext.Provider>

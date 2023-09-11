@@ -5,6 +5,7 @@ import { UserContext } from '../../controller/UserContext';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import { GastosContext } from '../../controller/GastosContext';
+import { CatContext } from '../../controller/CategoriesContext';
 import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
 
@@ -12,28 +13,50 @@ const color = {
     credito: '#1F8A70',
     debito: '#F24C3D',
 };
+
+export interface types {
+    item: {
+        _id: string;
+        id_cuenta: string;
+        concepto: string;
+        monto: number;
+        tipo_gasto: number;
+        id_categoria: string;
+        fecha_de_creacion: string;
+    };
+    setData: any;
+    setSelectedId: any;
+    setModalVisible: any;
+}
 const HomeDetailCard = ({
-    _id,
-    id_cuenta,
-    concepto,
-    monto,
-    tipo_gasto,
-    id_categoria,
-    fecha_de_creacion,
-    categories,
-}: any) => {
+    item,
+    setData,
+    setSelectedId,
+    setModalVisible,
+}: types) => {
     const focused = useIsFocused();
-    const [categoryName, setCategoryName] = useState('');
+    const [categoryName, setCategoryName] = useState('question-circle-o');
+    const { categories }: any = useContext(CatContext);
     const { formatter }: any = useContext(AccountContext);
     const { deleteGasto }: any = useContext(GastosContext);
     const { setResetSlider, resetSlider }: any = useContext(UserContext);
+    const {
+        _id,
+        id_cuenta,
+        concepto,
+        monto,
+        tipo_gasto,
+        id_categoria,
+        fecha_de_creacion,
+    } = item;
+
     useEffect(() => {
         for (let category of categories) {
             if (category._id === id_categoria) {
                 setCategoryName(category.icon_name);
             }
         }
-    }, [categories, id_categoria, tipo_gasto]);
+    }, [categories, id_categoria, tipo_gasto, item]);
 
     // Funcion para mostrar el alert previo a borrar un gasto
     const showAlert = () => {
@@ -42,21 +65,34 @@ const HomeDetailCard = ({
             `Seguro que quieres eliminar el gasto ${concepto} ?`,
             [
                 {
-                    text: 'Si',
-                    onPress: () => deleteGasto(_id, id_cuenta),
-                },
-                {
                     text: 'No',
                     onPress: () => setResetSlider(true),
+                },
+                {
+                    text: 'Si',
+                    onPress: () => deleteGasto(_id, id_cuenta),
                 },
             ],
         );
     };
 
+    const setItemData = (elem: any) => {
+        return new Promise(resolve => {
+            setData(elem);
+            resolve('ok');
+        });
+    };
+
     const buttons = (props: any) => (
         <SliderButtonsAccount
             {...props}
-            onEdit={() => showAlert()}
+            onEdit={() =>
+                setItemData(item).then(() => {
+                    setModalVisible(true);
+                    setResetSlider(false);
+                    setSelectedId(item.id_categoria);
+                })
+            }
             onDelete={() => {
                 showAlert();
                 setResetSlider(false);
