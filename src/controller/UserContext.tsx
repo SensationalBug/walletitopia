@@ -1,7 +1,7 @@
 import axios from 'axios';
+import URL from '../../URL';
 import Toast from 'react-native-toast-message';
 import React, { createContext, useState } from 'react';
-import URL from '../../URL';
 
 interface props {
     children: JSX.Element;
@@ -63,7 +63,7 @@ const UserProvider = ({ children }: props) => {
                 Toast.show({
                     type: 'error',
                     visibilityTime: 1200,
-                    text1: 'Credenciales inválidas',
+                    text1: 'Credenciales invalidas',
                 });
             });
     };
