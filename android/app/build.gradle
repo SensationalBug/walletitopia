@@ -91,7 +91,7 @@ android {
             }
         }
         debug {
-            storeFile file('C:\\Users\\breid\\Documents\\OP\\walletitopia\\android\\app\\my-upload-key.keystore')
+            storeFile file('my-upload-key.jks')
             storePassword '123456'
             keyAlias 'my-upload-key'
             keyPassword '123456'

@@ -1,7 +1,7 @@
 import React from 'react';
-import { PieChart } from 'react-native-chart-kit';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome';
+import { PieChart } from 'react-native-charts-wrapper';
 
 const fontColor = {
     blanco: '#fff',
@@ -10,55 +10,41 @@ const fontColor = {
 const MetricsCard = ({
     acc_name,
     monto_inicial,
-    tipo_de_cuenta,
+    // tipo_de_cuenta,
     monto_corriente,
     fecha_de_creacion,
 }: any) => {
-    const width = Dimensions.get('window').width;
-    const data = [
-        {
-            name: 'Seoul',
-            population: 21500000,
-            color: 'rgba(131, 167, 234, 1)',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-        },
-        {
-            name: 'Toronto',
-            population: 2800000,
-            color: '#F00',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-        },
-        {
-            name: 'Beijing',
-            population: 527612,
-            color: 'red',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-        },
-        {
-            name: 'New York',
-            population: 8538000,
-            color: '#ffffff',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-        },
-        {
-            name: 'Moscow',
-            population: 11920000,
-            color: 'rgb(0, 0, 255)',
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-        },
-    ];
-    const chartConfig = {
-        backgroundGradientFrom: '#1E2923',
-        backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#08130D',
-        backgroundGradientToOpacity: 0.5,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-        barPercentage: 0.5,
+    const data = {
+        dataSets: [
+            {
+                values: [
+                    { value: 45, label: 'Sandwiches' },
+                    { value: 21, label: 'Salads' },
+                    { value: 15, label: 'Soup' },
+                    { value: 9, label: 'Beverages' },
+                    { value: 15, label: 'Desserts' },
+                ],
+                label: 'Pie dataset',
+                config: {
+                    colors: [
+                        '#C0FF8C',
+                        '#FFF78C',
+                        '#FFD08C',
+                        '#8CEAFF',
+                        '#FF8C9D',
+                    ],
+                    valueTextSize: 20,
+                    valueTextColor: 'green',
+                    sliceSpace: 5,
+                    selectionShift: 13,
+                    // xValuePosition: "OUTSIDE_SLICE",
+                    // yValuePosition: "OUTSIDE_SLICE",
+                    valueFormatter: "#.#'%'",
+                    valueLineColor: 'green',
+                    valueLinePart1Length: 0.5,
+                },
+            },
+        ],
     };
     return (
         <View style={styles.container}>
@@ -78,7 +64,7 @@ const MetricsCard = ({
                         </Text>
                     </View>
                     <View style={styles.textContent}>
-                        <Icon name={tipo_de_cuenta} />
+                        {/* <Icon name={tipo_de_cuenta} /> */}
                         <Text
                             style={[styles.date, { color: fontColor.blanco }]}>
                             Creada: {fecha_de_creacion.split('T')[0]}
@@ -88,15 +74,36 @@ const MetricsCard = ({
             </View>
             <View style={styles.chartContainer}>
                 <PieChart
+                    style={styles.chart}
+                    logEnabled={true}
+                    chartBackgroundColor={'pink'}
+                    chartDescription={'prueba'}
                     data={data}
-                    width={width}
-                    height={220}
-                    chartConfig={chartConfig}
-                    accessor={'population'}
-                    backgroundColor={'transparent'}
-                    paddingLeft={'15'}
-                    center={[10, 50]}
-                    absolute
+                    legend={'legend'}
+                    highlights={{ x: 2 }}
+                    extraOffsets={{ left: 5, top: 5, right: 5, bottom: 5 }}
+                    entryLabelColor={'green'}
+                    entryLabelTextSize={20}
+                    entryLabelFontFamily={'HelveticaNeue-Medium'}
+                    drawEntryLabels={true}
+                    rotationEnabled={true}
+                    rotationAngle={45}
+                    usePercentValues={true}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    styledCenterText={{
+                        text: 'Pie center text!',
+                        color: 'pink',
+                        fontFamily: 'HelveticaNeue-Medium',
+                        size: 20,
+                    }}
+                    centerTextRadiusPercent={100}
+                    holeRadius={40}
+                    holeColor={'#f0f0f0'}
+                    transparentCircleRadius={45}
+                    transparentCircleColor={'#f0f0f088'}
+                    maxAngle={350}
+                    // onSelect={this.handleSelect.bind(this)}
+                    onChange={(event: any) => console.log(event.nativeEvent)}
                 />
             </View>
         </View>
@@ -106,8 +113,11 @@ const MetricsCard = ({
 export default MetricsCard;
 
 const styles = StyleSheet.create({
+    chart: {
+        height: 200,
+    },
     container: {
-        marginVertical: 5,
+        // height: '50%',
         paddingHorizontal: 5,
         backgroundColor: '#1F9FD0',
     },
@@ -135,6 +145,5 @@ const styles = StyleSheet.create({
     chartContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'green',
     },
 });
