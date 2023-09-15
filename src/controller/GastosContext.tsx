@@ -47,7 +47,11 @@ const GastosProvider = ({ children }: props) => {
         });
     };
     // Funcion para obtener los gastos por cuenta
-    const getGastosByAccountId = (id_cuenta: string, navigation: any) => {
+    const getGastosByAccountId = (
+        id_cuenta: string,
+        navigation: any,
+        screen: string,
+    ) => {
         axios({
             method: 'get',
             url: `${URL}/gastos/${id_cuenta}`,
@@ -57,13 +61,11 @@ const GastosProvider = ({ children }: props) => {
         })
             .then(res => {
                 setGastos(res.data);
-                navigation
-                    ? navigation.navigate('AccountDetails', res.data)
-                    : null;
+                navigation ? navigation.navigate(screen, res.data) : null;
             })
             .catch(() => {
                 setGastos([]);
-                navigation ? navigation.navigate('AccountDetails') : null;
+                navigation ? navigation.navigate(screen) : null;
             });
     };
     // Funcion para agregar un gasto
@@ -118,7 +120,7 @@ const GastosProvider = ({ children }: props) => {
                 Authorization: `Bearer ${userData.token}`,
             },
         })
-            .then(() => getGastosByAccountId(id_cuenta, null))
+            .then(() => getGastosByAccountId(id_cuenta, null, 'AccountDetails'))
             .catch(err => console.log(err));
     };
     const editGastoById = (
@@ -140,7 +142,7 @@ const GastosProvider = ({ children }: props) => {
                 id_categoria,
             },
         })
-            .then(() => getGastosByAccountId(id_cuenta, null))
+            .then(() => getGastosByAccountId(id_cuenta, null, 'AccountDetails'))
             .catch(err => console.log(err));
     };
     return (

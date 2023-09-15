@@ -1,16 +1,18 @@
-import { View, FlatList, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
-import { AccountContext } from '../controller/AccountsContext';
 import MetricsCard from '../components/cards/MetricsCard';
+import { View, FlatList, StyleSheet } from 'react-native';
+import { AccountContext } from '../controller/AccountsContext';
 
-const Metrics = () => {
+const Metrics = ({ navigation }: any) => {
     const { accounts }: any = useContext(AccountContext);
     return (
         <View style={styles.container}>
             <FlatList
                 data={accounts}
                 keyExtractor={item => item._id}
-                renderItem={({ item }) => <MetricsCard {...item} />}
+                renderItem={({ item }) => (
+                    <MetricsCard item={item} navigation={navigation} />
+                )}
             />
         </View>
     );

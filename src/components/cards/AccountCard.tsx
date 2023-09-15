@@ -1,9 +1,9 @@
+import MainCard from './MainCard';
+import { Alert } from 'react-native';
 import React, { useContext } from 'react';
 import SlidableCard from './SlidableCard';
 import { useIsFocused } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from '../../controller/UserContext';
-import { View, Text, Alert, StyleSheet } from 'react-native';
 import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
 
@@ -20,11 +20,10 @@ interface types {
 
 const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const focused = useIsFocused();
+    const { deleteAccount }: any = useContext(AccountContext);
     const { resetSlider, setResetSlider }: any = useContext(UserContext);
-    const { formatter, accountIcon, deleteAccount }: any =
-        useContext(AccountContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
-    // Funcion para mostrar el alert previo a borrar una cuenta
+
     const showAlert = () => {
         Alert.alert(
             'Advertencia',
@@ -65,90 +64,18 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
 
     return (
         <SlidableCard
+            height="49.9%"
             slideWidth={1}
             resetOnBlur={!focused}
             resetSlider={resetSlider}
             backgroundColor="#1F9FD0"
             buttonsComponent={(props: any) => buttons(props)}>
-            <View>
-                <Text style={styles.mainText}>{acc_name}</Text>
-                <Text style={styles.typeText}>{tipo_de_cuenta}</Text>
-                <Text style={styles.amountText}>
-                    {formatter.format(monto_inicial)}
-                </Text>
-            </View>
-            <View style={styles.iconContainer}>
-                <View style={styles.mainIcon}>
-                    <Icon
-                        size={80}
-                        color="#fff"
-                        name={accountIcon(tipo_de_cuenta)}
-                    />
-                </View>
-                <Icon name="chevron-left" color="#fff" size={20} />
-            </View>
+            <MainCard
+                acc_name={acc_name}
+                monto={monto_inicial}
+                tipo_de_cuenta={tipo_de_cuenta}
+            />
         </SlidableCard>
     );
 };
 export default AccountCard;
-
-const styles = StyleSheet.create({
-    container: {
-        height: 140,
-        width: '100%',
-        marginBottom: 1,
-    },
-    item: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        flexDirection: 'row',
-        paddingHorizontal: 15,
-        backgroundColor: '#1F9FD0',
-        justifyContent: 'space-between',
-    },
-    iconContainer: {
-        width: '40%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    mainIcon: {
-        width: '60%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    mainText: {
-        color: '#fff',
-        fontSize: 30,
-        paddingVertical: 5,
-    },
-    typeText: {
-        color: '#fff',
-        fontSize: 15,
-    },
-    amountText: {
-        color: '#fff',
-        fontSize: 25,
-    },
-    btnContainer: {
-        height: '49.9%',
-        position: 'absolute',
-        alignSelf: 'flex-end',
-    },
-    btn: {
-        width: 80,
-        height: '100%',
-        borderColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    btnMore: {
-        width: '100%',
-    },
-    btnMoreText: {
-        fontSize: 20,
-        color: '#fff',
-        fontWeight: '500',
-    },
-});

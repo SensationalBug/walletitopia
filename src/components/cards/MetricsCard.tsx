@@ -1,83 +1,97 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+    GlobalConfigColor,
+    MetricsCardStyles,
+} from '../../styles/GlobalStyles';
+import React, { useContext } from 'react';
+import SlidableCard from './SlidableCard';
+import { View, Text } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { UserContext } from '../../controller/UserContext';
+import { AccountContext } from '../../controller/AccountsContext';
+import SliderButtonMetrics from '../sliderButtons/SliderButtonMetrics';
+import { GastosContext } from '../../controller/GastosContext';
 
-const fontColor = {
-    blanco: '#fff',
-};
+const MetricsCard = ({ item, navigation }: any) => {
+    const focused = useIsFocused();
+    const { resetSlider }: any = useContext(UserContext);
+    const { accountIcon }: any = useContext(AccountContext);
+    const { getGastosByAccountId }: any = useContext(GastosContext);
+    const {
+        _id,
+        acc_name,
+        monto_inicial,
+        tipo_de_cuenta,
+        monto_corriente,
+        fecha_de_creacion,
+    } = item;
 
-const MetricsCard = ({
-    acc_name,
-    monto_inicial,
-    // tipo_de_cuenta,
-    monto_corriente,
-    fecha_de_creacion,
-}: any) => {
+    const buttons = (props: any) => {
+        return (
+            <SliderButtonMetrics
+                {...props}
+                onDetail={() => {
+                    getGastosByAccountId(_id, navigation, 'MetricsDetail');
+                    navigation.navigate('MetricsDetail', { item });
+                }}
+            />
+        );
+    };
     return (
-        <View style={styles.container}>
-            <View style={styles.dataContainer}>
-                <View style={styles.textContent}>
-                    <Text style={[styles.title, { color: fontColor.blanco }]}>
+        <SlidableCard
+            height="100%"
+            slideWidth={1}
+            resetOnBlur={!focused}
+            resetSlider={resetSlider}
+            backgroundColor="#1F9FD0"
+            buttonsComponent={(props: any) => buttons(props)}>
+            <View style={MetricsCardStyles.dataContainer}>
+                <View style={MetricsCardStyles.textContent}>
+                    <Text
+                        style={[
+                            MetricsCardStyles.title,
+                            { color: GlobalConfigColor.white },
+                        ]}>
                         {acc_name}
                     </Text>
-                </View>
-                <View style={styles.amountContent}>
-                    <View style={styles.textContent}>
-                        <Text style={styles.amount}>
-                            Monto Inicial: {monto_inicial}
+                    <Text style={[{ color: GlobalConfigColor.white }]}>
+                        {fecha_de_creacion.split('T')[0]}
+                    </Text>
+                    <Text style={MetricsCardStyles.amountText}>
+                        Monto Inicial:
+                        <Text style={MetricsCardStyles.amount}>
+                            {monto_inicial}
                         </Text>
-                        <Text style={styles.amount}>
-                            Monto Restante: {monto_corriente}
-                        </Text>
-                    </View>
-                    <View style={styles.textContent}>
-                        {/* <Icon name={tipo_de_cuenta} /> */}
+                    </Text>
+                    <Text style={MetricsCardStyles.amountText}>
+                        Monto Restante:
                         <Text
-                            style={[styles.date, { color: fontColor.blanco }]}>
-                            Creada: {fecha_de_creacion.split('T')[0]}
+                            style={[
+                                MetricsCardStyles.amount,
+                                {
+                                    color:
+                                        monto_corriente < 0
+                                            ? GlobalConfigColor.secondaryRed
+                                            : GlobalConfigColor.white,
+                                },
+                            ]}>
+                            {monto_corriente}
                         </Text>
-                    </View>
+                    </Text>
+                </View>
+                <View style={MetricsCardStyles.iconContent}>
+                    <Icon
+                        name={accountIcon(tipo_de_cuenta)}
+                        size={80}
+                        color="#fff"
+                    />
+                </View>
+                <View style={MetricsCardStyles.iconShow}>
+                    <Icon name="chevron-left" size={20} color="#fff" />
                 </View>
             </View>
-            <View style={styles.chartContainer}> </View>
-        </View>
+        </SlidableCard>
     );
 };
 
 export default MetricsCard;
-
-const styles = StyleSheet.create({
-    chart: {
-        height: 200,
-    },
-    container: {
-        // height: '50%',
-        paddingHorizontal: 5,
-        backgroundColor: '#1F9FD0',
-    },
-    dataContainer: {
-        backgroundColor: 'red',
-    },
-    textContent: {
-        marginVertical: 10,
-    },
-    title: {
-        color: '#fff',
-        fontSize: 25,
-    },
-    amountContent: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    amount: {
-        color: '#fff',
-        fontSize: 16,
-    },
-    date: {
-        color: '#fff',
-    },
-    chartContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

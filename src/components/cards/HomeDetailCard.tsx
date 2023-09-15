@@ -101,6 +101,7 @@ const HomeDetailCard = ({
     );
     return (
         <SlidableCard
+            height="49.9%"
             slideWidth={1}
             resetOnBlur={!focused}
             resetSlider={resetSlider}

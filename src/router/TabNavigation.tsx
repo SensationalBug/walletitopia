@@ -49,9 +49,9 @@ const TabNavigator = () => {
                 name="Categorias"
                 component={Categories}
                 options={{
-                    headerTitle: 'Nueva Categoria',
-                    headerTitleStyle: { color: '#fff' },
-                    headerStyle: { backgroundColor: '#122e49' },
+                    headerTitle: 'Categorias',
+                    headerTitleStyle: { color: '#122e49' },
+                    headerStyle: { backgroundColor: '#fff' },
                     tabBarIcon: ({ focused, color }: any) =>
                         focused
                             ? homeIcon(color, 'layers')
@@ -62,10 +62,8 @@ const TabNavigator = () => {
                 name="Métricas"
                 component={Metrics}
                 options={{
-                    headerShown: false,
-                    headerTitle: 'Nueva Categoria',
-                    headerTitleStyle: { color: '#fff' },
-                    headerStyle: { backgroundColor: '#122e49' },
+                    headerTitleStyle: { color: '#122e49' },
+                    headerStyle: { backgroundColor: '#fff' },
                     tabBarIcon: ({ focused, color }: any) =>
                         focused
                             ? homeIcon(color, 'stats-chart')

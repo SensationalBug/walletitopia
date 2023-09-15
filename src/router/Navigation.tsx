@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from '../Main';
 import Login from '../views/Login';
 import HomeDetail from '../views/HomeDetail';
+import MetricsDetail from '../views/MetricsDetail';
 
 const Navigation = () => {
     const Stack = createNativeStackNavigator();
@@ -26,9 +27,19 @@ const Navigation = () => {
                     component={HomeDetail}
                     options={{
                         title: 'Detalles',
-                        headerTintColor: '#fff',
-                        headerTitleStyle: { color: '#fff' },
-                        headerStyle: { backgroundColor: '#122e49' },
+                        headerTintColor: '#122e49',
+                        headerTitleStyle: { color: '#122e49' },
+                        headerStyle: { backgroundColor: '#fff' },
+                    }}
+                />
+                <Stack.Screen
+                    name="MetricsDetail"
+                    component={MetricsDetail}
+                    options={{
+                        title: 'MetricsDetail',
+                        headerTintColor: '#122e49',
+                        headerTitleStyle: { color: '#122e49' },
+                        headerStyle: { backgroundColor: '#fff' },
                     }}
                 />
             </Stack.Navigator>

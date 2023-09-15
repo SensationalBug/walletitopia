@@ -1,17 +1,24 @@
-// #1F9FD0 Color de las cuentas
-// #122e49 Color del tabBar
-// #F24C3D Color Rojo
-// #1F8A70 Color Verde
+import { StyleSheet } from 'react-native';
 
-export const LoginStyles: any = {
+export const GlobalConfigColor: any = {
+    white: '#ffffff',
+    primaryBlue: '#122e49',
+    secondaryBlue: '#1F9FD0',
+    primaryRed: '#F24C3D',
+    secondaryRed: '#ff0000',
+    primaryYellow: '#b3b329',
+    primaryGreen: '#1F8A70',
+};
+
+export const LoginStyles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#122e49',
     },
-};
+});
 
-export const CustomSwitchStlyes: any = {
+export const CustomSwitchStlyes = StyleSheet.create({
     container: {
         alignItems: 'center',
         padding: 17,
@@ -38,16 +45,16 @@ export const CustomSwitchStlyes: any = {
         alignSelf: 'flex-end',
         backgroundColor: '#fff',
     },
-};
+});
 
-export const ToastStyles: any = {
+export const ToastStyles = StyleSheet.create({
     text1Style: { fontSize: 14 },
-    successColor: { borderLeftColor: '#1F8A70', borderLeftWidth: 10 },
-    errorColor: { borderLeftColor: '#F24C3D', borderLeftWidth: 10 },
     infoColor: { borderLeftColor: '#1F9FD0', borderLeftWidth: 10 },
-};
+    errorColor: { borderLeftColor: '#F24C3D', borderLeftWidth: 10 },
+    successColor: { borderLeftColor: '#1F8A70', borderLeftWidth: 10 },
+});
 
-export const LoginBoxStyles: any = {
+export const LoginBoxStyles = StyleSheet.create({
     container: {
         width: '90%',
         borderRadius: 10,
@@ -125,9 +132,9 @@ export const LoginBoxStyles: any = {
         color: '#122e49',
         textDecorationLine: 'underline',
     },
-};
+});
 
-export const TermsPrivacyStyles: any = {
+export const TermsPrivacyStyles = StyleSheet.create({
     modalContainer: {
         height: '100%',
         alignItems: 'center',
@@ -169,9 +176,9 @@ export const TermsPrivacyStyles: any = {
     message: {
         color: '#fff',
     },
-};
+});
 
-export const HomeStyles: any = {
+export const HomeStyles = StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -191,9 +198,9 @@ export const HomeStyles: any = {
         textAlign: 'right',
         padding: 10,
     },
-};
+});
 
-export const AccountCardStyles: any = {
+export const AccountCardStyles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
@@ -223,9 +230,9 @@ export const AccountCardStyles: any = {
         alignItems: 'center',
         justifyContent: 'center',
     },
-};
+});
 
-export const CategoryStyles: any = {
+export const CategoryStyles = StyleSheet.create({
     catInputContainer: {
         marginTop: 10,
         marginHorizontal: 10,
@@ -264,9 +271,9 @@ export const CategoryStyles: any = {
         textAlign: 'center',
         paddingVertical: 20,
     },
-};
+});
 
-export const CategoryCardStyles: any = {
+export const CategoryCardStyles = StyleSheet.create({
     catBox: {
         padding: 5,
         width: '30%',
@@ -281,9 +288,9 @@ export const CategoryCardStyles: any = {
         paddingVertical: 5,
         textAlign: 'center',
     },
-};
+});
 
-export const ModalCatStyles: any = {
+export const ModalCatStyles = StyleSheet.create({
     modalContainer: {
         height: '100%',
         alignItems: 'center',
@@ -318,4 +325,41 @@ export const ModalCatStyles: any = {
         justifyContent: 'center',
         backgroundColor: '#F24C3D',
     },
-};
+});
+
+export const MetricsCardStyles = StyleSheet.create({
+    dataContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: 10,
+        backgroundColor: '#1F9FD0',
+        justifyContent: 'space-between',
+    },
+    textContent: {
+        width: '60%',
+    },
+    title: {
+        color: '#fff',
+        fontSize: 30,
+    },
+    amountText: {
+        color: '#fff',
+        fontSize: 18,
+    },
+    amount: {
+        fontWeight: '700',
+    },
+    iconContent: {
+        width: '38%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    iconShow: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    chartContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+    },
+});

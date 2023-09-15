@@ -1,14 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
-
-const color = {
-    rojo: '#F24C3D',
-    verde: '#1F8A70',
-    base: '#122e49',
-    blanco: '#ffffff',
-    bRojo: '#ff0000',
-};
+import { GlobalConfigColor } from '../../styles/GlobalStyles';
 
 const SliderButtonsHome = ({ onAddGasto, onAddDebito, onViewDetails }: any) => {
     return (
@@ -16,12 +9,18 @@ const SliderButtonsHome = ({ onAddGasto, onAddDebito, onViewDetails }: any) => {
             <View style={styles.btnGastoContainer}>
                 <TouchableOpacity
                     onPress={onAddGasto}
-                    style={[styles.btn, { backgroundColor: color.verde }]}>
+                    style={[
+                        styles.btn,
+                        { backgroundColor: GlobalConfigColor.primaryGreen },
+                    ]}>
                     <Icon name="plus" size={25} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={onAddDebito}
-                    style={[styles.btn, { backgroundColor: color.rojo }]}>
+                    style={[
+                        styles.btn,
+                        { backgroundColor: GlobalConfigColor.primaryRed },
+                    ]}>
                     <Icon name="minus" size={25} color="#fff" />
                 </TouchableOpacity>
             </View>
@@ -30,7 +29,7 @@ const SliderButtonsHome = ({ onAddGasto, onAddDebito, onViewDetails }: any) => {
                 style={[
                     styles.btn,
                     styles.btnMore,
-                    { backgroundColor: color.base },
+                    { backgroundColor: GlobalConfigColor.primaryBlue },
                 ]}>
                 <Text style={styles.btnMoreText}>Detalles</Text>
             </TouchableOpacity>

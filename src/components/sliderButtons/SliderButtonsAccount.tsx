@@ -1,23 +1,25 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-
-const color = {
-    rojo: '#F24C3D',
-    amarillo: '#b3b329',
-};
+import { GlobalConfigColor } from '../../styles/GlobalStyles';
 
 const SliderButtonsAccount = ({ onEdit, onDelete }: any) => {
     return (
         <View style={styles.btnContainer}>
             <TouchableOpacity
                 onPress={onEdit}
-                style={[styles.btn, { backgroundColor: color.amarillo }]}>
+                style={[
+                    styles.btn,
+                    { backgroundColor: GlobalConfigColor.primaryYellow },
+                ]}>
                 <Icon name="edit" size={25} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={onDelete}
-                style={[styles.btn, { backgroundColor: color.rojo }]}>
+                style={[
+                    styles.btn,
+                    { backgroundColor: GlobalConfigColor.primaryRed },
+                ]}>
                 <Icon name="trash" size={25} color="#fff" />
             </TouchableOpacity>
         </View>

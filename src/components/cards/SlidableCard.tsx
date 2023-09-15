@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { View, Animated, PanResponder, StyleSheet } from 'react-native';
 
 const SlidableCard = ({
+    height,
     resetSlider,
     slideWidth,
     children,
@@ -96,7 +97,10 @@ const SlidableCard = ({
             <Animated.View
                 style={[
                     styles.btnContainer,
-                    { transform: [{ translateX: translateRightBtns }] },
+                    {
+                        height: height,
+                        transform: [{ translateX: translateRightBtns }],
+                    },
                 ]}>
                 {buttonsComponent(buttonProps)}
             </Animated.View>
@@ -132,7 +136,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     btnContainer: {
-        height: '49.9%',
         position: 'absolute',
         alignSelf: 'flex-end',
     },
