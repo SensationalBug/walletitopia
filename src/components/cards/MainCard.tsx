@@ -1,14 +1,22 @@
-import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { AccountContext } from '../../controller/AccountsContext';
 import { GlobalConfigColor } from '../../styles/GlobalStyles';
+import { AccountContext } from '../../controller/AccountsContext';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const MainCard = ({ acc_name, tipo_de_cuenta, monto }: any) => {
+const MainCard = ({
+    acc_name,
+    tipo_de_cuenta,
+    monto,
+    onMove,
+    moveSlider,
+}: any) => {
     const { formatter, accountIcon }: any = useContext(AccountContext);
     return (
-        <>
-            <View>
+        <TouchableOpacity
+            style={styles.mainCard}
+            onPress={() => onMove(!moveSlider)}>
+            <View style={styles.textContent}>
                 <Text style={styles.mainText}>{acc_name}</Text>
                 <Text style={styles.typeText}>{tipo_de_cuenta}</Text>
                 <Text
@@ -34,23 +42,18 @@ const MainCard = ({ acc_name, tipo_de_cuenta, monto }: any) => {
                 </View>
                 <Icon name="chevron-left" color="#fff" size={20} />
             </View>
-        </>
+        </TouchableOpacity>
     );
 };
 
 export default MainCard;
 
 const styles = StyleSheet.create({
-    iconContainer: {
-        width: '40%',
+    mainCard: {
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
     },
-    mainIcon: {
-        justifyContent: 'center',
+    textContent: {
         width: '60%',
-        alignItems: 'center',
     },
     mainText: {
         color: '#fff',
@@ -63,5 +66,16 @@ const styles = StyleSheet.create({
     },
     amountText: {
         fontSize: 25,
+    },
+    iconContainer: {
+        width: '40%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    mainIcon: {
+        justifyContent: 'center',
+        width: '60%',
+        alignItems: 'center',
     },
 });

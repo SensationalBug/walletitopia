@@ -5,18 +5,20 @@ import {
     TextInput,
     TouchableOpacity,
     useWindowDimensions,
+    Keyboard,
 } from 'react-native';
 import { toastConfig } from '../styles/ToastStyles';
-import React, { useContext, useState } from 'react';
 import { CategoryStyles } from '../styles/GlobalStyles';
 import { UserContext } from '../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useContext, useState, useRef } from 'react';
 import CategoryCard from '../components/cards/CategoryCard';
 import { CatContext } from '../controller/CategoriesContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import ModalCategoryIcons from '../components/modals/ModalCategoryIcons';
 const Categories = () => {
     const layout = useWindowDimensions();
+    const flatList = useRef<FlatList<any>>(null);
     const {
         categories,
         newCategoy,
@@ -41,13 +43,24 @@ const Categories = () => {
                         }
                     />
                     <TouchableOpacity
-                        onPress={() => setModalVisible(true)}
+                        onPress={() => {
+                            setModalVisible(true);
+                            Keyboard.dismiss();
+                        }}
                         style={CategoryStyles.addCatIcon}>
                         <Icon name={selectedCatIcon} size={30} color="#000" />
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                    onPress={() => validateCatInput()}
+                    onPress={() =>
+                        validateCatInput().then(() => {
+                            Keyboard.dismiss();
+                            setTimeout(
+                                () => flatList?.current?.scrollToEnd(),
+                                200,
+                            );
+                        })
+                    }
                     style={CategoryStyles.addCatButton}>
                     <Text style={CategoryStyles.addCatButtonText}>
                         Agregar nueva categoría
@@ -59,6 +72,7 @@ const Categories = () => {
                     Categorias disponibles
                 </Text>
                 <FlatList
+                    ref={flatList}
                     numColumns={3}
                     data={categories}
                     keyExtractor={item => item._id}

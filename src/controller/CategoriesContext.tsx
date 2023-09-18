@@ -61,16 +61,19 @@ const CatProvider = ({ children }: props) => {
     };
     // Funcion para validar el campo categoria
     const validateCatInput = () => {
-        const { name, iconName } = newCategoy;
-        if (name === '') {
-            showToastAlert('error', 'Inserta un nombre para la categoría');
-            return;
-        }
-        if (iconName === 'chevron-down' || !iconName) {
-            showToastAlert('error', 'Selecciona un icono');
-            return;
-        }
-        addCat();
+        return new Promise(resolve => {
+            const { name, iconName } = newCategoy;
+            if (name === '') {
+                showToastAlert('error', 'Inserta un nombre para la categoría');
+                return;
+            }
+            if (iconName === 'chevron-down' || !iconName) {
+                showToastAlert('error', 'Selecciona un icono');
+                return;
+            }
+            addCat();
+            resolve('ok');
+        });
     };
     // Funcion para borrar una categoria
     const deleteCat = (catId: string) => {
@@ -81,10 +84,13 @@ const CatProvider = ({ children }: props) => {
                 Authorization: `Bearer ${userData.token}`,
             },
         })
-            .then(() => getCat())
-            .catch(() =>
-                showToastAlert('error', 'Esto es una categoría por defecto'),
-            );
+            .then(() => {
+                getCat();
+                showToastAlert('error', 'La categoria ha sido eliminada');
+            })
+            .catch(err => {
+                showToastAlert('error', err.response.data.message);
+            });
     };
     // Funcion para obtener los iconos de las categorias a seleccionar
     const getCatIcons = useCallback(() => {

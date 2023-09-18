@@ -1,10 +1,12 @@
 import { useIsFocused } from '@react-navigation/native';
+import { View, Animated, StyleSheet } from 'react-native';
 import React, { useRef, useEffect, useCallback } from 'react';
-import { View, Animated, PanResponder, StyleSheet } from 'react-native';
 
 const SlidableCard = ({
     height,
     resetSlider,
+    moveSlider,
+    setMoveSlider,
     slideWidth,
     children,
     resetOnBlur,
@@ -15,9 +17,7 @@ const SlidableCard = ({
     const btnWidth = 80;
     const focused = useIsFocused();
     const offset = [-btnWidth * slideWidth, 0];
-    const rightButtons = ['plus', 'minus', 'details'];
 
-    let panValue = { x: 0, y: 0 };
     let isOpenState = useRef(false).current;
     const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
     const itemTranslate = pan.x.interpolate({
@@ -26,42 +26,10 @@ const SlidableCard = ({
         extrapolate: 'clamp',
     });
     const translateRightBtns = pan.x.interpolate({
-        inputRange: [0, rightButtons.length * btnWidth],
-        outputRange: [0, rightButtons.length * btnWidth],
+        inputRange: [0, slideWidth * btnWidth],
+        outputRange: [0, slideWidth * btnWidth],
         extrapolate: 'clamp',
     });
-    const panResponder = useRef(
-        PanResponder.create({
-            onStartShouldSetPanResponder: () => false,
-            onMoveShouldSetPanResponderCapture: (_e, g) => Math.abs(g.dx) > 10,
-            onMoveShouldSetPanResponder: () => false,
-            onPanResponderGrant: () => {
-                pan.setOffset({ x: panValue.x, y: panValue.y });
-                pan.setValue({ x: 0, y: 0 });
-            },
-            onPanResponderMove: Animated.event([null, { dx: pan.x }], {
-                useNativeDriver: false,
-            }),
-            onPanResponderRelease: (_e, g) => {
-                pan.flattenOffset();
-                if (
-                    g.vx < -0.5 ||
-                    g.dx < (-btnWidth * rightButtons.length) / 2
-                ) {
-                    if (isOpenState && g.dx < 0) {
-                        reset();
-                        return;
-                    }
-                    move(true);
-                    return;
-                }
-                reset();
-            },
-            onPanResponderTerminate: () => {
-                reset();
-            },
-        }),
-    ).current;
     const reset = useCallback(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         isOpenState = false;
@@ -71,26 +39,38 @@ const SlidableCard = ({
             bounciness: 0,
         }).start();
     }, [isOpenState]);
-    const move = (toLeft: any) => {
+    const move = useCallback((toLeft: any) => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         isOpenState = true;
         Animated.spring(pan, {
             toValue: {
-                x: toLeft ? -btnWidth * rightButtons.length : 0,
+                x: toLeft ? -btnWidth * slideWidth : 0,
                 y: 0,
             },
             useNativeDriver: true,
             bounciness: 0,
         }).start();
-    };
+    }, []);
 
     useEffect(() => {
+        moveSlider ? move(moveSlider) : reset();
         if (resetOnBlur && !focused) {
             reset();
+            setMoveSlider(false);
         }
         if (resetSlider) {
-            reset();
+            // reset();
+            setMoveSlider(false);
         }
-    }, [focused, reset, resetOnBlur, resetSlider]);
+    }, [
+        focused,
+        move,
+        moveSlider,
+        reset,
+        resetOnBlur,
+        resetSlider,
+        setMoveSlider,
+    ]);
 
     return (
         <View style={styles.container}>
@@ -111,8 +91,7 @@ const SlidableCard = ({
                         backgroundColor: backgroundColor,
                         transform: [{ translateX: itemTranslate }],
                     },
-                ]}
-                {...panResponder.panHandlers}>
+                ]}>
                 {children}
             </Animated.View>
         </View>

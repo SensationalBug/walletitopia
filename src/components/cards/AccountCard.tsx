@@ -1,6 +1,6 @@
 import MainCard from './MainCard';
 import { Alert } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import SlidableCard from './SlidableCard';
 import { useIsFocused } from '@react-navigation/native';
 import { UserContext } from '../../controller/UserContext';
@@ -23,6 +23,7 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const { deleteAccount }: any = useContext(AccountContext);
     const { resetSlider, setResetSlider }: any = useContext(UserContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
+    const [moveSlider, setMoveSlider] = useState(false);
 
     const showAlert = () => {
         Alert.alert(
@@ -67,10 +68,14 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
             height="49.9%"
             slideWidth={1}
             resetOnBlur={!focused}
+            moveSlider={moveSlider}
+            setMoveSlider={setMoveSlider}
             resetSlider={resetSlider}
             backgroundColor="#1F9FD0"
             buttonsComponent={(props: any) => buttons(props)}>
             <MainCard
+                onMove={setMoveSlider}
+                moveSlider={moveSlider}
                 acc_name={acc_name}
                 monto={monto_inicial}
                 tipo_de_cuenta={tipo_de_cuenta}

@@ -200,6 +200,48 @@ export const HomeStyles = StyleSheet.create({
     },
 });
 
+export const AddGastoModalStyles = StyleSheet.create({
+    modalContainer: {
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+    modalView: {
+        width: '100%',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        backgroundColor: '#122e49',
+        justifyContent: 'space-between',
+    },
+    formBox: {
+        margin: 10,
+    },
+    categoriesContainer: {
+        height: 250,
+        marginTop: 20,
+    },
+    buttonGroup: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
+    button: {
+        width: '45%',
+        height: 40,
+        padding: 5,
+        borderRadius: 10,
+        marginBottom: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F24C3D',
+    },
+    buttonClose: {
+        backgroundColor: '#F24C3D',
+    },
+    buttonSave: {
+        backgroundColor: '#1F8A70',
+    },
+});
+
 export const AccountCardStyles = StyleSheet.create({
     container: {
         flex: 1,
