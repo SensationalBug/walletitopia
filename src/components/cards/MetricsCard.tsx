@@ -2,9 +2,9 @@ import {
     GlobalConfigColor,
     MetricsCardStyles,
 } from '../../styles/GlobalStyles';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import SlidableCard from './SlidableCard';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from '../../controller/UserContext';
@@ -14,6 +14,7 @@ import { GastosContext } from '../../controller/GastosContext';
 
 const MetricsCard = ({ item, navigation }: any) => {
     const focused = useIsFocused();
+    const [moveSlider, setMoveSlider] = useState(false);
     const { resetSlider }: any = useContext(UserContext);
     const { accountIcon }: any = useContext(AccountContext);
     const { getGastosByAccountId }: any = useContext(GastosContext);
@@ -42,10 +43,14 @@ const MetricsCard = ({ item, navigation }: any) => {
             height="100%"
             slideWidth={1}
             resetOnBlur={!focused}
+            moveSlider={moveSlider}
+            setMoveSlider={setMoveSlider}
             resetSlider={resetSlider}
             backgroundColor="#1F9FD0"
             buttonsComponent={(props: any) => buttons(props)}>
-            <View style={MetricsCardStyles.dataContainer}>
+            <TouchableOpacity
+                style={MetricsCardStyles.dataContainer}
+                onPress={() => setMoveSlider(!moveSlider)}>
                 <View style={MetricsCardStyles.textContent}>
                     <Text
                         style={[
@@ -89,7 +94,7 @@ const MetricsCard = ({ item, navigation }: any) => {
                 <View style={MetricsCardStyles.iconShow}>
                     <Icon name="chevron-left" size={20} color="#fff" />
                 </View>
-            </View>
+            </TouchableOpacity>
         </SlidableCard>
     );
 };

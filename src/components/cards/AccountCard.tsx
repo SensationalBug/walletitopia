@@ -21,7 +21,7 @@ interface types {
 const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
     const focused = useIsFocused();
     const { deleteAccount }: any = useContext(AccountContext);
-    const { resetSlider, setResetSlider }: any = useContext(UserContext);
+    const { resetSlider /*setResetSlider*/ }: any = useContext(UserContext);
     const { _id, acc_name, monto_inicial, tipo_de_cuenta } = item;
     const [moveSlider, setMoveSlider] = useState(false);
 
@@ -32,7 +32,7 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
             [
                 {
                     text: 'No',
-                    onPress: () => setResetSlider(true),
+                    // onPress: () => setResetSlider(true),
                 },
                 {
                     text: 'Si',
@@ -53,12 +53,12 @@ const AccountCard = ({ item, setModalEditVisible, setData }: types) => {
         <SliderButtonsAccount
             {...props}
             onEdit={() => {
-                setResetSlider(false);
+                // setResetSlider(false);
                 setItemData().then(() => setModalEditVisible(true));
             }}
             onDelete={() => {
                 showAlert();
-                setResetSlider(false);
+                // setResetSlider(false);
             }}
         />
     );
