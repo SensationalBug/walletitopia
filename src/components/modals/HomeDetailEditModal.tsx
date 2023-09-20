@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, { useContext, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { UserContext } from '../../controller/UserContext';
+// import { UserContext } from '../../controller/UserContext';
 import FormTextInput from '../customComponents/FormTextInput';
 import { GastosContext } from '../../controller/GastosContext';
 import { CatContext } from '../../controller/CategoriesContext';
@@ -28,7 +28,7 @@ const HomeDetailEditModal = ({
     });
 
     const { categories }: any = useContext(CatContext);
-    const { setResetSlider }: any = useContext(UserContext);
+    // const { setResetSlider }: any = useContext(UserContext);
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>
             <View style={styles.modalContainer}>
@@ -70,7 +70,7 @@ const HomeDetailEditModal = ({
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => {
                                 setSelectedId('');
-                                setResetSlider(true);
+                                // setResetSlider(true);
                                 setModalVisible(false);
                             }}>
                             <Icon name="close" size={20} color="#fff" />
@@ -87,7 +87,7 @@ const HomeDetailEditModal = ({
                                 );
                                 // .then(() => {
                                 setSelectedId('');
-                                setResetSlider(true);
+                                // setResetSlider(true);
                                 setModalVisible(false);
                                 // });
                             }}>

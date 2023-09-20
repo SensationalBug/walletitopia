@@ -1,18 +1,17 @@
+import {
+    GlobalConfigColor,
+    HomeDetailCardStyles,
+} from '../../styles/GlobalStyles';
 import SlidableCard from './SlidableCard';
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from '../../controller/UserContext';
-import { View, Text, StyleSheet, Alert } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import { GastosContext } from '../../controller/GastosContext';
 import { CatContext } from '../../controller/CategoriesContext';
 import { AccountContext } from '../../controller/AccountsContext';
+import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
-
-const color = {
-    credito: '#1F8A70',
-    debito: '#F24C3D',
-};
 
 export interface types {
     item: {
@@ -35,11 +34,12 @@ const HomeDetailCard = ({
     setModalVisible,
 }: types) => {
     const focused = useIsFocused();
-    const [categoryName, setCategoryName] = useState('question-circle-o');
+    const [moveSlider, setMoveSlider] = useState(false);
     const { categories }: any = useContext(CatContext);
     const { formatter }: any = useContext(AccountContext);
     const { deleteGasto }: any = useContext(GastosContext);
-    const { setResetSlider, resetSlider }: any = useContext(UserContext);
+    const { /*setResetSlider,*/ resetSlider }: any = useContext(UserContext);
+    const [categoryName, setCategoryName] = useState('question-circle-o');
     const {
         _id,
         id_cuenta,
@@ -66,7 +66,7 @@ const HomeDetailCard = ({
             [
                 {
                     text: 'No',
-                    onPress: () => setResetSlider(true),
+                    // onPress: () => setResetSlider(true),
                 },
                 {
                     text: 'Si',
@@ -89,13 +89,13 @@ const HomeDetailCard = ({
             onEdit={() =>
                 setItemData(item).then(() => {
                     setModalVisible(true);
-                    setResetSlider(false);
+                    // setResetSlider(false);
                     setSelectedId(item.id_categoria);
                 })
             }
             onDelete={() => {
                 showAlert();
-                setResetSlider(false);
+                // setResetSlider(false);
             }}
         />
     );
@@ -103,55 +103,36 @@ const HomeDetailCard = ({
         <SlidableCard
             height="49.9%"
             slideWidth={1}
+            moveSlider={moveSlider}
+            setMoveSlider={setMoveSlider}
             resetOnBlur={!focused}
             resetSlider={resetSlider}
-            backgroundColor={!tipo_gasto ? color.debito : color.credito}
+            backgroundColor={
+                !tipo_gasto
+                    ? GlobalConfigColor.primaryRed
+                    : GlobalConfigColor.primaryGreen
+            }
             buttonsComponent={(props: any) => buttons(props)}>
-            <View style={styles.item}>
-                <View style={styles.dataContainer}>
-                    <Text style={styles.mainText}>{concepto}</Text>
-                    <Text style={styles.mainText}>
+            <TouchableOpacity
+                style={HomeDetailCardStyles.item}
+                onPress={() => setMoveSlider(!moveSlider)}>
+                <View style={HomeDetailCardStyles.dataContainer}>
+                    <Text style={HomeDetailCardStyles.mainText}>
+                        {concepto}
+                    </Text>
+                    <Text style={HomeDetailCardStyles.mainText}>
                         {formatter.format(monto)}
                     </Text>
-                    <Text style={styles.dateText}>
+                    <Text style={HomeDetailCardStyles.dateText}>
                         {fecha_de_creacion.split('T')[0]}
                     </Text>
                 </View>
-                <View style={styles.iconContainer}>
+                <View style={HomeDetailCardStyles.iconContainer}>
                     <Icon name={categoryName} size={60} color="#fff" />
                 </View>
-            </View>
+            </TouchableOpacity>
         </SlidableCard>
     );
 };
 
 export default HomeDetailCard;
-
-const styles = StyleSheet.create({
-    item: {
-        marginTop: 3,
-        flexDirection: 'row',
-    },
-    dataContainer: {
-        width: '70%',
-        paddingVertical: 5,
-        paddingHorizontal: 20,
-    },
-    mainText: {
-        fontSize: 30,
-        color: '#fff',
-    },
-    dateText: {
-        color: '#fff',
-        fontSize: 15,
-    },
-    amountText: {
-        color: '#fff',
-        fontSize: 25,
-    },
-    iconContainer: {
-        width: '30%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

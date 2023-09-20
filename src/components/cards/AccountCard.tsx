@@ -1,7 +1,7 @@
 import MainCard from './MainCard';
 import { Alert } from 'react-native';
-import React, { useContext, useState } from 'react';
 import SlidableCard from './SlidableCard';
+import React, { useContext, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { UserContext } from '../../controller/UserContext';
 import { AccountContext } from '../../controller/AccountsContext';

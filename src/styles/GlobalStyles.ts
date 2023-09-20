@@ -200,6 +200,35 @@ export const HomeStyles = StyleSheet.create({
     },
 });
 
+export const HomeDetailCardStyles = StyleSheet.create({
+    item: {
+        marginTop: 3,
+        flexDirection: 'row',
+    },
+    dataContainer: {
+        width: '70%',
+        paddingVertical: 5,
+        paddingHorizontal: 20,
+    },
+    mainText: {
+        fontSize: 30,
+        color: '#fff',
+    },
+    dateText: {
+        color: '#fff',
+        fontSize: 15,
+    },
+    amountText: {
+        color: '#fff',
+        fontSize: 25,
+    },
+    iconContainer: {
+        width: '30%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
 export const AddGastoModalStyles = StyleSheet.create({
     modalContainer: {
         height: '100%',
