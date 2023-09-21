@@ -6,7 +6,7 @@ import Home from '../views/Home';
 import Accounts from '../views/Accounts';
 import Categories from '../views/Categories';
 import Settings from '../views/Settings';
-import Metrics from '../views/Metrics';
+// import Metrics from '../views/Metrics';
 
 const Tab = createBottomTabNavigator();
 
@@ -58,7 +58,7 @@ const TabNavigator = () => {
                             : homeIcon(color, 'layers-outline'),
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Métricas"
                 component={Metrics}
                 options={{
@@ -69,7 +69,7 @@ const TabNavigator = () => {
                             ? homeIcon(color, 'stats-chart')
                             : homeIcon(color, 'stats-chart-outline'),
                 }}
-            />
+            /> */}
             <Tab.Screen
                 name="Ajustes"
                 component={Settings}
