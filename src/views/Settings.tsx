@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import UserCard from '../components/cards/UserCard';
 import { UserContext } from '../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import SettingsButton from '../components/customComponents/SettingsButton';
 
 const Settings = ({ navigation }: any) => {
@@ -14,25 +14,27 @@ const Settings = ({ navigation }: any) => {
                 <SettingsButton
                     buttonName="Editar perfil"
                     onAction={() => {
-                        console.log('Editar perfil');
+                        navigation.navigate('Inicio');
                     }}
                 />
                 <SettingsButton
                     buttonName="Cambiar contraseña"
                     onAction={() => {
-                        console.log('Cambiar contraseña');
+                        navigation.navigate('Cuentas');
                     }}
                 />
                 <SettingsButton
                     buttonName="Recordatorios"
                     onAction={() => {
-                        console.log('Recordatorios');
+                        navigation.navigate('Categorias');
                     }}
                 />
                 <SettingsButton
                     buttonName="Acerca de XXX"
                     onAction={() => {
-                        console.log('Acerca de XXX');
+                        Linking.openURL(
+                            'https://landingpa-3022d.web.app/',
+                        ).catch(() => console.log('Error al abrir el enlace'));
                     }}
                 />
             </View>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     logOut: {
-        padding: 10,
+        paddingHorizontal: 30,
         alignItems: 'flex-end',
     },
 });
