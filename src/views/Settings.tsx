@@ -64,5 +64,6 @@ const styles = StyleSheet.create({
     logOut: {
         paddingHorizontal: 30,
         alignItems: 'flex-end',
+        backgroundColor: 'blue',
     },
 });

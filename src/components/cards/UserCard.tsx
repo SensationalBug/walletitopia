@@ -6,7 +6,7 @@ const UserCard = ({ iconName, userName }: any) => {
     return (
         <View style={styles.container}>
             <View style={styles.imgContainer}>
-                <Icon name={iconName} size={150} />
+                <Icon name={iconName} size={150} color="#000" />
             </View>
             <Text style={styles.userName}>{userName}</Text>
         </View>
@@ -25,5 +25,6 @@ const styles = StyleSheet.create({
     },
     userName: {
         fontSize: 30,
+        color: '#000',
     },
 });

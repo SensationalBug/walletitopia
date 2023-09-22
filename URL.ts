@@ -1,2 +1,2 @@
-export default 'http://45.77.161.230:3000';
+export default 'https://itopia-production.up.railway.app';
 // https://itopia-production.up.railway.app
