@@ -90,6 +90,7 @@ const CatProvider = ({ children }: props) => {
             })
             .catch(err => {
                 showToastAlert('error', err.response.data.message);
+                console.log(err);
             });
     };
     // Funcion para obtener los iconos de las categorias a seleccionar
