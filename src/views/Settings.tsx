@@ -1,35 +1,50 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import UserCard from '../components/cards/UserCard';
 import { UserContext } from '../controller/UserContext';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { View, StyleSheet, Linking, Alert } from 'react-native';
 import SettingsButton from '../components/customComponents/SettingsButton';
+import SettingsUserModal from '../components/modals/SettingsUserModal';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout }: any = useContext(UserContext);
+    const [selectedIcon, setSelectedIcon] = useState('bus');
+    const [modalUserVisible, setModalUserVisible] = useState(false);
+    const alert = () => {
+        Alert.alert('Advertencia', 'Seguro que quiere cerrar sesión?', [
+            {
+                text: 'No',
+            },
+            {
+                text: 'Si',
+                onPress: () => userLogout(navigation, 'Login'),
+            },
+        ]);
+    };
     return (
         <View style={styles.container}>
-            <UserCard iconName="bus" userName="Pedro De Leon" />
-            <View style={styles.options}>
+            <UserCard iconName={selectedIcon} userName="Pedro De Leon" />
+            <View>
                 <SettingsButton
+                    icon="edit"
                     buttonName="Editar perfil"
-                    onAction={() => {
-                        navigation.navigate('Inicio');
-                    }}
+                    onAction={() => setModalUserVisible(!modalUserVisible)}
                 />
                 <SettingsButton
+                    icon="eye-slash"
                     buttonName="Cambiar contraseña"
                     onAction={() => {
                         navigation.navigate('Cuentas');
                     }}
                 />
                 <SettingsButton
+                    icon="bookmark-o"
                     buttonName="Recordatorios"
                     onAction={() => {
                         navigation.navigate('Categorias');
                     }}
                 />
                 <SettingsButton
+                    icon="external-link"
                     buttonName="Acerca de XXX"
                     onAction={() => {
                         Linking.openURL(
@@ -37,13 +52,17 @@ const Settings = ({ navigation }: any) => {
                         ).catch(() => console.log('Error al abrir el enlace'));
                     }}
                 />
+                <SettingsButton
+                    icon="power-off"
+                    buttonName="Cerrar sesión"
+                    onAction={() => alert()}
+                />
             </View>
-            <View style={styles.logOut}>
-                <TouchableOpacity
-                    onPress={() => userLogout(navigation, 'Login')}>
-                    <Icon name="power-off" size={30} color="#ff0000" />
-                </TouchableOpacity>
-            </View>
+            <SettingsUserModal
+                modalVisible={modalUserVisible}
+                setSelectedIcon={setSelectedIcon}
+                setModalVisible={setModalUserVisible}
+            />
         </View>
     );
 };
@@ -53,17 +72,5 @@ export default Settings;
 const styles = StyleSheet.create({
     container: {
         height: '100%',
-    },
-    userData: {
-        height: '30%',
-    },
-    options: {
-        height: '60%',
-        paddingVertical: 10,
-    },
-    logOut: {
-        paddingHorizontal: 30,
-        alignItems: 'flex-end',
-        backgroundColor: 'blue',
     },
 });

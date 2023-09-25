@@ -10,14 +10,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from '../../controller/UserContext';
 import { ModalCatStyles } from '../../styles/GlobalStyles';
 import IconClose from 'react-native-vector-icons/FontAwesome';
-import { CatContext } from '../../controller/CategoriesContext';
 
-const ModalCategoryIcons = ({
+const ModalIcons = ({
+    icons,
+    setFuction,
     modalVisible,
     setModalVisible,
-    setSelectedCatIcon,
+    setSelectedIcon,
 }: any) => {
-    const { catIcons, setNewCategory }: any = useContext(CatContext);
     const { updStateData }: any = useContext(UserContext);
 
     return (
@@ -31,17 +31,18 @@ const ModalCategoryIcons = ({
                     </Pressable>
                     <FlatList
                         numColumns={4}
-                        data={catIcons}
+                        data={icons}
                         keyExtractor={item => item._id}
                         renderItem={({ item }: any) => {
+                            console.log(item);
                             return (
                                 <TouchableOpacity
                                     style={ModalCatStyles.buttonIcon}
                                     onPress={() => {
                                         setModalVisible(!modalVisible);
-                                        setSelectedCatIcon(item.IconName);
+                                        setSelectedIcon(item.IconName);
                                         updStateData(
-                                            setNewCategory,
+                                            setFuction,
                                             item.IconName,
                                             'iconName',
                                         );
@@ -61,4 +62,4 @@ const ModalCategoryIcons = ({
     );
 };
 
-export default ModalCategoryIcons;
+export default ModalIcons;

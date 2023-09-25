@@ -17,6 +17,7 @@ export default UserCard;
 
 const styles = StyleSheet.create({
     container: {
+        paddingBottom: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -11,15 +11,16 @@ import { toastConfig } from '../styles/ToastStyles';
 import { CategoryStyles } from '../styles/GlobalStyles';
 import { UserContext } from '../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ModalIcons from '../components/modals/ModalIcons';
 import React, { useContext, useState, useRef } from 'react';
 import CategoryCard from '../components/cards/CategoryCard';
 import { CatContext } from '../controller/CategoriesContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import ModalCategoryIcons from '../components/modals/ModalCategoryIcons';
 const Categories = () => {
     const layout = useWindowDimensions();
     const flatList = useRef<FlatList<any>>(null);
     const {
+        catIcons,
         categories,
         newCategoy,
         setNewCategory,
@@ -79,10 +80,12 @@ const Categories = () => {
                     renderItem={({ item }) => <CategoryCard {...item} />}
                 />
             </View>
-            <ModalCategoryIcons
+            <ModalIcons
+                icons={catIcons}
+                setFuction={setNewCategory}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
-                setSelectedCatIcon={setSelectedCatIcon}
+                setSelectedIcon={setSelectedCatIcon}
             />
             <Toast config={toastConfig} />
         </View>
