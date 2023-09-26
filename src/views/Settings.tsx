@@ -2,13 +2,15 @@ import React, { useContext, useState } from 'react';
 import UserCard from '../components/cards/UserCard';
 import { UserContext } from '../controller/UserContext';
 import { View, StyleSheet, Linking, Alert } from 'react-native';
-import SettingsButton from '../components/customComponents/SettingsButton';
 import SettingsUserModal from '../components/modals/SettingsUserModal';
+import SettingsButton from '../components/customComponents/SettingsButton';
+import SettingsPwdModal from '../components/modals/SettingsPwdModal';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout }: any = useContext(UserContext);
     const [selectedIcon, setSelectedIcon] = useState('bus');
     const [modalUserVisible, setModalUserVisible] = useState(false);
+    const [modalPwdVisible, setModalPwdVisible] = useState(false);
     const alert = () => {
         Alert.alert('Advertencia', 'Seguro que quiere cerrar sesión?', [
             {
@@ -32,9 +34,7 @@ const Settings = ({ navigation }: any) => {
                 <SettingsButton
                     icon="eye-slash"
                     buttonName="Cambiar contraseña"
-                    onAction={() => {
-                        navigation.navigate('Cuentas');
-                    }}
+                    onAction={() => setModalPwdVisible(!modalPwdVisible)}
                 />
                 <SettingsButton
                     icon="bookmark-o"
@@ -59,9 +59,14 @@ const Settings = ({ navigation }: any) => {
                 />
             </View>
             <SettingsUserModal
+                selectedIcon={selectedIcon}
                 modalVisible={modalUserVisible}
                 setSelectedIcon={setSelectedIcon}
                 setModalVisible={setModalUserVisible}
+            />
+            <SettingsPwdModal
+                modalVisible={modalPwdVisible}
+                setModalVisible={setModalPwdVisible}
             />
         </View>
     );

@@ -434,3 +434,29 @@ export const MetricsCardStyles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
 });
+
+export const SettingsModalButtonsStyles = StyleSheet.create({
+    buttonsContainer: {
+        width: '100%',
+        marginTop: 10,
+        paddingTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
+    button: {
+        width: 100,
+        height: 50,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    closeButton: {
+        backgroundColor: GlobalConfigColor.primaryRed,
+    },
+    editButton: {
+        backgroundColor: GlobalConfigColor.primaryYellow,
+    },
+    saveButton: {
+        backgroundColor: GlobalConfigColor.primaryGreen,
+    },
+});

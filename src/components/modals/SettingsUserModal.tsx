@@ -1,62 +1,86 @@
 import {
-    View,
-    Modal,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-} from 'react-native';
+    GlobalConfigColor,
+    SettingsModalButtonsStyles,
+} from '../../styles/GlobalStyles';
 import ModalIcons from './ModalIcons';
 import React, { useContext, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from '../../controller/UserContext';
-import { CategoryStyles, GlobalConfigColor } from '../../styles/GlobalStyles';
+import FormTextInput from '../customComponents/FormTextInput';
 import { CatContext } from '../../controller/CategoriesContext';
+import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 
 const SettingsUserModal = ({
+    selectedIcon,
     modalVisible,
     setSelectedIcon,
     setModalVisible,
 }: any) => {
-    const { updStateData }: any = useContext(UserContext);
     const { catIcons }: any = useContext(CatContext);
+    const { updStateData }: any = useContext(UserContext);
+    const [icon, setIcon] = useState('');
     const [modalIconVisible, setModalIconVisible] = useState(false);
     const [userData, setUserData] = useState({
         userName: '',
-        iconName: 'question',
+        iconName: selectedIcon,
     });
     return (
         <Modal transparent visible={modalVisible} animationType="fade">
             <View style={styles.modalContainer}>
-                <TouchableOpacity
-                    style={[styles.button, styles.editButton]}
-                    onPress={() => setModalIconVisible(!modalIconVisible)}>
-                    <Icon name="edit" size={30} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button, styles.closeButton]}
-                    onPress={() => setModalVisible(false)}>
-                    <Icon name="close" size={30} color="#fff" />
-                </TouchableOpacity>
-                <View style={styles.container}>
-                    <View style={styles.imgContainer}>
-                        <Icon
-                            size={150}
-                            color={GlobalConfigColor.primaryGreen}
-                            name={userData.iconName}
+                <View style={styles.modalView}>
+                    <View style={styles.container}>
+                        <View>
+                            <Icon
+                                size={130}
+                                name={userData.iconName}
+                                color={GlobalConfigColor.white}
+                            />
+                        </View>
+                        <FormTextInput
+                            setState={setUserData}
+                            fieldName="userName"
+                            textColor="#fff"
+                            placeholder="Nombre de usuario"
                         />
                     </View>
-                    <TextInput
-                        maxLength={20}
-                        value={userData.userName}
-                        style={[
-                            styles.otherStyles,
-                            CategoryStyles.catNameInput,
-                        ]}
-                        placeholder="Nombre de usuario"
-                        onChangeText={value =>
-                            updStateData(setUserData, value, 'userName')
-                        }
-                    />
+                    <View style={SettingsModalButtonsStyles.buttonsContainer}>
+                        <TouchableOpacity
+                            style={[
+                                SettingsModalButtonsStyles.button,
+                                SettingsModalButtonsStyles.closeButton,
+                            ]}
+                            onPress={() => {
+                                updStateData(
+                                    setUserData,
+                                    selectedIcon,
+                                    'iconName',
+                                );
+                                setModalVisible(false);
+                            }}>
+                            <Icon name="close" size={30} color="#fff" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                SettingsModalButtonsStyles.button,
+                                SettingsModalButtonsStyles.editButton,
+                            ]}
+                            onPress={() =>
+                                setModalIconVisible(!modalIconVisible)
+                            }>
+                            <Icon name="edit" size={30} color="#fff" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                SettingsModalButtonsStyles.button,
+                                SettingsModalButtonsStyles.saveButton,
+                            ]}
+                            onPress={() => {
+                                setModalVisible(false);
+                                setSelectedIcon(icon);
+                            }}>
+                            <Icon name="check" size={30} color="#fff" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
             <ModalIcons
@@ -64,7 +88,7 @@ const SettingsUserModal = ({
                 setFuction={setUserData}
                 modalVisible={modalIconVisible}
                 setModalVisible={setModalIconVisible}
-                setSelectedIcon={setSelectedIcon}
+                setSelectedIcon={setIcon}
             />
         </Modal>
     );
@@ -75,37 +99,25 @@ export default SettingsUserModal;
 const styles = StyleSheet.create({
     modalContainer: {
         alignItems: 'center',
-        justifyContent: 'flex-end',
-    },
-    button: {
-        top: 0,
-        width: 40,
-        height: 40,
-        margin: 10,
-        padding: 5,
-        borderRadius: 5,
-        position: 'absolute',
-        alignItems: 'center',
         justifyContent: 'center',
     },
-    closeButton: {
-        right: 0,
-        backgroundColor: GlobalConfigColor.primaryRed,
-    },
-    editButton: {
-        left: 0,
+    modalView: {
+        width: '100%',
+        borderRadius: 5,
+        paddingVertical: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: GlobalConfigColor.primaryBlue,
     },
     container: {
-        paddingBottom: 10,
+        paddingVertical: 10,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    imgContainer: {
-        marginVertical: 20,
+        width: '100%',
     },
     otherStyles: {
         fontSize: 30,
         borderRadius: 4,
+        marginVertical: 20,
     },
 });

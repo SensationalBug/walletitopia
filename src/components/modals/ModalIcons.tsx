@@ -19,7 +19,6 @@ const ModalIcons = ({
     setSelectedIcon,
 }: any) => {
     const { updStateData }: any = useContext(UserContext);
-
     return (
         <Modal transparent={true} animationType="fade" visible={modalVisible}>
             <View style={ModalCatStyles.modalContainer}>
@@ -34,7 +33,6 @@ const ModalIcons = ({
                         data={icons}
                         keyExtractor={item => item._id}
                         renderItem={({ item }: any) => {
-                            console.log(item);
                             return (
                                 <TouchableOpacity
                                     style={ModalCatStyles.buttonIcon}

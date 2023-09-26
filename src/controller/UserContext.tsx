@@ -22,6 +22,11 @@ const UserProvider = ({ children }: props) => {
         rPassword: '',
         appTerms: false,
     });
+    const [changePassword, setChangePassword] = useState({
+        oldPwd: '',
+        newPwd: '',
+        reNewPwd: '',
+    });
     // Funcion para manejar los mensajes de error
     const showToastAlert = (type: string, message: string) => {
         Toast.show({
@@ -117,6 +122,14 @@ const UserProvider = ({ children }: props) => {
         updStateData(setUserData, '', 'password');
         navigation.navigate(screen);
     };
+    // Funcion para cambiar la clave
+    const validatePassword = () => {
+        const { oldPwd, newPwd, reNewPwd } = changePassword;
+        changePwd(oldPwd, newPwd, reNewPwd);
+    };
+    const changePwd = (oldPwd: string, newPwd: string, reNewPwd: string) => {
+        console.log(oldPwd, newPwd, reNewPwd);
+    };
 
     return (
         <UserContext.Provider
@@ -133,6 +146,8 @@ const UserProvider = ({ children }: props) => {
                 showToastAlert,
                 resetSlider,
                 setResetSlider,
+                setChangePassword,
+                validatePassword,
             }}>
             {children}
         </UserContext.Provider>
