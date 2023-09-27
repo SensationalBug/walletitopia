@@ -1,11 +1,11 @@
 import { View } from 'react-native';
-import LoginBox from '../components/box/LoginBox';
-import SignupBox from '../components/box/SignupBox';
 import { toastConfig } from '../styles/ToastStyles';
 import { LoginStyles } from '../styles/GlobalStyles';
-import CustomSwitch from '../components/customComponents/CustomSwitch';
+import LoginBox from '../components/Gastos/LoginBox';
+import SignupBox from '../components/Gastos/SignupBox';
 import { UserContext } from '../controller/UserContext';
 import React, { useContext, useEffect, useState } from 'react';
+import CustomSwitch from '../components/customComponents/CustomSwitch';
 
 const Login = ({ navigation }: any) => {
     const { userData, Toast }: any = useContext(UserContext);

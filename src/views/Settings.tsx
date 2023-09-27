@@ -37,6 +37,7 @@ const Settings = ({ navigation }: any) => {
                     onAction={() => setModalPwdVisible(!modalPwdVisible)}
                 />
                 <SettingsButton
+                    disabled={true}
                     icon="bookmark-o"
                     buttonName="Recordatorios"
                     onAction={() => {

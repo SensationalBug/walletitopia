@@ -98,12 +98,11 @@ export default SettingsUserModal;
 
 const styles = StyleSheet.create({
     modalContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: '100%',
     },
     modalView: {
         width: '100%',
-        borderRadius: 5,
+        height: '50%',
         paddingVertical: 40,
         alignItems: 'center',
         justifyContent: 'center',

@@ -9,27 +9,35 @@ import FormTextInput from '../customComponents/FormTextInput';
 import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 
 const SettingsPwdModal = ({ modalVisible, setModalVisible }: any) => {
-    const { setPassword, validatePassword }: any = useContext(UserContext);
+    const {
+        setChangePassword,
+        validatePassword,
+        changePassword,
+        clearPwdFields,
+    }: any = useContext(UserContext);
     return (
         <Modal transparent visible={modalVisible} animationType="fade">
             <View style={styles.modalContainer}>
                 <View style={styles.modalView}>
                     <FormTextInput
-                        setState={setPassword}
+                        value={changePassword.oldPwd}
+                        setState={setChangePassword}
                         fieldName="oldPwd"
                         textColor="#fff"
                         placeholder="Antigua contraseña"
                         secureTextEntry={true}
                     />
                     <FormTextInput
-                        setState={setPassword}
+                        value={changePassword.newPwd}
+                        setState={setChangePassword}
                         fieldName="newPwd"
                         textColor="#fff"
                         placeholder="Nueva contraseña"
                         secureTextEntry={true}
                     />
                     <FormTextInput
-                        setState={setPassword}
+                        value={changePassword.reNewPwd}
+                        setState={setChangePassword}
                         fieldName="reNewPwd"
                         textColor="#fff"
                         placeholder="Repita la nueva contraseña"
@@ -41,8 +49,11 @@ const SettingsPwdModal = ({ modalVisible, setModalVisible }: any) => {
                                 SettingsModalButtonsStyles.button,
                                 SettingsModalButtonsStyles.closeButton,
                             ]}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Icon name="close" size={30} />
+                            onPress={() => {
+                                clearPwdFields();
+                                setModalVisible(!modalVisible);
+                            }}>
+                            <Icon name="close" size={30} color="#fff" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[
@@ -50,7 +61,7 @@ const SettingsPwdModal = ({ modalVisible, setModalVisible }: any) => {
                                 SettingsModalButtonsStyles.saveButton,
                             ]}
                             onPress={() => validatePassword()}>
-                            <Icon name="check" size={30} />
+                            <Icon name="check" size={30} color="#fff" />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -63,12 +74,13 @@ export default SettingsPwdModal;
 
 const styles = StyleSheet.create({
     modalContainer: {
+        height: '40%',
         alignItems: 'center',
         justifyContent: 'center',
     },
     modalView: {
         width: '100%',
-        borderRadius: 5,
+        height: '100%',
         paddingVertical: 25,
         alignItems: 'center',
         justifyContent: 'center',

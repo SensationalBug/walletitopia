@@ -27,6 +27,12 @@ const UserProvider = ({ children }: props) => {
         newPwd: '',
         reNewPwd: '',
     });
+    // Funcion para borrar los campos de la clave
+    const clearPwdFields = () => {
+        updStateData(setChangePassword, '', 'oldPwd');
+        updStateData(setChangePassword, '', 'newPwd');
+        updStateData(setChangePassword, '', 'reNewPwd');
+    };
     // Funcion para manejar los mensajes de error
     const showToastAlert = (type: string, message: string) => {
         Toast.show({
@@ -58,7 +64,7 @@ const UserProvider = ({ children }: props) => {
                 // mail: userData.mail,
                 // password: userData.password,
                 mail: 'z@z.com',
-                password: '1',
+                password: '2',
             },
         })
             .then(res =>
@@ -125,10 +131,30 @@ const UserProvider = ({ children }: props) => {
     // Funcion para cambiar la clave
     const validatePassword = () => {
         const { oldPwd, newPwd, reNewPwd } = changePassword;
-        changePwd(oldPwd, newPwd, reNewPwd);
+        if (!oldPwd || !newPwd || !reNewPwd) {
+            console.log('Complete todos los campos');
+            return;
+        }
+        if (newPwd !== reNewPwd) {
+            console.log('Las contraseñas no son iguales');
+            return;
+        }
+        changePwd();
     };
-    const changePwd = (oldPwd: string, newPwd: string, reNewPwd: string) => {
-        console.log(oldPwd, newPwd, reNewPwd);
+    const changePwd = () => {
+        axios({
+            method: 'patch',
+            url: `${URL}/users/change-password`,
+            headers: {
+                Authorization: `Bearer ${userData.token}`,
+            },
+            data: {
+                oldPassword: changePassword.oldPwd,
+                newPassword: changePassword.newPwd,
+            },
+        })
+            .then(() => clearPwdFields())
+            .catch(err => console.log(err.response.data.message));
     };
 
     return (
@@ -148,6 +174,8 @@ const UserProvider = ({ children }: props) => {
                 setResetSlider,
                 setChangePassword,
                 validatePassword,
+                changePassword,
+                clearPwdFields,
             }}>
             {children}
         </UserContext.Provider>
