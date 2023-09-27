@@ -12,7 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const LoginBox = () => {
     const layout = useWindowDimensions();
-    const { userLogin, setUserData }: any = useContext(UserContext);
+    const { userLogin, setUserData, userData, sendToken }: any =
+        useContext(UserContext);
     return (
         <View
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
@@ -21,18 +22,22 @@ const LoginBox = () => {
                     <Icon size={80} color="#122e49" name="laugh-squint" />
                 </View>
                 <FormTextInput
+                    value={userData.mail}
                     setState={setUserData}
                     fieldName="mail"
                     secureTextEntry={false}
                     placeholder="Correo electrónico"
                 />
                 <FormTextInput
+                    value={userData.password}
                     setState={setUserData}
                     fieldName="password"
                     secureTextEntry={true}
                     placeholder="Contraseña"
                 />
-                <TouchableOpacity style={LoginBoxStyles.forgotTextButton}>
+                <TouchableOpacity
+                    onPress={() => sendToken()}
+                    style={LoginBoxStyles.forgotTextButton}>
                     <Text style={LoginBoxStyles.forgotText}>
                         Olvidaste tu contrasena?
                     </Text>

@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: '100%',
-        height: '50%',
         paddingVertical: 40,
         alignItems: 'center',
         justifyContent: 'center',

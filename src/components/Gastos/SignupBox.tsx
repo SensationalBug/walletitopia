@@ -30,24 +30,28 @@ const SignupBox = () => {
                     <Icon size={80} color="#122e49" name="angry" />
                 </View>
                 <FormTextInput
+                    value={newUser.fullName}
                     setState={setNewUser}
                     fieldName="fullName"
                     secureTextEntry={false}
                     placeholder="Nombre completo"
                 />
                 <FormTextInput
+                    value={newUser.mail}
                     setState={setNewUser}
                     fieldName="mail"
                     secureTextEntry={false}
                     placeholder="Correo electrónico"
                 />
                 <FormTextInput
+                    value={newUser.password}
                     setState={setNewUser}
                     fieldName="password"
                     secureTextEntry={true}
                     placeholder="Contraseña"
                 />
                 <FormTextInput
+                    value={newUser.rPassword}
                     setState={setNewUser}
                     fieldName="rPassword"
                     secureTextEntry={true}

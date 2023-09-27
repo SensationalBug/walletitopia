@@ -74,13 +74,10 @@ export default SettingsPwdModal;
 
 const styles = StyleSheet.create({
     modalContainer: {
-        height: '40%',
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: '100%',
     },
     modalView: {
         width: '100%',
-        height: '100%',
         paddingVertical: 25,
         alignItems: 'center',
         justifyContent: 'center',

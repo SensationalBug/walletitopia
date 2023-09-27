@@ -2,6 +2,7 @@ import axios from 'axios';
 import URL from '../../URL';
 import Toast from 'react-native-toast-message';
 import React, { createContext, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 interface props {
     children: JSX.Element;
@@ -27,6 +28,19 @@ const UserProvider = ({ children }: props) => {
         newPwd: '',
         reNewPwd: '',
     });
+    // Funcion para limpiar los campos del login
+    const clearLoginFields = () => {
+        updStateData(setUserData, '', 'mail');
+        updStateData(setUserData, '', 'password');
+    };
+    // Funcion para limpiar los campos del login
+    const clearRegisterFields = () => {
+        updStateData(setNewUser, '', 'fullName');
+        updStateData(setNewUser, '', 'mail');
+        updStateData(setNewUser, '', 'password');
+        updStateData(setNewUser, '', 'rPassword');
+        updStateData(setNewUser, false, 'appTerms');
+    };
     // Funcion para borrar los campos de la clave
     const clearPwdFields = () => {
         updStateData(setChangePassword, '', 'oldPwd');
@@ -44,7 +58,7 @@ const UserProvider = ({ children }: props) => {
     // Funcion para editar un elemento en un useState de tipo {}
     const updStateData = (
         setState: React.Dispatch<React.SetStateAction<any>>,
-        value: string,
+        value: any,
         fieldName: string,
     ) => {
         setState((prevState: any) => ({
@@ -67,9 +81,10 @@ const UserProvider = ({ children }: props) => {
                 password: '2',
             },
         })
-            .then(res =>
-                updStateData(setUserData, res.data.acces_token, 'token'),
-            )
+            .then(res => {
+                clearLoginFields();
+                updStateData(setUserData, res.data.acces_token, 'token');
+            })
             .catch(() => {
                 Toast.show({
                     type: 'error',
@@ -89,9 +104,10 @@ const UserProvider = ({ children }: props) => {
                 full_name: newUser.fullName,
             },
         })
-            .then(res =>
-                updStateData(setUserData, res.data.acces_token, 'token'),
-            )
+            .then(res => {
+                clearRegisterFields();
+                updStateData(setUserData, res.data.acces_token, 'token');
+            })
             .catch(() => {
                 Toast.show({
                     type: 'error',
@@ -156,7 +172,20 @@ const UserProvider = ({ children }: props) => {
             .then(() => clearPwdFields())
             .catch(err => console.log(err.response.data.message));
     };
-
+    // Funcion para cambiar la clave desde fuera
+    const sendToken = () => {
+        emailjs
+            .send(
+                'service_y8t8nor',
+                'template_wijt9yk',
+                {
+                    token: '2',
+                },
+                'MgtDvOdG4a1JpUGwl',
+            )
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    };
     return (
         <UserContext.Provider
             value={{
@@ -176,6 +205,7 @@ const UserProvider = ({ children }: props) => {
                 validatePassword,
                 changePassword,
                 clearPwdFields,
+                sendToken,
             }}>
             {children}
         </UserContext.Provider>
