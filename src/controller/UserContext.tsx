@@ -2,7 +2,6 @@ import axios from 'axios';
 import URL from '../../URL';
 import Toast from 'react-native-toast-message';
 import React, { createContext, useState } from 'react';
-import emailjs from '@emailjs/browser';
 
 interface props {
     children: JSX.Element;
@@ -77,8 +76,8 @@ const UserProvider = ({ children }: props) => {
             data: {
                 // mail: userData.mail,
                 // password: userData.password,
-                mail: 'z@z.com',
-                password: '2',
+                mail: 'breidydl@gmail.com',
+                password: '12345678',
             },
         })
             .then(res => {
@@ -102,6 +101,7 @@ const UserProvider = ({ children }: props) => {
                 mail: newUser.mail,
                 password: newUser.password,
                 full_name: newUser.fullName,
+                user_icon_name: '',
             },
         })
             .then(res => {
@@ -173,16 +173,14 @@ const UserProvider = ({ children }: props) => {
             .catch(err => console.log(err.response.data.message));
     };
     // Funcion para cambiar la clave desde fuera
-    const sendToken = () => {
-        emailjs
-            .send(
-                'service_y8t8nor',
-                'template_wijt9yk',
-                {
-                    token: '2',
-                },
-                'MgtDvOdG4a1JpUGwl',
-            )
+    const reqChangePassword = (mail: any) => {
+        axios({
+            method: 'patch',
+            url: `${URL}/users/req-reset-password`,
+            data: {
+                email: mail.reqEmail,
+            },
+        })
             .then(res => console.log(res))
             .catch(err => console.log(err));
     };
@@ -205,7 +203,7 @@ const UserProvider = ({ children }: props) => {
                 validatePassword,
                 changePassword,
                 clearPwdFields,
-                sendToken,
+                reqChangePassword,
             }}>
             {children}
         </UserContext.Provider>

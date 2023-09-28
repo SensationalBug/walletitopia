@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     View,
     Text,
@@ -9,11 +9,12 @@ import FormTextInput from '../customComponents/FormTextInput';
 import { LoginBoxStyles } from '../../styles/GlobalStyles';
 import { UserContext } from '../../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import LoginRequestModal from '../modals/LoginRequestModal';
 
 const LoginBox = () => {
     const layout = useWindowDimensions();
-    const { userLogin, setUserData, userData, sendToken }: any =
-        useContext(UserContext);
+    const { userLogin, setUserData, userData }: any = useContext(UserContext);
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <View
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
@@ -36,7 +37,7 @@ const LoginBox = () => {
                     placeholder="Contraseña"
                 />
                 <TouchableOpacity
-                    onPress={() => sendToken()}
+                    onPress={() => setModalVisible(!modalVisible)}
                     style={LoginBoxStyles.forgotTextButton}>
                     <Text style={LoginBoxStyles.forgotText}>
                         Olvidaste tu contrasena?
@@ -53,6 +54,10 @@ const LoginBox = () => {
             <Text style={LoginBoxStyles.rightsText}>
                 © ITopia 2023, Todos los derechos reservados.
             </Text>
+            <LoginRequestModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
         </View>
     );
 };

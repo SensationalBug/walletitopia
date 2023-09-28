@@ -94,7 +94,7 @@ export const LoginBoxStyles = StyleSheet.create({
         alignSelf: 'flex-end',
     },
     forgotText: {
-        fontSize: 12,
+        fontSize: 15,
         color: '#000',
     },
     submitButton: {
