@@ -16,7 +16,7 @@ const homeIcon = (color: any, iconName: string) => (
 const TabNavigator = () => {
     return (
         <Tab.Navigator
-            initialRouteName="Ajustes"
+            initialRouteName="Inicio"
             screenOptions={{
                 tabBarActiveTintColor: '#122e49',
                 tabBarInactiveTintColor: '#c4c4c4',

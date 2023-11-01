@@ -5,6 +5,8 @@ import { View, StyleSheet, Linking, Alert } from 'react-native';
 import SettingsUserModal from '../components/modals/SettingsUserModal';
 import SettingsButton from '../components/customComponents/SettingsButton';
 import SettingsPwdModal from '../components/modals/SettingsPwdModal';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { toastConfig } from '../styles/ToastStyles';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout }: any = useContext(UserContext);
@@ -69,6 +71,7 @@ const Settings = ({ navigation }: any) => {
                 modalVisible={modalPwdVisible}
                 setModalVisible={setModalPwdVisible}
             />
+            <Toast config={toastConfig} />
         </View>
     );
 };

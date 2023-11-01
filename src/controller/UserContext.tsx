@@ -77,7 +77,7 @@ const UserProvider = ({ children }: props) => {
                 // mail: userData.mail,
                 // password: userData.password,
                 mail: 'breidydl@gmail.com',
-                password: '12345678',
+                password: '11111113',
             },
         })
             .then(res => {
@@ -146,16 +146,16 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para cambiar la clave
     const validatePassword = () => {
-        const { oldPwd, newPwd, reNewPwd } = changePassword;
-        if (!oldPwd || !newPwd || !reNewPwd) {
-            console.log('Complete todos los campos');
-            return;
-        }
-        if (newPwd !== reNewPwd) {
-            console.log('Las contraseñas no son iguales');
-            return;
-        }
-        changePwd();
+        return new Promise(resolve => {
+            const { newPwd, reNewPwd } = changePassword;
+            if (newPwd.length < 8) {
+                return;
+            }
+            if (newPwd !== reNewPwd) {
+                return;
+            }
+            resolve('ok');
+        });
     };
     const changePwd = () => {
         axios({
@@ -169,8 +169,17 @@ const UserProvider = ({ children }: props) => {
                 newPassword: changePassword.newPwd,
             },
         })
-            .then(() => clearPwdFields())
-            .catch(err => console.log(err.response.data.message));
+            .then(() => {
+                clearPwdFields();
+                showToastAlert('success', 'Nice, la contraseña se ha cambiado');
+            })
+            .catch(() => {
+                clearPwdFields();
+                showToastAlert(
+                    'error',
+                    'Oh no! la contrasena antigua no coincide',
+                );
+            });
     };
     // Funcion para cambiar la clave desde fuera
     const reqChangePassword = (mail: any) => {
@@ -204,6 +213,7 @@ const UserProvider = ({ children }: props) => {
                 changePassword,
                 clearPwdFields,
                 reqChangePassword,
+                changePwd,
             }}>
             {children}
         </UserContext.Provider>

@@ -6,7 +6,7 @@ import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from '../../controller/UserContext';
 import FormTextInput from '../customComponents/FormTextInput';
-import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Modal, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 const SettingsPwdModal = ({ modalVisible, setModalVisible }: any) => {
     const {
@@ -14,6 +14,7 @@ const SettingsPwdModal = ({ modalVisible, setModalVisible }: any) => {
         validatePassword,
         changePassword,
         clearPwdFields,
+        changePwd,
     }: any = useContext(UserContext);
     return (
         <Modal transparent visible={modalVisible} animationType="fade">
@@ -60,9 +61,64 @@ const SettingsPwdModal = ({ modalVisible, setModalVisible }: any) => {
                                 SettingsModalButtonsStyles.button,
                                 SettingsModalButtonsStyles.saveButton,
                             ]}
-                            onPress={() => validatePassword()}>
+                            onPress={() =>
+                                validatePassword().then(() => {
+                                    changePwd();
+                                    setModalVisible(!modalVisible);
+                                })
+                            }>
                             <Icon name="check" size={30} color="#fff" />
                         </TouchableOpacity>
+                    </View>
+                    <View>
+                        <Text
+                            style={[
+                                styles.minLengthText,
+                                {
+                                    color:
+                                        changePassword.oldPwd === '' &&
+                                        changePassword.newPwd ===
+                                            changePassword.reNewPwd
+                                            ? GlobalConfigColor.primaryRed
+                                            : GlobalConfigColor.primaryGreen,
+                                },
+                            ]}>
+                            {changePassword.oldPwd === '' &&
+                            changePassword.newPwd === changePassword.reNewPwd
+                                ? 'Todos los campos deben ser completados'
+                                : 'Campos completos'}
+                        </Text>
+                        <Text
+                            style={[
+                                styles.minLengthText,
+                                {
+                                    color:
+                                        changePassword.newPwd === '' ||
+                                        changePassword.newPwd !==
+                                            changePassword.reNewPwd
+                                            ? GlobalConfigColor.primaryRed
+                                            : GlobalConfigColor.primaryGreen,
+                                },
+                            ]}>
+                            {changePassword.newPwd === '' ||
+                            changePassword.newPwd !== changePassword.reNewPwd
+                                ? 'Las contraseñas deben iguales'
+                                : 'Las contraseñas son iguales'}
+                        </Text>
+                        <Text
+                            style={[
+                                styles.minLengthText,
+                                {
+                                    color:
+                                        changePassword.newPwd.length < 8
+                                            ? GlobalConfigColor.primaryRed
+                                            : GlobalConfigColor.primaryGreen,
+                                },
+                            ]}>
+                            {changePassword.newPwd.length < 8
+                                ? 'Mínimo 8 caracteres para la nueva contraseña'
+                                : 'Perfecto la contraseña contiene 8 caracteres'}
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -82,5 +138,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: GlobalConfigColor.primaryBlue,
+    },
+    minLengthText: {
+        fontSize: 16,
+        paddingTop: 20,
     },
 });
