@@ -77,7 +77,7 @@ const UserProvider = ({ children }: props) => {
                 // mail: userData.mail,
                 // password: userData.password,
                 mail: 'breidydl@gmail.com',
-                password: '11111113',
+                password: '11111111',
             },
         })
             .then(res => {
@@ -183,15 +183,19 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para cambiar la clave desde fuera
     const reqChangePassword = (mail: any) => {
-        axios({
-            method: 'patch',
-            url: `${URL}/users/req-reset-password`,
-            data: {
-                email: mail.reqEmail,
-            },
-        })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        return new Promise(resolve => {
+            axios({
+                method: 'patch',
+                url: `${URL}/users/req-reset-password`,
+                data: {
+                    email: mail.reqEmail,
+                },
+            })
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(err => console.log(err));
+        });
     };
     return (
         <UserContext.Provider

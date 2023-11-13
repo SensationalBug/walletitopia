@@ -24,7 +24,14 @@ const LoginRequestModal = ({ modalVisible, setModalVisible }: any) => {
                     />
                     <TouchableOpacity
                         style={styles.buttonText}
-                        onPress={() => reqChangePassword(requestEmail)}>
+                        onPress={() =>
+                            reqChangePassword(requestEmail).then((res: any) => {
+                                if (res.status === 200) {
+                                    setRequesEmail('');
+                                    setModalVisible(!modalVisible);
+                                }
+                            })
+                        }>
                         <Text style={styles.sendText}>Enviar e-mail</Text>
                     </TouchableOpacity>
                 </View>
