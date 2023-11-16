@@ -14,6 +14,8 @@ const UserProvider = ({ children }: props) => {
         mail: '',
         password: '',
         token: '',
+        full_name: '',
+        icon_name: '',
     });
     const [newUser, setNewUser] = useState({
         fullName: '',
@@ -77,12 +79,14 @@ const UserProvider = ({ children }: props) => {
                 // mail: userData.mail,
                 // password: userData.password,
                 mail: 'breidydl@gmail.com',
-                password: '11111111',
+                password: '22222222',
             },
         })
             .then(res => {
                 clearLoginFields();
                 updStateData(setUserData, res.data.acces_token, 'token');
+                updStateData(setUserData, res.data.full_name, 'full_name');
+                updStateData(setUserData, res.data.icon_name, 'icon_name');
             })
             .catch(() => {
                 Toast.show({
@@ -197,6 +201,19 @@ const UserProvider = ({ children }: props) => {
                 .catch(err => console.log(err));
         });
     };
+    // Funcion para editar los datos del usuario
+    const editUserName = (id: string, newName: string, icon: string) => {
+        axios({
+            method: 'patch',
+            url: `${URL}/users/${id}`,
+            data: {
+                full_name: newName,
+                user_icon_name: icon,
+            },
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    };
     return (
         <UserContext.Provider
             value={{
@@ -218,6 +235,7 @@ const UserProvider = ({ children }: props) => {
                 clearPwdFields,
                 reqChangePassword,
                 changePwd,
+                editUserName,
             }}>
             {children}
         </UserContext.Provider>

@@ -9,10 +9,14 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { toastConfig } from '../styles/ToastStyles';
 
 const Settings = ({ navigation }: any) => {
-    const { userLogout }: any = useContext(UserContext);
-    const [selectedIcon, setSelectedIcon] = useState('bus');
+    const { userLogout, userData }: any = useContext(UserContext);
+    const [selectedIcon, setSelectedIcon] = useState(userData.icon_name);
     const [modalUserVisible, setModalUserVisible] = useState(false);
     const [modalPwdVisible, setModalPwdVisible] = useState(false);
+    const [userDataLocal, setUserDataLocal] = useState({
+        userName: userData.full_name,
+        iconName: selectedIcon,
+    });
     const alert = () => {
         Alert.alert('Advertencia', 'Seguro que quiere cerrar sesión?', [
             {
@@ -26,7 +30,10 @@ const Settings = ({ navigation }: any) => {
     };
     return (
         <View style={styles.container}>
-            <UserCard iconName={selectedIcon} userName="Pedro De Leon" />
+            <UserCard
+                iconName={selectedIcon}
+                userName={userDataLocal.userName}
+            />
             <View>
                 <SettingsButton
                     icon="edit"
@@ -66,6 +73,8 @@ const Settings = ({ navigation }: any) => {
                 modalVisible={modalUserVisible}
                 setSelectedIcon={setSelectedIcon}
                 setModalVisible={setModalUserVisible}
+                userDataLocal={userDataLocal}
+                setUserDataLocal={setUserDataLocal}
             />
             <SettingsPwdModal
                 modalVisible={modalPwdVisible}

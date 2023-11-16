@@ -15,15 +15,13 @@ const SettingsUserModal = ({
     modalVisible,
     setSelectedIcon,
     setModalVisible,
+    userDataLocal,
+    setUserDataLocal,
 }: any) => {
     const { catIcons }: any = useContext(CatContext);
-    const { updStateData }: any = useContext(UserContext);
+    const { updStateData, editUserName }: any = useContext(UserContext);
     const [icon, setIcon] = useState('');
     const [modalIconVisible, setModalIconVisible] = useState(false);
-    const [userData, setUserData] = useState({
-        userName: '',
-        iconName: selectedIcon,
-    });
     return (
         <Modal transparent visible={modalVisible} animationType="fade">
             <View style={styles.modalContainer}>
@@ -32,12 +30,12 @@ const SettingsUserModal = ({
                         <View>
                             <Icon
                                 size={130}
-                                name={userData.iconName}
+                                name={userDataLocal.iconName}
                                 color={GlobalConfigColor.white}
                             />
                         </View>
                         <FormTextInput
-                            setState={setUserData}
+                            setState={setUserDataLocal}
                             fieldName="userName"
                             textColor="#fff"
                             placeholder="Nombre de usuario"
@@ -51,7 +49,7 @@ const SettingsUserModal = ({
                             ]}
                             onPress={() => {
                                 updStateData(
-                                    setUserData,
+                                    setUserDataLocal,
                                     selectedIcon,
                                     'iconName',
                                 );
@@ -77,6 +75,11 @@ const SettingsUserModal = ({
                             onPress={() => {
                                 setModalVisible(false);
                                 setSelectedIcon(icon);
+                                editUserName(
+                                    '65158c345cd3dd16fd0b86cd',
+                                    userDataLocal.userName,
+                                    icon,
+                                );
                             }}>
                             <Icon name="check" size={30} color="#fff" />
                         </TouchableOpacity>
@@ -85,7 +88,7 @@ const SettingsUserModal = ({
             </View>
             <ModalIcons
                 icons={catIcons}
-                setFuction={setUserData}
+                setFuction={setUserDataLocal}
                 modalVisible={modalIconVisible}
                 setModalVisible={setModalIconVisible}
                 setSelectedIcon={setIcon}
