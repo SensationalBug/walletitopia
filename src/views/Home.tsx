@@ -11,7 +11,7 @@ import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 const Home = ({ navigation }: any) => {
     const { accounts, getAccounts }: any = useContext(AccountContext);
     const [modalVisible, setModalVisible] = useState(false);
-    const { Toast }: any = useContext(UserContext);
+    const { Toast, userData }: any = useContext(UserContext);
     const [data, setData] = useState({});
     useEffect(() => {
         getAccounts();
@@ -28,7 +28,7 @@ const Home = ({ navigation }: any) => {
         <View style={HomeStyles.container}>
             <View>
                 <Text style={HomeStyles.mainTitle}>Bienvenido</Text>
-                <Text style={HomeStyles.mainName}>Nombre de usuario</Text>
+                <Text style={HomeStyles.mainName}>{userData.full_name}</Text>
                 {fecha()}
             </View>
             {accounts.length ? (

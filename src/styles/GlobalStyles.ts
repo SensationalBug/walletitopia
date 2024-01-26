@@ -79,7 +79,7 @@ export const LoginBoxStyles = StyleSheet.create({
         alignItems: 'center',
     },
     input: {
-        width: '85%',
+        width: '90%',
         fontSize: 20,
         color: '#000',
         marginTop: 10,
@@ -115,26 +115,25 @@ export const LoginBoxStyles = StyleSheet.create({
         marginVertical: 10,
     },
     // SignupBox specific styles
-    terminos: {
+    termsBox: {
         marginTop: 20,
         flexDirection: 'row',
     },
-    terminosText: {
+    modalText: {
         color: '#122e49',
         paddingLeft: 20,
         textDecorationLine: 'underline',
     },
     policies: {
-        paddingBottom: 10,
+        paddingBottom: 20,
         justifyContent: 'flex-end',
     },
     policiesText: {
-        color: '#122e49',
-        textDecorationLine: 'underline',
+        color: '#fff',
     },
 });
 
-export const TermsPrivacyStyles = StyleSheet.create({
+export const CustomModalStyles = StyleSheet.create({
     modalContainer: {
         height: '100%',
         alignItems: 'center',
@@ -147,6 +146,7 @@ export const TermsPrivacyStyles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         backgroundColor: '#122e49',
+        justifyContent: 'space-between',
     },
     header: {
         width: '100%',
@@ -169,12 +169,10 @@ export const TermsPrivacyStyles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F24C3D',
     },
-    messageContainer: {
+    container: {
+        width: '100%',
         marginVertical: 5,
         marginHorizontal: 5,
-    },
-    message: {
-        color: '#fff',
     },
 });
 

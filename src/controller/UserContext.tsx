@@ -10,6 +10,7 @@ interface props {
 export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
     const [resetSlider, setResetSlider] = useState(false);
+    const [indicatorVisible, setIndicatorVisible] = useState(false);
     const [userData, setUserData] = useState({
         mail: '',
         password: '',
@@ -79,7 +80,7 @@ const UserProvider = ({ children }: props) => {
                 // mail: userData.mail,
                 // password: userData.password,
                 mail: 'breidydl@gmail.com',
-                password: '22222222',
+                password: '11111111',
             },
         })
             .then(res => {
@@ -187,7 +188,8 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para cambiar la clave desde fuera
     const reqChangePassword = (mail: any) => {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
+            setIndicatorVisible(true);
             axios({
                 method: 'patch',
                 url: `${URL}/users/req-reset-password`,
@@ -197,8 +199,17 @@ const UserProvider = ({ children }: props) => {
             })
                 .then(res => {
                     resolve(res);
+                    Toast.show({
+                        type: 'success',
+                        visibilityTime: 1200,
+                        text1: 'Correo enviado',
+                    });
+                    setIndicatorVisible(false);
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    reject(err);
+                    setIndicatorVisible(false);
+                });
         });
     };
     // Funcion para editar los datos del usuario
@@ -211,7 +222,7 @@ const UserProvider = ({ children }: props) => {
                 user_icon_name: icon,
             },
         })
-            .then(res => console.log(res))
+            .then(() => updStateData(setUserData, newName, 'full_name'))
             .catch(err => console.log(err));
     };
     return (
@@ -236,6 +247,7 @@ const UserProvider = ({ children }: props) => {
                 reqChangePassword,
                 changePwd,
                 editUserName,
+                indicatorVisible,
             }}>
             {children}
         </UserContext.Provider>
