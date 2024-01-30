@@ -84,7 +84,7 @@ const UserProvider = ({ children }: props) => {
                 password: '111111112',
             },
         })
-            .then(res => {
+            .then((res: any) => {
                 clearLoginFields();
                 updStateData(setUserData, res.data.acces_token, 'token');
                 updStateData(setUserData, res.data.full_name, 'full_name');
