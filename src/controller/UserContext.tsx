@@ -70,6 +70,7 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para hacer login en la app
     const userLogin = () => {
+        setIndicatorVisible(true);
         axios({
             method: 'post',
             url: `${URL}/users/signin`,
@@ -80,7 +81,7 @@ const UserProvider = ({ children }: props) => {
                 // mail: userData.mail,
                 // password: userData.password,
                 mail: 'breidydl@gmail.com',
-                password: '11111111',
+                password: '111111112',
             },
         })
             .then(res => {
@@ -88,6 +89,7 @@ const UserProvider = ({ children }: props) => {
                 updStateData(setUserData, res.data.acces_token, 'token');
                 updStateData(setUserData, res.data.full_name, 'full_name');
                 updStateData(setUserData, res.data.icon_name, 'icon_name');
+                setIndicatorVisible(false);
             })
             .catch(() => {
                 Toast.show({
@@ -95,10 +97,12 @@ const UserProvider = ({ children }: props) => {
                     visibilityTime: 1200,
                     text1: 'Credenciales invalidas',
                 });
+                setIndicatorVisible(false);
             });
     };
     // Funcion para registrar un nuevo usuario
     const registerNewUser = () => {
+        setIndicatorVisible(true);
         axios({
             method: 'post',
             url: `${URL}/users/createUser`,
@@ -111,9 +115,11 @@ const UserProvider = ({ children }: props) => {
         })
             .then(res => {
                 clearRegisterFields();
+                setIndicatorVisible(false);
                 updStateData(setUserData, res.data.acces_token, 'token');
             })
             .catch(() => {
+                setIndicatorVisible(false);
                 Toast.show({
                     type: 'error',
                     visibilityTime: 1200,

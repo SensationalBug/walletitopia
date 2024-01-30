@@ -11,17 +11,28 @@ import { UserContext } from '../../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CustomModal from './CustomModal';
 import PwdRequestContent from '../contents/PwdRequestContent';
+import { ActivityIndicator } from 'react-native-paper';
 
 const LoginBox = () => {
     const layout = useWindowDimensions();
-    const { userLogin, setUserData, userData }: any = useContext(UserContext);
+    const { userLogin, setUserData, userData, indicatorVisible }: any =
+        useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
     return (
         <View
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
             <View style={LoginBoxStyles.loginFormBox}>
                 <View style={LoginBoxStyles.logo}>
-                    <Icon size={80} color="#122e49" name="laugh-squint" />
+                    {indicatorVisible ? (
+                        <ActivityIndicator
+                            hidesWhenStopped
+                            animating={indicatorVisible}
+                            color="#122e49"
+                            size={80}
+                        />
+                    ) : (
+                        <Icon size={80} color="#122e49" name="laugh-squint" />
+                    )}
                 </View>
                 <FormTextInput
                     value={userData.mail}
