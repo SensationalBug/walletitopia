@@ -1,69 +1,60 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { GlobalStyles } from '../styles/GlobalStyles';
-import axios from 'axios';
+import HomeCard from '../components/cards/HomeCard';
+import { HomeStyles } from '../styles/GlobalStyles';
+import { View, Text, FlatList } from 'react-native';
+import { toastConfig } from '../styles/ToastStyles';
+import { UserContext } from '../controller/UserContext';
+import React, { useContext, useEffect, useState } from 'react';
+import AddGastoModal from '../components/modals/AddGastoModal';
+import { AccountContext } from '../controller/AccountsContext';
+import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 
 const Home = ({ navigation }: any) => {
-  const [accounts, setAccounts] = useState<any[]>([]);
-  useEffect(() => {
-    axios({
-      method: 'get',
-      url: 'http://45.77.161.230:3000/cuentas',
-    }).then(({ data }) => {
-      setAccounts(data);
-    });
-  }, []);
-
-  const showAccounts = (item: any) => {
-    const { acc_name, fecha_de_cracion, id_acc_type, monto_inicial } = item;
+    const { accounts, getAccounts }: any = useContext(AccountContext);
+    const [modalVisible, setModalVisible] = useState(false);
+    const { Toast }: any = useContext(UserContext);
+    const [data, setData] = useState({});
+    useEffect(() => {
+        getAccounts();
+    }, [getAccounts, accounts]);
+    const fecha = () => {
+        const date = new Date();
+        return (
+            <Text style={HomeStyles.date}>
+                {date.getMonth() + 1}/{date.getDate()}/{date.getFullYear()}
+            </Text>
+        );
+    };
     return (
-      <View style={styles.accountContainer}>
-        <Text style={styles.text}>{acc_name}</Text>
-        <Text style={styles.text}>{fecha_de_cracion}</Text>
-        <Text style={styles.text}>{id_acc_type}</Text>
-        <Text style={styles.text}>{monto_inicial}</Text>
-      </View>
+        <View style={HomeStyles.container}>
+            <View>
+                <Text style={HomeStyles.mainTitle}>Bienvenido</Text>
+                <Text style={HomeStyles.mainName}>Nombre de usuario</Text>
+                {fecha()}
+            </View>
+            {accounts.length ? (
+                <FlatList
+                    data={accounts}
+                    keyExtractor={item => item._id}
+                    renderItem={(item: any) => (
+                        <HomeCard
+                            {...item}
+                            setData={setData}
+                            navigation={navigation}
+                            setModalVisible={setModalVisible}
+                        />
+                    )}
+                />
+            ) : (
+                <NoAccountMessage />
+            )}
+            <AddGastoModal
+                data={data}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
+            <Toast config={toastConfig} />
+        </View>
     );
-  };
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Accounts')}
-        style={styles.button}>
-        <Text style={GlobalStyles.textStyle}>Home</Text>
-      </TouchableOpacity>
-      <FlatList
-        data={accounts}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => showAccounts(item)}
-      />
-    </View>
-  );
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    height: '100%',
-    backgroundColor: 'blue',
-  },
-  button: {
-    paddingVertical: 10,
-  },
-  accountContainer: {
-    backgroundColor: 'red',
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-  },
-  text: { color: '#fff', margin: 10 },
-});
