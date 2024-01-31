@@ -10,6 +10,7 @@ interface props {
 export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
     const [resetSlider, setResetSlider] = useState(false);
+    const [useBiometrics, setUseBiometrics] = useState(false);
     const [indicatorVisible, setIndicatorVisible] = useState(false);
     const [userData, setUserData] = useState({
         mail: '',
@@ -254,6 +255,8 @@ const UserProvider = ({ children }: props) => {
                 changePwd,
                 editUserName,
                 indicatorVisible,
+                useBiometrics,
+                setUseBiometrics,
             }}>
             {children}
         </UserContext.Provider>

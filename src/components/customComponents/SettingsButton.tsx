@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const SettingsButton = ({ buttonName, onAction, icon, disabled }: any) => {

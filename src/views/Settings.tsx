@@ -1,18 +1,21 @@
 import React, { useContext, useState } from 'react';
 import UserCard from '../components/cards/UserCard';
+import { toastConfig } from '../styles/ToastStyles';
 import { UserContext } from '../controller/UserContext';
 import { View, StyleSheet, Linking, Alert } from 'react-native';
-import SettingsUserModal from '../components/modals/SettingsUserModal';
-import SettingsButton from '../components/customComponents/SettingsButton';
-import SettingsPwdModal from '../components/modals/SettingsPwdModal';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { toastConfig } from '../styles/ToastStyles';
+import SettingsPwdModal from '../components/modals/SettingsPwdModal';
+import CustomModal from '../components/customComponents/CustomModal';
+import SettingsUserModal from '../components/modals/SettingsUserModal';
+import EnableBiometrics from '../components/contents/EnableBiometrics';
+import SettingsButton from '../components/customComponents/SettingsButton';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout, userData }: any = useContext(UserContext);
     const [selectedIcon, setSelectedIcon] = useState(userData.icon_name);
     const [modalUserVisible, setModalUserVisible] = useState(false);
     const [modalPwdVisible, setModalPwdVisible] = useState(false);
+    const [modalFingerVisible, setModalFingerVisible] = useState(false);
     const [userDataLocal, setUserDataLocal] = useState({
         userName: userData.full_name,
         iconName: selectedIcon,
@@ -36,25 +39,22 @@ const Settings = ({ navigation }: any) => {
             />
             <View>
                 <SettingsButton
-                    icon="edit"
+                    icon="file-edit-outline"
                     buttonName="Editar perfil"
                     onAction={() => setModalUserVisible(!modalUserVisible)}
                 />
                 <SettingsButton
-                    icon="eye-slash"
+                    icon="eye-off-outline"
                     buttonName="Cambiar contraseña"
                     onAction={() => setModalPwdVisible(!modalPwdVisible)}
                 />
                 <SettingsButton
-                    disabled={true}
-                    icon="bookmark-o"
-                    buttonName="Recordatorios"
-                    onAction={() => {
-                        navigation.navigate('Categorias');
-                    }}
+                    icon="fingerprint"
+                    buttonName="Habilitar Biometrics"
+                    onAction={() => setModalFingerVisible(!modalFingerVisible)}
                 />
                 <SettingsButton
-                    icon="external-link"
+                    icon="link"
                     buttonName="Acerca de XXX"
                     onAction={() => {
                         Linking.openURL(
@@ -63,7 +63,7 @@ const Settings = ({ navigation }: any) => {
                     }}
                 />
                 <SettingsButton
-                    icon="power-off"
+                    icon="power"
                     buttonName="Cerrar sesión"
                     onAction={() => alert()}
                 />
@@ -79,6 +79,12 @@ const Settings = ({ navigation }: any) => {
             <SettingsPwdModal
                 modalVisible={modalPwdVisible}
                 setModalVisible={setModalPwdVisible}
+            />
+            <CustomModal
+                title="Habilitar Inicio con Huella"
+                content={<EnableBiometrics />}
+                modalVisible={modalFingerVisible}
+                setModalVisible={setModalFingerVisible}
             />
             <Toast config={toastConfig} />
         </View>
