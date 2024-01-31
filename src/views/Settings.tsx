@@ -81,8 +81,13 @@ const Settings = ({ navigation }: any) => {
                 setModalVisible={setModalPwdVisible}
             />
             <CustomModal
+                viewMode={true}
                 title="Habilitar Inicio con Huella"
-                content={<EnableBiometrics />}
+                content={
+                    <EnableBiometrics
+                        setModalFingerVisible={setModalFingerVisible}
+                    />
+                }
                 modalVisible={modalFingerVisible}
                 setModalVisible={setModalFingerVisible}
             />

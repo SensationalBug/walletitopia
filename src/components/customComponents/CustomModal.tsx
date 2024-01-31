@@ -15,6 +15,7 @@ const CustomModal = ({
     content,
     modalVisible,
     setModalVisible,
+    viewMode = false,
 }: any) => {
     const height = useWindowDimensions().height;
     return (
@@ -30,9 +31,15 @@ const CustomModal = ({
                             <IconClose name="close" size={15} color="#fff" />
                         </TouchableOpacity>
                     </View>
-                    <ScrollView style={CustomModalStyles.container}>
-                        {content}
-                    </ScrollView>
+                    {viewMode ? (
+                        <View style={CustomModalStyles.containerView}>
+                            {content}
+                        </View>
+                    ) : (
+                        <ScrollView style={CustomModalStyles.containerScroll}>
+                            {content}
+                        </ScrollView>
+                    )}
                 </View>
             </View>
         </Modal>

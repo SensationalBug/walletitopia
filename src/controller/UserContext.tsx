@@ -1,7 +1,8 @@
 import axios from 'axios';
 import URL from '../../URL';
 import Toast from 'react-native-toast-message';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface props {
     children: JSX.Element;
@@ -11,10 +12,11 @@ export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
     const [resetSlider, setResetSlider] = useState(false);
     const [useBiometrics, setUseBiometrics] = useState(false);
+    const [isLocalData, setIsLocalData] = useState(false);
     const [indicatorVisible, setIndicatorVisible] = useState(false);
     const [userData, setUserData] = useState({
-        mail: '',
-        password: '',
+        mail: AsyncStorage.getItem('userEmail') || '',
+        password: AsyncStorage.getItem('userPwd') || '',
         token: '',
         full_name: '',
         icon_name: '',
@@ -31,6 +33,18 @@ const UserProvider = ({ children }: props) => {
         newPwd: '',
         reNewPwd: '',
     });
+    const getData = useCallback(async () => {
+        const result = await AsyncStorage.getItem('userEmail');
+        if (result !== null) {
+            setIsLocalData(true);
+        } else {
+            setIsLocalData(false);
+        }
+        console.log(result);
+    }, []);
+    useEffect(() => {
+        getData();
+    }, [getData, isLocalData]);
     // Funcion para limpiar los campos del login
     const clearLoginFields = () => {
         updStateData(setUserData, '', 'mail');
@@ -257,6 +271,8 @@ const UserProvider = ({ children }: props) => {
                 indicatorVisible,
                 useBiometrics,
                 setUseBiometrics,
+                isLocalData,
+                setIsLocalData,
             }}>
             {children}
         </UserContext.Provider>

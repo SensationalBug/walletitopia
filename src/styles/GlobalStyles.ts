@@ -169,8 +169,14 @@ export const CustomModalStyles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F24C3D',
     },
-    container: {
+    containerScroll: {
         width: '100%',
+        marginVertical: 5,
+        marginHorizontal: 5,
+    },
+    containerView: {
+        width: '100%',
+        height: '90%',
         marginVertical: 5,
         marginHorizontal: 5,
     },

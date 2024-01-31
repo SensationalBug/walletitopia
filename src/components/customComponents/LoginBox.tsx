@@ -22,7 +22,7 @@ const LoginBox = () => {
         setUserData,
         userData,
         indicatorVisible,
-        useBiometrics,
+        isLocalData,
     }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
     const biometrics = async () => {
@@ -30,7 +30,7 @@ const LoginBox = () => {
         if (canBiometric) {
             try {
                 await RNBiometrics.requestBioAuth('Coloque su huella', ' ');
-                console.log('si');
+                userLogin();
             } catch (error) {
                 console.log(error);
             }
@@ -81,7 +81,7 @@ const LoginBox = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            {useBiometrics ? (
+            {isLocalData ? (
                 <TouchableOpacity onPress={() => biometrics()}>
                     <Icon name="fingerprint" size={80} color="#122e49" />
                 </TouchableOpacity>
