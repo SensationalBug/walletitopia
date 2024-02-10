@@ -448,8 +448,8 @@ export const SettingsModalButtonsStyles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     button: {
-        width: 100,
         height: 50,
+        width: 100,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',

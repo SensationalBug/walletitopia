@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const UserCard = ({ iconName, userName }: any) => {
+const UserCard = ({ userName }: any) => {
     return (
         <View style={styles.container}>
             <View style={styles.imgContainer}>
-                <Icon name={iconName} size={130} color="#000" />
+                <Icon name="user" size={130} color="#000" />
             </View>
             <Text style={styles.userName}>{userName}</Text>
         </View>

@@ -234,13 +234,12 @@ const UserProvider = ({ children }: props) => {
         });
     };
     // Funcion para editar los datos del usuario
-    const editUserName = (id: string, newName: string, icon: string) => {
+    const editUserName = (id: string, newName: string) => {
         axios({
             method: 'patch',
             url: `${URL}/users/${id}`,
             data: {
                 full_name: newName,
-                user_icon_name: icon,
             },
         })
             .then(() => updStateData(setUserData, newName, 'full_name'))

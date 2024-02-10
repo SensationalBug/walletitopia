@@ -2,24 +2,21 @@ import React, { useContext, useState } from 'react';
 import UserCard from '../components/cards/UserCard';
 import { toastConfig } from '../styles/ToastStyles';
 import { UserContext } from '../controller/UserContext';
+import EditUserData from '../components/contents/EditUserData';
 import { View, StyleSheet, Linking, Alert } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import ChangePassword from '../components/contents/ChangePassword';
 import CustomModal from '../components/customComponents/CustomModal';
-import SettingsUserModal from '../components/modals/SettingsUserModal';
 import EnableBiometrics from '../components/contents/EnableBiometrics';
 import SettingsButton from '../components/customComponents/SettingsButton';
-import EditUserData from '../components/contents/EditUserData';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout, userData }: any = useContext(UserContext);
-    const [selectedIcon, setSelectedIcon] = useState(userData.icon_name);
-    const [modalUserVisible, setModalUserVisible] = useState(false);
     const [modalPwdVisible, setModalPwdVisible] = useState(false);
+    const [modalUserVisible, setModalUserVisible] = useState(false);
     const [modalFingerVisible, setModalFingerVisible] = useState(false);
     const [userDataLocal, setUserDataLocal] = useState({
         userName: userData.full_name,
-        iconName: selectedIcon,
     });
     const alert = () => {
         Alert.alert('Advertencia', 'Seguro que quiere cerrar sesión?', [
@@ -34,10 +31,7 @@ const Settings = ({ navigation }: any) => {
     };
     return (
         <View style={styles.container}>
-            <UserCard
-                iconName={selectedIcon}
-                userName={userDataLocal.userName}
-            />
+            <UserCard userName={userDataLocal.userName} />
             <View>
                 <SettingsButton
                     icon="file-edit-outline"
@@ -76,10 +70,9 @@ const Settings = ({ navigation }: any) => {
                 setModalVisible={setModalUserVisible}
                 content={
                     <EditUserData
-                        selectedIcon={selectedIcon}
-                        setSelectedIcon={setSelectedIcon}
                         userDataLocal={userDataLocal}
                         setUserDataLocal={setUserDataLocal}
+                        setModalVisible={setModalUserVisible}
                     />
                 }
             />

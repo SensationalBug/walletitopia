@@ -75,17 +75,18 @@ const ChangePassword = ({ modalVisible, setModalVisible }: any) => {
                             styles.minLengthText,
                             {
                                 color:
-                                    changePassword.oldPwd === '' &&
-                                    changePassword.newPwd ===
-                                        changePassword.reNewPwd
-                                        ? GlobalConfigColor.primaryRed
-                                        : GlobalConfigColor.primaryGreen,
+                                    changePassword.oldPwd !== '' &&
+                                    changePassword.newPwd !== '' &&
+                                    changePassword.reNewPwd !== ''
+                                        ? GlobalConfigColor.primaryGreen
+                                        : GlobalConfigColor.primaryRed,
                             },
                         ]}>
-                        {changePassword.oldPwd === '' &&
-                        changePassword.newPwd === changePassword.reNewPwd
-                            ? 'Todos los campos deben ser completados'
-                            : 'Campos completos'}
+                        {changePassword.oldPwd !== '' &&
+                        changePassword.newPwd !== '' &&
+                        changePassword.reNewPwd !== ''
+                            ? 'Campos completos'
+                            : 'Todos los campos deben ser completados'}
                     </Text>
                     <Text
                         style={[

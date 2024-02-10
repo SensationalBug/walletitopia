@@ -10,16 +10,14 @@ import FormTextInput from '../customComponents/FormTextInput';
 import { CatContext } from '../../controller/CategoriesContext';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 const EditUserData = ({
-    selectedIcon,
     userDataLocal,
-    setSelectedIcon,
     setModalVisible,
     setUserDataLocal,
 }: any) => {
     const [icon, setIcon] = useState('');
     const { catIcons }: any = useContext(CatContext);
+    const { editUserName }: any = useContext(UserContext);
     const [modalIconVisible, setModalIconVisible] = useState(false);
-    const { updStateData, editUserName }: any = useContext(UserContext);
     return (
         <>
             <View style={styles.modalContainer}>
@@ -28,7 +26,7 @@ const EditUserData = ({
                         <View>
                             <Icon
                                 size={130}
-                                name={userDataLocal.iconName}
+                                name="user"
                                 color={GlobalConfigColor.white}
                             />
                         </View>
@@ -45,38 +43,24 @@ const EditUserData = ({
                                 SettingsModalButtonsStyles.button,
                                 SettingsModalButtonsStyles.closeButton,
                             ]}
-                            onPress={() => {
-                                updStateData(
-                                    setUserDataLocal,
-                                    selectedIcon,
-                                    'iconName',
-                                );
-                                setModalVisible(false);
-                            }}>
+                            onPress={() => setModalVisible(false)}>
                             <Icon name="close" size={30} color="#fff" />
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[
-                                SettingsModalButtonsStyles.button,
-                                SettingsModalButtonsStyles.editButton,
-                            ]}
-                            onPress={() =>
-                                setModalIconVisible(!modalIconVisible)
-                            }>
-                            <Icon name="edit" size={30} color="#fff" />
-                        </TouchableOpacity>
-                        <TouchableOpacity
+                            disabled={
+                                !icon && userDataLocal.userName === ''
+                                    ? true
+                                    : false
+                            }
                             style={[
                                 SettingsModalButtonsStyles.button,
                                 SettingsModalButtonsStyles.saveButton,
                             ]}
                             onPress={() => {
                                 setModalVisible(false);
-                                setSelectedIcon(icon);
                                 editUserName(
                                     '65158c345cd3dd16fd0b86cd',
                                     userDataLocal.userName,
-                                    icon,
                                 );
                             }}>
                             <Icon name="check" size={30} color="#fff" />
