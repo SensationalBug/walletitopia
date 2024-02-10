@@ -4,11 +4,12 @@ import { toastConfig } from '../styles/ToastStyles';
 import { UserContext } from '../controller/UserContext';
 import { View, StyleSheet, Linking, Alert } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import SettingsPwdModal from '../components/modals/SettingsPwdModal';
+import ChangePassword from '../components/contents/ChangePassword';
 import CustomModal from '../components/customComponents/CustomModal';
 import SettingsUserModal from '../components/modals/SettingsUserModal';
 import EnableBiometrics from '../components/contents/EnableBiometrics';
 import SettingsButton from '../components/customComponents/SettingsButton';
+import EditUserData from '../components/contents/EditUserData';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout, userData }: any = useContext(UserContext);
@@ -68,28 +69,42 @@ const Settings = ({ navigation }: any) => {
                     onAction={() => alert()}
                 />
             </View>
-            <SettingsUserModal
-                selectedIcon={selectedIcon}
+            <CustomModal
+                viewMode={true}
+                title="Cambiar datos de usuario"
                 modalVisible={modalUserVisible}
-                setSelectedIcon={setSelectedIcon}
                 setModalVisible={setModalUserVisible}
-                userDataLocal={userDataLocal}
-                setUserDataLocal={setUserDataLocal}
+                content={
+                    <EditUserData
+                        selectedIcon={selectedIcon}
+                        setSelectedIcon={setSelectedIcon}
+                        userDataLocal={userDataLocal}
+                        setUserDataLocal={setUserDataLocal}
+                    />
+                }
             />
-            <SettingsPwdModal
+            <CustomModal
+                viewMode={true}
+                title="Cambiar contraseña"
                 modalVisible={modalPwdVisible}
                 setModalVisible={setModalPwdVisible}
+                content={
+                    <ChangePassword
+                        modalVisible={modalPwdVisible}
+                        setModalVisible={setModalPwdVisible}
+                    />
+                }
             />
             <CustomModal
                 viewMode={true}
                 title="Habilitar Inicio con Huella"
+                modalVisible={modalFingerVisible}
+                setModalVisible={setModalFingerVisible}
                 content={
                     <EnableBiometrics
                         setModalFingerVisible={setModalFingerVisible}
                     />
                 }
-                modalVisible={modalFingerVisible}
-                setModalVisible={setModalFingerVisible}
             />
             <Toast config={toastConfig} />
         </View>
