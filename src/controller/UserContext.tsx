@@ -19,7 +19,7 @@ const UserProvider = ({ children }: props) => {
         password: AsyncStorage.getItem('userPwd') || '',
         token: '',
         full_name: '',
-        icon_name: '',
+        user_email: '',
     });
     const [newUser, setNewUser] = useState({
         fullName: '',
@@ -103,8 +103,9 @@ const UserProvider = ({ children }: props) => {
                 clearLoginFields();
                 updStateData(setUserData, res.data.acces_token, 'token');
                 updStateData(setUserData, res.data.full_name, 'full_name');
-                updStateData(setUserData, res.data.icon_name, 'icon_name');
+                updStateData(setUserData, res.data.user_email, 'user_email');
                 setIndicatorVisible(false);
+                console.log(res);
             })
             .catch(() => {
                 Toast.show({

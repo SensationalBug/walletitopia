@@ -48,11 +48,6 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
             resolve('ok');
         });
     };
-    const get = async () => {
-        const res = await AsyncStorage.getItem('userEmail');
-        console.log(res);
-        console.log(isLocalData);
-    };
     const deleteData = () => {
         Alert.alert(
             'Advertencia',
@@ -121,9 +116,6 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
                         }>
                         Guardar datos de huella
                     </Button>
-                    <Button style={styles.checkBoxButton} onPress={() => get()}>
-                        GET
-                    </Button>
                 </View>
             ) : (
                 <View>
@@ -132,9 +124,6 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
                         style={styles.checkBoxButton}
                         onPress={() => deleteData()}>
                         Desactivar huella
-                    </Button>
-                    <Button style={styles.checkBoxButton} onPress={() => get()}>
-                        GET
                     </Button>
                 </View>
             )}

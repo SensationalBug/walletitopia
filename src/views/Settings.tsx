@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import UserCard from '../components/cards/UserCard';
 import { toastConfig } from '../styles/ToastStyles';
+import { View, Linking, Alert } from 'react-native';
 import { UserContext } from '../controller/UserContext';
 import EditUserData from '../components/contents/EditUserData';
-import { View, StyleSheet, Linking, Alert } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import ChangePassword from '../components/contents/ChangePassword';
 import CustomModal from '../components/customComponents/CustomModal';
@@ -30,7 +30,7 @@ const Settings = ({ navigation }: any) => {
         ]);
     };
     return (
-        <View style={styles.container}>
+        <View>
             <UserCard userName={userDataLocal.userName} />
             <View>
                 <SettingsButton
@@ -105,9 +105,3 @@ const Settings = ({ navigation }: any) => {
 };
 
 export default Settings;
-
-const styles = StyleSheet.create({
-    container: {
-        height: '100%',
-    },
-});

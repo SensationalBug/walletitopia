@@ -439,6 +439,23 @@ export const MetricsCardStyles = StyleSheet.create({
     },
 });
 
+export const SettingsButtonStyle = StyleSheet.create({
+    buttonContainer: {
+        height: 80,
+        margin: 5,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        backgroundColor: '#fff',
+        justifyContent: 'space-between',
+    },
+    buttonText: {
+        fontSize: 20,
+        color: '#000',
+    },
+});
+
 export const SettingsModalButtonsStyles = StyleSheet.create({
     buttonsContainer: {
         width: '100%',
