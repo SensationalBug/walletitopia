@@ -16,12 +16,14 @@ import React, { useContext, useState, useRef } from 'react';
 import CategoryCard from '../components/cards/CategoryCard';
 import { CatContext } from '../controller/CategoriesContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { data } from '../text/data';
+import { icons } from '../text/icons';
 const Categories = () => {
     const layout = useWindowDimensions();
     const flatList = useRef<FlatList<any>>(null);
     const {
-        catIcons,
-        categories,
+        // catIcons,
+        // categories,
         newCategoy,
         setNewCategory,
         selectedCatIcon,
@@ -75,13 +77,15 @@ const Categories = () => {
                 <FlatList
                     ref={flatList}
                     numColumns={3}
-                    data={categories}
+                    data={data}
+                    // data={categories}
                     keyExtractor={item => item._id}
                     renderItem={({ item }) => <CategoryCard {...item} />}
                 />
             </View>
             <ModalIcons
-                icons={catIcons}
+                // icons={catIcons}
+                icons={icons}
                 setFuction={setNewCategory}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}

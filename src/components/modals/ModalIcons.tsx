@@ -19,6 +19,7 @@ const ModalIcons = ({
     setSelectedIcon,
 }: any) => {
     const { updStateData }: any = useContext(UserContext);
+    console.log(icons);
     return (
         <Modal transparent={true} animationType="fade" visible={modalVisible}>
             <View style={ModalCatStyles.modalContainer}>
