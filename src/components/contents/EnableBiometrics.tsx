@@ -1,9 +1,9 @@
 import { Button, TextInput } from 'react-native-paper';
 import { UserContext } from '../../controller/UserContext';
 import React, { useContext, useState, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
 const EnableBiometrics = ({ setModalFingerVisible }: any) => {
     const [userFingerData, setUserFingerData] = useState({
@@ -20,15 +20,13 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
     }: any = useContext(UserContext);
     const styles = StyleSheet.create({
         contentView: {
-            height: '100%',
+            flex: 1,
             justifyContent: 'flex-end',
         },
         textinputView: {
-            height: '80%',
             display: useBiometrics ? 'flex' : 'none',
         },
         checkBoxView: {
-            height: '20%',
             alignItems: 'center',
         },
         checkBoxText: {
@@ -39,6 +37,9 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
             borderRadius: 5,
             marginVertical: 10,
             backgroundColor: '#bf1313',
+        },
+        textInput: {
+            paddingLeft: 5,
         },
     });
     const saveData = () => {
@@ -83,6 +84,7 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
             {!isLocalData ? (
                 <View style={styles.textinputView}>
                     <TextInput
+                        style={styles.textInput}
                         value={userFingerData.userEmail}
                         onChangeText={value =>
                             updStateData(setUserFingerData, value, 'userEmail')
@@ -91,6 +93,7 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
                         placeholder="Correo electrónico"
                     />
                     <TextInput
+                        style={styles.textInput}
                         value={userFingerData.userPwd}
                         onChangeText={value =>
                             updStateData(setUserFingerData, value, 'userPwd')

@@ -16,13 +16,18 @@ const CustomModal = ({
     modalVisible,
     setModalVisible,
     viewMode = false,
+    setHeight,
 }: any) => {
     const height = useWindowDimensions().height;
     return (
         <Modal transparent={true} animationType="fade" visible={modalVisible}>
             <View
                 style={[CustomModalStyles.modalContainer, { height: height }]}>
-                <View style={CustomModalStyles.modalView}>
+                <View
+                    style={[
+                        CustomModalStyles.modalView,
+                        { height: setHeight || 550 },
+                    ]}>
                     <View style={CustomModalStyles.header}>
                         <Text style={CustomModalStyles.title}>{title}</Text>
                         <TouchableOpacity

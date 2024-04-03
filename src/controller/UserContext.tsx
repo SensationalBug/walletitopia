@@ -86,41 +86,42 @@ const UserProvider = ({ children }: props) => {
     // Funcion para hacer login en la app
     const userLogin = () => {
         setIndicatorVisible(true);
-        // Esto es de prueba
-        clearLoginFields();
-        updStateData(setUserData, 'acces_token', 'token');
-        updStateData(setUserData, 'full_name', 'full_name');
-        updStateData(setUserData, 'user_email', 'user_email');
-        setIndicatorVisible(false);
-        // axios({
-        //     method: 'post',
-        //     url: `${URL}/users/signin`,
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     data: {
-        //         // mail: userData.mail,
-        //         // password: userData.password,
-        //         mail: 'breidydl@gmail.com',
-        //         password: '111111112',
-        //     },
-        // })
-        //     .then((res: any) => {
-        //         clearLoginFields();
-        //         updStateData(setUserData, res.data.acces_token, 'token');
-        //         updStateData(setUserData, res.data.full_name, 'full_name');
-        //         updStateData(setUserData, res.data.user_email, 'user_email');
-        //         setIndicatorVisible(false);
-        //         console.log(res);
-        //     })
-        //     .catch(() => {
-        //         Toast.show({
-        //             type: 'error',
-        //             visibilityTime: 1200,
-        //             text1: 'Credenciales invalidas',
-        //         });
-        //         setIndicatorVisible(false);
-        //     });
+        axios({
+            method: 'post',
+            url: `${URL}/users/signin`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {
+                // mail: userData.mail,
+                // password: userData.password,
+                mail: 'breidydl@gmail.com',
+                password: '111111112',
+            },
+            timeout: 2000,
+        })
+            .then((res: any) => {
+                clearLoginFields();
+                updStateData(setUserData, res.data.acces_token, 'token');
+                updStateData(setUserData, res.data.full_name, 'full_name');
+                updStateData(setUserData, res.data.user_email, 'user_email');
+                setIndicatorVisible(false);
+            })
+            .catch((err: any) => {
+                // Toast.show({
+                //     type: 'error',
+                //     visibilityTime: 1200,
+                //     text1:
+                //         err.response?.status === 401
+                //             ? 'Credenciales Inválidas'
+                //             : err.message,
+                // });
+                // setIndicatorVisible(false);
+                updStateData(setUserData, 'acces_token', 'token');
+                updStateData(setUserData, 'full_name', 'full_name');
+                updStateData(setUserData, err.message, 'user_email');
+                setIndicatorVisible(false);
+            });
     };
     // Funcion para registrar un nuevo usuario
     const registerNewUser = () => {

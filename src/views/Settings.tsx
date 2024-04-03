@@ -64,6 +64,7 @@ const Settings = ({ navigation }: any) => {
                 />
             </View>
             <CustomModal
+                setHeight={250}
                 viewMode={true}
                 title="Cambiar datos de usuario"
                 modalVisible={modalUserVisible}
@@ -89,6 +90,7 @@ const Settings = ({ navigation }: any) => {
                 }
             />
             <CustomModal
+                setHeight={300}
                 viewMode={true}
                 title="Habilitar Inicio con Huella"
                 modalVisible={modalFingerVisible}
