@@ -9,8 +9,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 const PwdRequestContent = ({ modalVisible, setModalVisible }: any) => {
     const { Toast }: any = useContext(UserContext);
     const [requestEmail, setRequesEmail] = useState('');
-    const { reqChangePassword, indicatorVisible }: any =
-        useContext(UserContext);
+    const { reqChangePassword, loading }: any = useContext(UserContext);
     return (
         <View>
             <View>
@@ -31,10 +30,10 @@ const PwdRequestContent = ({ modalVisible, setModalVisible }: any) => {
                 </Text>
             </View>
             <View style={styles.activityIndicatorContainer}>
-                {indicatorVisible ? (
+                {loading ? (
                     <ActivityIndicator
                         hidesWhenStopped
-                        animating={indicatorVisible}
+                        animating={loading}
                         color="#fff"
                         size={150}
                     />
@@ -52,11 +51,12 @@ const PwdRequestContent = ({ modalVisible, setModalVisible }: any) => {
                             style={styles.buttonText}
                             onPress={() =>
                                 reqChangePassword(requestEmail)
-                                    .then((res: any) => {
-                                        if (res.status === 200) {
-                                            setRequesEmail('');
-                                            setModalVisible(!modalVisible);
-                                        }
+                                    .then(() => {
+                                        // .then((res: any) => {
+                                        // if (res.status === 200) {
+                                        setRequesEmail('');
+                                        setModalVisible(!modalVisible);
+                                        // }
                                     })
                                     .catch((err: any) => console.log(err))
                             }>

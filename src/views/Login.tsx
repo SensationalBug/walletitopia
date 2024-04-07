@@ -8,11 +8,11 @@ import SignupBox from '../components/customComponents/SignupBox';
 import CustomSwitch from '../components/customComponents/CustomSwitch';
 
 const Login = ({ navigation }: any) => {
-    const { userData, Toast }: any = useContext(UserContext);
+    const { data, Toast }: any = useContext(UserContext);
     const [window, setWindow] = useState(false);
     useEffect(() => {
-        userData.token ? navigation.navigate('Main') : null;
-    }, [navigation, userData.token]);
+        data && data.token ? navigation.navigate('Main') : null;
+    }, [navigation, data]);
     return (
         <View style={LoginStyles.container}>
             <CustomSwitch window={window} setWindow={setWindow} />

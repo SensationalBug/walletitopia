@@ -20,9 +20,10 @@ const LoginBox = () => {
     const {
         userLogin,
         setUserData,
+        data,
         userData,
-        indicatorVisible,
         isLocalData,
+        loading,
     }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
     const biometrics = async () => {
@@ -41,10 +42,10 @@ const LoginBox = () => {
             style={[LoginBoxStyles.container, { height: layout.height - 100 }]}>
             <View style={LoginBoxStyles.loginFormBox}>
                 <View style={LoginBoxStyles.logo}>
-                    {indicatorVisible ? (
+                    {loading ? (
                         <ActivityIndicator
                             hidesWhenStopped
-                            animating={indicatorVisible}
+                            animating={loading}
                             color="#122e49"
                             size={80}
                         />
@@ -79,6 +80,9 @@ const LoginBox = () => {
                     <Text style={LoginBoxStyles.submitButtonText}>
                         Iniciar Sesión
                     </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => console.log(data)}>
+                    <Icon name="fingerprint" size={80} color="#122e49" />
                 </TouchableOpacity>
             </View>
             {isLocalData ? (

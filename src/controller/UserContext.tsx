@@ -1,8 +1,8 @@
 import axios from 'axios';
-import URL from '../../URL';
 import Toast from 'react-native-toast-message';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAxios } from '../customHooks/useAxios';
 
 interface props {
     children: JSX.Element;
@@ -10,10 +10,10 @@ interface props {
 
 export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
+    const { data, error, loading, executeAxios } = useAxios();
     const [resetSlider, setResetSlider] = useState(false);
     const [useBiometrics, setUseBiometrics] = useState(false);
     const [isLocalData, setIsLocalData] = useState(false);
-    const [indicatorVisible, setIndicatorVisible] = useState(false);
     const [userData, setUserData] = useState({
         mail: AsyncStorage.getItem('userEmail') || '',
         password: AsyncStorage.getItem('userPwd') || '',
@@ -84,45 +84,57 @@ const UserProvider = ({ children }: props) => {
         }));
     };
     // Funcion para hacer login en la app
-    const userLogin = () => {
-        setIndicatorVisible(true);
-        axios({
-            method: 'post',
-            url: `${URL}/users/signin`,
-            headers: {
-                'Content-Type': 'application/json',
+    const userLogin = async () => {
+        await executeAxios(
+            '/auth/login',
+            'POST',
+            {
+                userNameOrEmail: 'breidydl@gmail.com',
+                password: '11111111',
             },
-            data: {
-                // mail: userData.mail,
-                // password: userData.password,
-                mail: 'breidydl@gmail.com',
-                password: '111111112',
-            },
-            timeout: 2000,
-        })
-            .then((res: any) => {
-                clearLoginFields();
-                updStateData(setUserData, res.data.acces_token, 'token');
-                updStateData(setUserData, res.data.full_name, 'full_name');
-                updStateData(setUserData, res.data.user_email, 'user_email');
-                setIndicatorVisible(false);
-            })
-            .catch((err: any) => {
-                // Toast.show({
-                //     type: 'error',
-                //     visibilityTime: 1200,
-                //     text1:
-                //         err.response?.status === 401
-                //             ? 'Credenciales Inválidas'
-                //             : err.message,
-                // });
-                // setIndicatorVisible(false);
-                updStateData(setUserData, 'acces_token', 'token');
-                updStateData(setUserData, 'full_name', 'full_name');
-                updStateData(setUserData, err.message, 'user_email');
-                setIndicatorVisible(false);
-            });
+            'Credenciales Inválidas',
+        );
     };
+    // const userLogin = () => {
+    //     setIndicatorVisible(true);
+    //     axios({
+    //         method: 'post',
+    //         url: `${URL}/users/signin`,
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         data: {
+    //             // mail: userData.mail,
+    //             // password: userData.password,
+    //             mail: 'breidydl@gmail.com',
+    //             password: '111111112',
+    //         },
+    //         timeout: 2000,
+    //     })
+    //         .then((res: any) => {
+    //             clearLoginFields();
+    //             updStateData(setUserData, res.data.acces_token, 'token');
+    //             updStateData(setUserData, res.data.full_name, 'full_name');
+    //             updStateData(setUserData, res.data.user_email, 'user_email');
+    //             setIndicatorVisible(false);
+    //             console.log(res);
+    //         })
+    //         .catch((err: any) => {
+    //             // Toast.show({
+    //             //     type: 'error',
+    //             //     visibilityTime: 1200,
+    //             //     text1:
+    //             //         err.response?.status === 401
+    //             //             ? 'Credenciales Inválidas'
+    //             //             : err.message,
+    //             // });
+    //             // setIndicatorVisible(false);
+    //             updStateData(setUserData, 'acces_token', 'token');
+    //             updStateData(setUserData, 'full_name', 'full_name');
+    //             updStateData(setUserData, err.message, 'user_email');
+    //             setIndicatorVisible(false);
+    //         });
+    // };
     // Funcion para registrar un nuevo usuario
     const registerNewUser = () => {
         setIndicatorVisible(true);
@@ -217,28 +229,37 @@ const UserProvider = ({ children }: props) => {
     };
     // Funcion para cambiar la clave desde fuera
     const reqChangePassword = (mail: any) => {
-        return new Promise((resolve, reject) => {
-            setIndicatorVisible(true);
-            axios({
-                method: 'patch',
-                url: `${URL}/users/req-reset-password`,
-                data: {
+        return new Promise(async (resolve: any) => {
+            await executeAxios(
+                '/users/req-reset-password',
+                'PATCH',
+                {
                     email: mail.reqEmail,
                 },
-            })
-                .then(res => {
-                    resolve(res);
-                    Toast.show({
-                        type: 'success',
-                        visibilityTime: 1200,
-                        text1: 'Correo enviado',
-                    });
-                    setIndicatorVisible(false);
-                })
-                .catch(err => {
-                    reject(err);
-                    setIndicatorVisible(false);
-                });
+                'Credenciales Inválidas',
+                'Correo enviado',
+            );
+            resolve('ok');
+            // axios({
+            //     method: 'patch',
+            //     url: `${URL}/users/req-reset-password`,
+            //     data: {
+            //         email: mail.reqEmail,
+            //     },
+            // })
+            //     .then(res => {
+            //         resolve(res);
+            //         Toast.show({
+            //             type: 'success',
+            //             visibilityTime: 1200,
+            //             text1: 'Correo enviado',
+            //         });
+            //         setIndicatorVisible(false);
+            //     })
+            //     .catch(err => {
+            //         reject(err);
+            //         setIndicatorVisible(false);
+            //     });
         });
     };
     // Funcion para editar los datos del usuario
@@ -275,11 +296,12 @@ const UserProvider = ({ children }: props) => {
                 reqChangePassword,
                 changePwd,
                 editUserName,
-                indicatorVisible,
                 useBiometrics,
                 setUseBiometrics,
                 isLocalData,
                 setIsLocalData,
+                data,
+                loading,
             }}>
             {children}
         </UserContext.Provider>
