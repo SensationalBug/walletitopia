@@ -8,6 +8,7 @@ import React, {
 import axios from 'axios';
 import URL from '../../URL';
 import { UserContext } from './UserContext';
+import { useAxios } from '../customHooks/useAxios';
 
 interface props {
     children: JSX.Element;
@@ -16,6 +17,7 @@ interface props {
 export const CategoriesContext = createContext({});
 
 const CategoriesProvider = ({ children }: props) => {
+    const { loading, executeAxios } = useAxios();
     const { userData, data, showToastAlert, updStateData }: any =
         useContext(UserContext);
     const [categories, setCategories] = useState([]);
@@ -26,17 +28,28 @@ const CategoriesProvider = ({ children }: props) => {
         iconName: '',
     });
     // Funcion para obtener todas las categorias
-    const getCat = useCallback(() => {
+    const getCat = useCallback(async () => {
+        // await executeAxios(
+        //     '/auth/login',
+        //     'POST',
+        //     {
+        //         // userNameOrEmail: userNameOrEmail,
+        //         // password: password,
+        //         userNameOrEmail: 'pedro',
+        //         password: '11111111',
+        //     },
+        //     'Credenciales Inválidas',
+        // );
         axios({
             method: 'get',
-            url: `${URL}/categoria`,
+            url: `${URL}/category`,
             headers: {
-                Authorization: `Bearer ${data.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
         })
-            .then(res => setCategories(res.data))
+            .then(res => console.log(res.data))
             .catch(err => console.log('Categoria', err));
-    }, [data]);
+    }, []);
     // Funcion para agregar una nueva categoria
     const addCat = () => {
         axios({
@@ -47,7 +60,7 @@ const CategoriesProvider = ({ children }: props) => {
                 icon_name: newCategoy.iconName,
             },
             headers: {
-                Authorization: `Bearer ${data.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
         })
             .then(() => {
@@ -81,7 +94,7 @@ const CategoriesProvider = ({ children }: props) => {
             method: 'delete',
             url: `${URL}/categoria/${catId}`,
             headers: {
-                Authorization: `Bearer ${data.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
         })
             .then(() => {
@@ -99,16 +112,16 @@ const CategoriesProvider = ({ children }: props) => {
             method: 'get',
             url: `${URL}/categoria/Icon`,
             headers: {
-                Authorization: `Bearer ${data.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
         })
             .then(res => setCatIcons(res.data))
             .catch(err => console.log(err));
-    }, [data]);
+    }, []);
     // UseEffect que obtiene las categorias y los iconos
-    useEffect(() => {
-        data.token ? (getCat(), getCatIcons()) : null;
-    }, [data, getCat, getCatIcons]);
+    // useEffect(() => {
+    //     data.token ? (getCat(), getCatIcons()) : null;
+    // }, [data, getCat, getCatIcons]);
 
     return (
         <CategoriesContext.Provider

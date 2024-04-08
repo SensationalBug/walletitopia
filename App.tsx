@@ -9,16 +9,16 @@ import GastosProvider from './src/controller/GastosContext';
 function App(): JSX.Element {
     return (
         <UserProvider>
-            {/* <AccountProvider> */}
-            <GastosProvider>
-                {/* <CategoriesProvider> */}
-                <View style={styles.sectionContainer}>
-                    <StatusBar barStyle="default" />
-                    <Navigation />
-                </View>
-                {/* </CategoriesProvider> */}
-            </GastosProvider>
-            {/* </AccountProvider> */}
+            <AccountProvider>
+                <GastosProvider>
+                    <CategoriesProvider>
+                        <View style={styles.sectionContainer}>
+                            <StatusBar barStyle="default" />
+                            <Navigation />
+                        </View>
+                    </CategoriesProvider>
+                </GastosProvider>
+            </AccountProvider>
         </UserProvider>
     );
 }

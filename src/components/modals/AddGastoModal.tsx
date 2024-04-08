@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FormTextInput from '../customComponents/FormTextInput';
 import { GastosContext } from '../../controller/GastosContext';
-import { CatContext } from '../../controller/CategoriesContext';
+import { CategoriesContext } from '../../controller/CategoriesContext';
 import { AddGastoModalStyles } from '../../styles/GlobalStyles';
 import { View, Modal, FlatList, TouchableOpacity } from 'react-native';
 import HomeCategoryButton from '../customComponents/HomeCategoryButton';
@@ -10,7 +10,7 @@ import HomeCategoryButton from '../customComponents/HomeCategoryButton';
 const AddGastoModal = ({ modalVisible, setModalVisible }: any) => {
     const { setNewGasto, validateAddGasto, clearNewGastos }: any =
         useContext(GastosContext);
-    const { categories }: any = useContext(CatContext);
+    const { categories }: any = useContext(CategoriesContext);
     const [selectedId, setSelectedId] = useState('');
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>

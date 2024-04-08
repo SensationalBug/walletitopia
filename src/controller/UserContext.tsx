@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,7 +12,7 @@ interface props {
 
 export const UserContext = createContext({});
 const UserProvider = ({ children }: props) => {
-    const { data, error, loading, executeAxios } = useAxios();
+    const { data, /*error,*/ loading, executeAxios } = useAxios();
     const [resetSlider, setResetSlider] = useState(false);
     const [useBiometrics, setUseBiometrics] = useState(false);
     const [isLocalData, setIsLocalData] = useState(false);
@@ -24,11 +24,13 @@ const UserProvider = ({ children }: props) => {
         passwordConfirm: '',
         appTerms: false,
     });
+
     const [changePassword, setChangePassword] = useState({
         oldPwd: '',
         newPwd: '',
         reNewPwd: '',
     });
+
     const getData = useCallback(async () => {
         const result = await AsyncStorage.getItem('userEmail');
         if (result !== null) {
@@ -38,16 +40,10 @@ const UserProvider = ({ children }: props) => {
         }
         console.log(result);
     }, []);
+
     useEffect(() => {
         getData();
     }, [getData, isLocalData]);
-
-    // Funcion para borrar los campos de la clave
-    const clearPwdFields = () => {
-        updStateData(setChangePassword, '', 'oldPwd');
-        updStateData(setChangePassword, '', 'newPwd');
-        updStateData(setChangePassword, '', 'reNewPwd');
-    };
 
     // Funcion para hacer login en la app
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -73,21 +69,13 @@ const UserProvider = ({ children }: props) => {
         await executeAxios(
             '/app-user',
             'POST',
-            // {
-            //     full_name: newUser.full_name,
-            //     user_icon_name: 'user',
-            //     userName: newUser.userName,
-            //     password: newUser.password,
-            //     passwordConfirm: newUser.passwordConfirm,
-            //     email: newUser.email,
-            // },
             {
-                full_name: 'Luis Daniel',
+                full_name: newUser.full_name,
                 user_icon_name: 'user',
-                userName: 'Prueba12223',
-                password: 'PassPrueba2024!',
-                passwordConfirm: 'PassPrueba2024!',
-                email: 'prueba151223@gmail.com',
+                userName: newUser.userName,
+                password: newUser.password,
+                passwordConfirm: newUser.passwordConfirm,
+                email: newUser.email,
             },
             'Completa los campos',
             'Usuario Creado',
@@ -102,33 +90,35 @@ const UserProvider = ({ children }: props) => {
             userLogin(res.userName, res.password);
         });
     };
+
     // Funcion que valida los campos antes de registrar
     const userSignup = () => {
-        // const { full_name, email, password, passwordConfirm, appTerms } =
-        //     newUser;
-        // if (!full_name || !email) {
-        //     showToastAlert('error', 'Completar todos los campos');
-        //     return;
-        // }
-        // if (!password || !passwordConfirm) {
-        //     showToastAlert('error', 'Favor completar las contraseñas');
-        //     return;
-        // }
-        // if (password !== passwordConfirm) {
-        //     showToastAlert('error', 'Las contraseñas deben ser iguales');
-        //     return;
-        // }
-        // if (!appTerms) {
-        //     showToastAlert('error', 'Debe aceptar los términos de uso');
-        //     return;
-        // }
+        const { full_name, email, password, passwordConfirm, appTerms } =
+            newUser;
+        if (!full_name || !email) {
+            showToastAlert('error', 'Completar todos los campos');
+            return;
+        }
+        if (!password || !passwordConfirm) {
+            showToastAlert('error', 'Favor completar las contraseñas');
+            return;
+        }
+        if (password !== passwordConfirm) {
+            showToastAlert('error', 'Las contraseñas deben ser iguales');
+            return;
+        }
+        if (!appTerms) {
+            showToastAlert('error', 'Debe aceptar los términos de uso');
+            return;
+        }
         registerNewUser();
     };
+
     // Funcion para hacer logout en la app
     const userLogout = (navigation: any, screen: string) => {
-        clearFields(setUserData, ['mail', 'token', 'password']);
         navigation.navigate(screen);
     };
+
     // Funcion para cambiar la clave
     const validatePassword = () => {
         return new Promise(resolve => {
@@ -142,30 +132,32 @@ const UserProvider = ({ children }: props) => {
             resolve('ok');
         });
     };
+
     const changePwd = () => {
-        axios({
-            method: 'patch',
-            url: `${URL}/users/change-password`,
-            headers: {
-                Authorization: `Bearer ${userData.token}`,
-            },
-            data: {
-                oldPassword: changePassword.oldPwd,
-                newPassword: changePassword.newPwd,
-            },
-        })
-            .then(() => {
-                clearPwdFields();
-                showToastAlert('success', 'Nice, la contraseña se ha cambiado');
-            })
-            .catch(() => {
-                clearPwdFields();
-                showToastAlert(
-                    'error',
-                    'Oh no! la contrasena antigua no coincide',
-                );
-            });
+        // axios({
+        //     method: 'patch',
+        //     url: `${URL}/users/change-password`,
+        //     headers: {
+        //         Authorization: `Bearer ${userData.token}`,
+        //     },
+        //     data: {
+        //         oldPassword: changePassword.oldPwd,
+        //         newPassword: changePassword.newPwd,
+        //     },
+        // })
+        //     .then(() => {
+        //         clearPwdFields();
+        //         showToastAlert('success', 'Nice, la contraseña se ha cambiado');
+        //     })
+        //     .catch(() => {
+        //         clearPwdFields();
+        //         showToastAlert(
+        //             'error',
+        //             'Oh no! la contrasena antigua no coincide',
+        //         );
+        //     });
     };
+
     // Funcion para cambiar la clave desde fuera
     const reqChangePassword = (mail: any) => {
         return new Promise(async (resolve: any) => {
@@ -201,18 +193,20 @@ const UserProvider = ({ children }: props) => {
             //     });
         });
     };
+
     // Funcion para editar los datos del usuario
-    const editUserName = (id: string, newName: string) => {
-        axios({
-            method: 'patch',
-            url: `${URL}/users/${id}`,
-            data: {
-                full_name: newName,
-            },
-        })
-            .then(() => updStateData(setUserData, newName, 'full_name'))
-            .catch(err => console.log(err));
-    };
+    // const editUserName = (id: string, newName: string) => {
+    //     // axios({
+    //     //     method: 'patch',
+    //     //     url: `${URL}/users/${id}`,
+    //     //     data: {
+    //     //         full_name: newName,
+    //     //     },
+    //     // })
+    //     //     .then(() => updStateData(setUserData, newName, 'full_name'))
+    //     //     .catch(err => console.log(err));
+    // };
+
     return (
         <UserContext.Provider
             value={{
@@ -228,10 +222,9 @@ const UserProvider = ({ children }: props) => {
                 setChangePassword,
                 validatePassword,
                 changePassword,
-                clearPwdFields,
                 reqChangePassword,
                 changePwd,
-                editUserName,
+                // editUserName,
                 useBiometrics,
                 setUseBiometrics,
                 isLocalData,

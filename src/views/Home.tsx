@@ -9,14 +9,15 @@ import { AccountContext } from '../controller/AccountsContext';
 import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 
 const Home = ({ navigation }: any) => {
-    // const { accounts, getAccounts }: any = useContext(AccountContext);
-    const accounts = [1, 2];
+    const { accounts, getAccounts }: any = useContext(AccountContext);
     const [modalVisible, setModalVisible] = useState(false);
     const { Toast, data }: any = useContext(UserContext);
     const [accountsData, setAccountsData] = useState({});
+
     // useEffect(() => {
     //     getAccounts();
     // }, [getAccounts, accounts]);
+
     const fecha = () => {
         const date = new Date();
         return (
@@ -25,6 +26,7 @@ const Home = ({ navigation }: any) => {
             </Text>
         );
     };
+
     return (
         <View style={HomeStyles.container}>
             <View>
@@ -37,7 +39,7 @@ const Home = ({ navigation }: any) => {
             {accounts.length ? (
                 <FlatList
                     data={accounts}
-                    // keyExtractor={item => item._id}
+                    keyExtractor={item => item._id}
                     renderItem={(item: any) => (
                         <HomeCard
                             {...item}

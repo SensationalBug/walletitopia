@@ -18,7 +18,8 @@ import { clearFields } from '../../utils/clearFields';
 
 const LoginBox = () => {
     const layout = useWindowDimensions();
-    const { userLogin, isLocalData, loading }: any = useContext(UserContext);
+    const { data, userLogin, isLocalData, loading }: any =
+        useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [userData, setUserData] = useState({
         userNameOrEmail: '',
@@ -95,6 +96,9 @@ const LoginBox = () => {
                     <Icon name="fingerprint" size={80} color="#122e49" />
                 </TouchableOpacity>
             ) : null}
+            <TouchableOpacity onPress={() => console.log(data)}>
+                <Icon name="fingerprint" size={80} color="red" />
+            </TouchableOpacity>
             <Text style={LoginBoxStyles.rightsText}>
                 © ITopia 2023, Todos los derechos reservados.
             </Text>

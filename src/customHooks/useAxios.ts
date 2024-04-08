@@ -13,7 +13,7 @@ export const useAxios = <genericType = unknown>() => {
         method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
         body?: unknown,
         errorMessage?: string,
-        successMessage = 'Operation successful',
+        successMessage = '',
     ) => {
         return new Promise(async resolve => {
             setLoading(true);
@@ -39,8 +39,11 @@ export const useAxios = <genericType = unknown>() => {
                 setData(result);
 
                 if (method !== 'GET') {
-                    showToastAlert('success', successMessage);
+                    !successMessage
+                        ? null
+                        : showToastAlert('success', successMessage);
                 }
+
                 resolve(result);
             } catch (err) {
                 if (err instanceof Error) {
