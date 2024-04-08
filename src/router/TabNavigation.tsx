@@ -34,18 +34,18 @@ const TabNavigator = () => {
                             : homeIcon(color, 'home-outline'),
                 }}
             />
-            <Tab.Screen
-                name="Cuentas"
-                component={Accounts}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused, color }: any) =>
-                        focused
-                            ? homeIcon(color, 'wallet')
-                            : homeIcon(color, 'wallet-outline'),
-                }}
-            />
-            <Tab.Screen
+            {/* <Tab.Screen
+                // name="Cuentas"
+                // component={Accounts}
+                // options={{
+                //     headerShown: false,
+                //     tabBarIcon: ({ focused, color }: any) =>
+                //         focused
+                //             ? homeIcon(color, 'wallet')
+                //             : homeIcon(color, 'wallet-outline'),
+                // }}
+            /> */}
+            {/* <Tab.Screen
                 name="Categorias"
                 component={Categories}
                 options={{
@@ -57,7 +57,7 @@ const TabNavigator = () => {
                             ? homeIcon(color, 'layers')
                             : homeIcon(color, 'layers-outline'),
                 }}
-            />
+            /> */}
             {/* <Tab.Screen
                 name="Métricas"
                 component={Metrics}

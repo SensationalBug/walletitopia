@@ -75,7 +75,7 @@ const AccountProvider = ({ children }: props) => {
         })
             .then(res => setAccounts(res.data))
             .catch(() => setAccounts([]));
-    }, [userData.token]);
+    }, [userData]);
     // Funcion para añadir cuentas
     const addAccount = () => {
         const { accountName, accountAmount, accountType } = newAccountData;
@@ -170,7 +170,7 @@ const AccountProvider = ({ children }: props) => {
     // UseEffect que trae todas las cuentas al abrir la app
     useEffect(() => {
         userData.token ? getAccounts() : null;
-    }, [getAccounts, userData.token]);
+    }, [getAccounts, userData]);
     return (
         <AccountContext.Provider
             value={{

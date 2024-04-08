@@ -11,13 +11,13 @@ import {
 import CustomModal from './CustomModal';
 import FormTextInput from './FormTextInput';
 import { policies, privacy } from '../../text/PoliciesAndPrivacy';
+import { updateStateData } from '../../utils/clearFields';
 
 const SignupBox = () => {
     const layout = useWindowDimensions();
-    const { userSignup, setNewUser, updStateData, newUser }: any =
-        useContext(UserContext);
+    const { userSignup, setNewUser, newUser }: any = useContext(UserContext);
     const toggleAppTerms = () => {
-        updStateData(setNewUser, !newUser.appTerms, 'appTerms');
+        updateStateData(setNewUser, !newUser.appTerms, 'appTerms');
     };
     const [modalTermsVisible, setModalTermsVisible] = useState(false);
     const [modalPrivacyVisible, setModalPrivacyVisible] = useState(false);
@@ -30,16 +30,23 @@ const SignupBox = () => {
                     <Icon size={80} color="#122e49" name="angry" />
                 </View>
                 <FormTextInput
-                    value={newUser.fullName}
+                    value={newUser.full_name}
                     setState={setNewUser}
-                    fieldName="fullName"
+                    fieldName="full_name"
                     secureTextEntry={false}
                     placeholder="Nombre completo"
                 />
                 <FormTextInput
-                    value={newUser.mail}
+                    value={newUser.userName}
                     setState={setNewUser}
-                    fieldName="mail"
+                    fieldName="userName"
+                    secureTextEntry={false}
+                    placeholder="Nombre de usuario"
+                />
+                <FormTextInput
+                    value={newUser.email}
+                    setState={setNewUser}
+                    fieldName="email"
                     secureTextEntry={false}
                     placeholder="Correo electrónico"
                 />
@@ -47,14 +54,14 @@ const SignupBox = () => {
                     value={newUser.password}
                     setState={setNewUser}
                     fieldName="password"
-                    secureTextEntry={true}
+                    secureTextEntry={false}
                     placeholder="Contraseña"
                 />
                 <FormTextInput
-                    value={newUser.rPassword}
+                    value={newUser.passwordConfirm}
                     setState={setNewUser}
-                    fieldName="rPassword"
-                    secureTextEntry={true}
+                    fieldName="passwordConfirm"
+                    secureTextEntry={false}
                     placeholder="Repita su contraseña"
                 />
                 <View style={LoginBoxStyles.termsBox}>

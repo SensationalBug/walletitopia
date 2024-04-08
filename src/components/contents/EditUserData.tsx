@@ -13,7 +13,7 @@ const EditUserData = ({
     setModalVisible,
     setUserDataLocal,
 }: any) => {
-    const { editUserName, userData }: any = useContext(UserContext);
+    const { editUserName, data }: any = useContext(UserContext);
     return (
         <View style={styles.modalContainer}>
             <View style={styles.modalView}>
@@ -33,7 +33,7 @@ const EditUserData = ({
                         ]}
                         onPress={() => {
                             setUserDataLocal({
-                                userName: userData.full_name,
+                                userName: data && data.people.fullName,
                             });
                             setModalVisible(false);
                         }}>

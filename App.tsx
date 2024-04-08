@@ -2,23 +2,23 @@ import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import Navigation from './src/router/Navigation';
 import AccountProvider from './src/controller/AccountsContext';
-import CatProvider from './src/controller/CategoriesContext';
+import CategoriesProvider from './src/controller/CategoriesContext';
 import UserProvider from './src/controller/UserContext';
 import GastosProvider from './src/controller/GastosContext';
 
 function App(): JSX.Element {
     return (
         <UserProvider>
-            <AccountProvider>
-                <GastosProvider>
-                    <CatProvider>
-                        <View style={styles.sectionContainer}>
-                            <StatusBar barStyle="default" />
-                            <Navigation />
-                        </View>
-                    </CatProvider>
-                </GastosProvider>
-            </AccountProvider>
+            {/* <AccountProvider> */}
+            <GastosProvider>
+                {/* <CategoriesProvider> */}
+                <View style={styles.sectionContainer}>
+                    <StatusBar barStyle="default" />
+                    <Navigation />
+                </View>
+                {/* </CategoriesProvider> */}
+            </GastosProvider>
+            {/* </AccountProvider> */}
         </UserProvider>
     );
 }

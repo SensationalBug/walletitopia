@@ -11,12 +11,12 @@ import EnableBiometrics from '../components/contents/EnableBiometrics';
 import SettingsButton from '../components/customComponents/SettingsButton';
 
 const Settings = ({ navigation }: any) => {
-    const { userLogout, userData }: any = useContext(UserContext);
+    const { userLogout, data }: any = useContext(UserContext);
     const [modalPwdVisible, setModalPwdVisible] = useState(false);
     const [modalUserVisible, setModalUserVisible] = useState(false);
     const [modalFingerVisible, setModalFingerVisible] = useState(false);
     const [userDataLocal, setUserDataLocal] = useState({
-        userName: userData.full_name,
+        userName: data && data.people.fullName,
     });
     const alert = () => {
         Alert.alert('Advertencia', 'Seguro que quiere cerrar sesión?', [

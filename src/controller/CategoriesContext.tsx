@@ -13,10 +13,10 @@ interface props {
     children: JSX.Element;
 }
 
-export const CatContext = createContext({});
+export const CategoriesContext = createContext({});
 
-const CatProvider = ({ children }: props) => {
-    const { userData, showToastAlert, updStateData }: any =
+const CategoriesProvider = ({ children }: props) => {
+    const { userData, data, showToastAlert, updStateData }: any =
         useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [catIcons, setCatIcons] = useState([]);
@@ -31,12 +31,12 @@ const CatProvider = ({ children }: props) => {
             method: 'get',
             url: `${URL}/categoria`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                Authorization: `Bearer ${data.token}`,
             },
         })
             .then(res => setCategories(res.data))
             .catch(err => console.log('Categoria', err));
-    }, [userData.token]);
+    }, [data]);
     // Funcion para agregar una nueva categoria
     const addCat = () => {
         axios({
@@ -47,7 +47,7 @@ const CatProvider = ({ children }: props) => {
                 icon_name: newCategoy.iconName,
             },
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                Authorization: `Bearer ${data.token}`,
             },
         })
             .then(() => {
@@ -81,7 +81,7 @@ const CatProvider = ({ children }: props) => {
             method: 'delete',
             url: `${URL}/categoria/${catId}`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                Authorization: `Bearer ${data.token}`,
             },
         })
             .then(() => {
@@ -99,19 +99,19 @@ const CatProvider = ({ children }: props) => {
             method: 'get',
             url: `${URL}/categoria/Icon`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                Authorization: `Bearer ${data.token}`,
             },
         })
             .then(res => setCatIcons(res.data))
             .catch(err => console.log(err));
-    }, [userData.token]);
+    }, [data]);
     // UseEffect que obtiene las categorias y los iconos
     useEffect(() => {
-        userData.token ? (getCat(), getCatIcons()) : null;
-    }, [userData.token, getCat, getCatIcons]);
+        data.token ? (getCat(), getCatIcons()) : null;
+    }, [data, getCat, getCatIcons]);
 
     return (
-        <CatContext.Provider
+        <CategoriesContext.Provider
             value={{
                 getCat,
                 catIcons,
@@ -124,8 +124,8 @@ const CatProvider = ({ children }: props) => {
                 setSelectedCatIcon,
             }}>
             {children}
-        </CatContext.Provider>
+        </CategoriesContext.Provider>
     );
 };
 
-export default CatProvider;
+export default CategoriesProvider;

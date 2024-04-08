@@ -3,6 +3,8 @@ import Toast from 'react-native-toast-message';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAxios } from '../customHooks/useAxios';
+import { showToastAlert } from '../utils/toast';
+import { clearFields } from '../utils/clearFields';
 
 interface props {
     children: JSX.Element;
@@ -14,18 +16,12 @@ const UserProvider = ({ children }: props) => {
     const [resetSlider, setResetSlider] = useState(false);
     const [useBiometrics, setUseBiometrics] = useState(false);
     const [isLocalData, setIsLocalData] = useState(false);
-    const [userData, setUserData] = useState({
-        mail: AsyncStorage.getItem('userEmail') || '',
-        password: AsyncStorage.getItem('userPwd') || '',
-        token: '',
-        full_name: '',
-        user_email: '',
-    });
     const [newUser, setNewUser] = useState({
-        fullName: '',
-        mail: '',
+        full_name: '',
+        userName: '',
+        email: '',
         password: '',
-        rPassword: '',
+        passwordConfirm: '',
         appTerms: false,
     });
     const [changePassword, setChangePassword] = useState({
@@ -45,149 +41,92 @@ const UserProvider = ({ children }: props) => {
     useEffect(() => {
         getData();
     }, [getData, isLocalData]);
-    // Funcion para limpiar los campos del login
-    const clearLoginFields = () => {
-        updStateData(setUserData, '', 'mail');
-        updStateData(setUserData, '', 'password');
-    };
-    // Funcion para limpiar los campos del login
-    const clearRegisterFields = () => {
-        updStateData(setNewUser, '', 'fullName');
-        updStateData(setNewUser, '', 'mail');
-        updStateData(setNewUser, '', 'password');
-        updStateData(setNewUser, '', 'rPassword');
-        updStateData(setNewUser, false, 'appTerms');
-    };
+
     // Funcion para borrar los campos de la clave
     const clearPwdFields = () => {
         updStateData(setChangePassword, '', 'oldPwd');
         updStateData(setChangePassword, '', 'newPwd');
         updStateData(setChangePassword, '', 'reNewPwd');
     };
-    // Funcion para manejar los mensajes de error
-    const showToastAlert = (type: string, message: string) => {
-        Toast.show({
-            type: type,
-            text1: message,
-            visibilityTime: 1200,
+
+    // Funcion para hacer login en la app
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const userLogin = (userNameOrEmail: string, password: string) => {
+        return new Promise(async resolve => {
+            await executeAxios(
+                '/auth/login',
+                'POST',
+                {
+                    // userNameOrEmail: userNameOrEmail,
+                    // password: password,
+                    userNameOrEmail: 'pedro',
+                    password: '11111111',
+                },
+                'Credenciales Inválidas',
+            );
+            resolve('ok');
         });
     };
-    // Funcion para editar un elemento en un useState de tipo {}
-    const updStateData = (
-        setState: React.Dispatch<React.SetStateAction<any>>,
-        value: any,
-        fieldName: string,
-    ) => {
-        setState((prevState: any) => ({
-            ...prevState,
-            [fieldName]: value,
-        }));
-    };
-    // Funcion para hacer login en la app
-    const userLogin = async () => {
-        await executeAxios(
-            '/auth/login',
-            'POST',
-            {
-                userNameOrEmail: 'breidydl@gmail.com',
-                password: '11111111',
-            },
-            'Credenciales Inválidas',
-        );
-    };
-    // const userLogin = () => {
-    //     setIndicatorVisible(true);
-    //     axios({
-    //         method: 'post',
-    //         url: `${URL}/users/signin`,
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         data: {
-    //             // mail: userData.mail,
-    //             // password: userData.password,
-    //             mail: 'breidydl@gmail.com',
-    //             password: '111111112',
-    //         },
-    //         timeout: 2000,
-    //     })
-    //         .then((res: any) => {
-    //             clearLoginFields();
-    //             updStateData(setUserData, res.data.acces_token, 'token');
-    //             updStateData(setUserData, res.data.full_name, 'full_name');
-    //             updStateData(setUserData, res.data.user_email, 'user_email');
-    //             setIndicatorVisible(false);
-    //             console.log(res);
-    //         })
-    //         .catch((err: any) => {
-    //             // Toast.show({
-    //             //     type: 'error',
-    //             //     visibilityTime: 1200,
-    //             //     text1:
-    //             //         err.response?.status === 401
-    //             //             ? 'Credenciales Inválidas'
-    //             //             : err.message,
-    //             // });
-    //             // setIndicatorVisible(false);
-    //             updStateData(setUserData, 'acces_token', 'token');
-    //             updStateData(setUserData, 'full_name', 'full_name');
-    //             updStateData(setUserData, err.message, 'user_email');
-    //             setIndicatorVisible(false);
-    //         });
-    // };
+
     // Funcion para registrar un nuevo usuario
-    const registerNewUser = () => {
-        setIndicatorVisible(true);
-        axios({
-            method: 'post',
-            url: `${URL}/users/createUser`,
-            data: {
-                mail: newUser.mail,
-                password: newUser.password,
-                full_name: newUser.fullName,
-                user_icon_name: '',
+    const registerNewUser = async () => {
+        await executeAxios(
+            '/app-user',
+            'POST',
+            // {
+            //     full_name: newUser.full_name,
+            //     user_icon_name: 'user',
+            //     userName: newUser.userName,
+            //     password: newUser.password,
+            //     passwordConfirm: newUser.passwordConfirm,
+            //     email: newUser.email,
+            // },
+            {
+                full_name: 'Luis Daniel',
+                user_icon_name: 'user',
+                userName: 'Prueba12223',
+                password: 'PassPrueba2024!',
+                passwordConfirm: 'PassPrueba2024!',
+                email: 'prueba151223@gmail.com',
             },
-        })
-            .then(res => {
-                clearRegisterFields();
-                setIndicatorVisible(false);
-                updStateData(setUserData, res.data.acces_token, 'token');
-            })
-            .catch(() => {
-                setIndicatorVisible(false);
-                Toast.show({
-                    type: 'error',
-                    visibilityTime: 1200,
-                    text1: 'Favor ingresar un correo válido',
-                });
-            });
+            'Completa los campos',
+            'Usuario Creado',
+        ).then((res: any) => {
+            clearFields(setNewUser, [
+                'full_name',
+                'userName',
+                'password',
+                'passwordConfirm',
+                'email',
+            ]);
+            userLogin(res.userName, res.password);
+        });
     };
     // Funcion que valida los campos antes de registrar
     const userSignup = () => {
-        const { fullName, mail, password, rPassword, appTerms } = newUser;
-        if (!fullName || !mail) {
-            showToastAlert('error', 'Completar todos los campos');
-            return;
-        }
-        if (!password || !rPassword) {
-            showToastAlert('error', 'Favor completar las contraseñas');
-            return;
-        }
-        if (password !== rPassword) {
-            showToastAlert('error', 'Las contraseñas deben ser iguales');
-            return;
-        }
-        if (!appTerms) {
-            showToastAlert('error', 'Debe aceptar los términos de uso');
-            return;
-        }
+        // const { full_name, email, password, passwordConfirm, appTerms } =
+        //     newUser;
+        // if (!full_name || !email) {
+        //     showToastAlert('error', 'Completar todos los campos');
+        //     return;
+        // }
+        // if (!password || !passwordConfirm) {
+        //     showToastAlert('error', 'Favor completar las contraseñas');
+        //     return;
+        // }
+        // if (password !== passwordConfirm) {
+        //     showToastAlert('error', 'Las contraseñas deben ser iguales');
+        //     return;
+        // }
+        // if (!appTerms) {
+        //     showToastAlert('error', 'Debe aceptar los términos de uso');
+        //     return;
+        // }
         registerNewUser();
     };
     // Funcion para hacer logout en la app
     const userLogout = (navigation: any, screen: string) => {
-        updStateData(setUserData, '', 'mail');
-        updStateData(setUserData, '', 'token');
-        updStateData(setUserData, '', 'password');
+        clearFields(setUserData, ['mail', 'token', 'password']);
         navigation.navigate(screen);
     };
     // Funcion para cambiar la clave
@@ -279,13 +218,10 @@ const UserProvider = ({ children }: props) => {
             value={{
                 Toast,
                 newUser,
-                userData,
                 userLogin,
                 userSignup,
                 userLogout,
                 setNewUser,
-                setUserData,
-                updStateData,
                 showToastAlert,
                 resetSlider,
                 setResetSlider,

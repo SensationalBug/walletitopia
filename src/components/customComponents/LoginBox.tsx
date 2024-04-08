@@ -13,19 +13,17 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { UserContext } from '../../controller/UserContext';
 import { LoginBoxStyles } from '../../styles/GlobalStyles';
 import PwdRequestContent from '../contents/PwdRequestContent';
+import { clearFields } from '../../utils/clearFields';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginBox = () => {
     const layout = useWindowDimensions();
-    const {
-        userLogin,
-        setUserData,
-        data,
-        userData,
-        isLocalData,
-        loading,
-    }: any = useContext(UserContext);
+    const { userLogin, isLocalData, loading }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
+    const [userData, setUserData] = useState({
+        userNameOrEmail: '',
+        password: '',
+    });
     const biometrics = async () => {
         const canBiometric = await RNBiometrics.canAuthenticate();
         if (canBiometric) {
@@ -54,9 +52,9 @@ const LoginBox = () => {
                     )}
                 </View>
                 <FormTextInput
-                    value={userData.mail}
+                    value={userData.userNameOrEmail}
                     setState={setUserData}
-                    fieldName="mail"
+                    fieldName="userNameOrEmail"
                     secureTextEntry={false}
                     placeholder="Correo electrónico"
                 />
@@ -75,14 +73,21 @@ const LoginBox = () => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => userLogin()}
+                    onPress={() =>
+                        userLogin(
+                            userData.userNameOrEmail,
+                            userData.password,
+                        ).then(() =>
+                            clearFields(setUserData, [
+                                'userNameOrEmail',
+                                'password',
+                            ]),
+                        )
+                    }
                     style={LoginBoxStyles.submitButton}>
                     <Text style={LoginBoxStyles.submitButtonText}>
                         Iniciar Sesión
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => console.log(data)}>
-                    <Icon name="fingerprint" size={80} color="#122e49" />
                 </TouchableOpacity>
             </View>
             {isLocalData ? (

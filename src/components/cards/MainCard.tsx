@@ -11,7 +11,7 @@ const MainCard = ({
     onMove,
     moveSlider,
 }: any) => {
-    const { formatter, accountIcon }: any = useContext(AccountContext);
+    // const { formatter, accountIcon }: any = useContext(AccountContext);
     return (
         <TouchableOpacity
             style={styles.mainCard}
@@ -29,7 +29,7 @@ const MainCard = ({
                                     : GlobalConfigColor.white,
                         },
                     ]}>
-                    {formatter.format(monto)}
+                    {/* {formatter.format(monto)} */}
                 </Text>
             </View>
             <View style={styles.iconContainer}>
@@ -37,7 +37,8 @@ const MainCard = ({
                     <Icon
                         size={80}
                         color="#fff"
-                        name={accountIcon(tipo_de_cuenta)}
+                        name={'bus'}
+                        // name={accountIcon(tipo_de_cuenta)}
                     />
                 </View>
                 <Icon name="chevron-left" color="#fff" size={20} />

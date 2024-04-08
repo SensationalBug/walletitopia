@@ -1,6 +1,6 @@
+import React from 'react';
 import { TextInput } from 'react-native';
-import React, { useContext } from 'react';
-import { UserContext } from '../../controller/UserContext';
+import { updateStateData } from '../../utils/clearFields';
 import { LoginBoxStyles } from '../../styles/GlobalStyles';
 
 const FormTextInput = ({
@@ -12,7 +12,6 @@ const FormTextInput = ({
     keyboardType,
     secureTextEntry,
 }: any) => {
-    const { updStateData }: any = useContext(UserContext);
     return (
         <TextInput
             value={value}
@@ -22,7 +21,7 @@ const FormTextInput = ({
             keyboardType={keyboardType || 'default'}
             style={[LoginBoxStyles.input, { color: textColor || '#000' }]}
             onChangeText={inputValue =>
-                updStateData(setState, inputValue, fieldName)
+                updateStateData(setState, inputValue, fieldName)
             }
         />
     );
