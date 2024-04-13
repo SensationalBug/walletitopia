@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import UserCard from '../components/cards/UserCard';
 import { toastConfig } from '../styles/ToastStyles';
-import { View, Linking, Alert } from 'react-native';
+import { View, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { UserContext } from '../controller/UserContext';
 import EditUserData from '../components/contents/EditUserData';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
@@ -9,6 +9,7 @@ import ChangePassword from '../components/contents/ChangePassword';
 import CustomModal from '../components/customComponents/CustomModal';
 import EnableBiometrics from '../components/contents/EnableBiometrics';
 import SettingsButton from '../components/customComponents/SettingsButton';
+import { imageURLencoder } from '../utils/encodeImg';
 
 const Settings = ({ navigation }: any) => {
     const { userLogout, data }: any = useContext(UserContext);
@@ -17,6 +18,7 @@ const Settings = ({ navigation }: any) => {
     const [modalFingerVisible, setModalFingerVisible] = useState(false);
     const [userDataLocal, setUserDataLocal] = useState({
         userName: data && data.people.fullName,
+        userIconName: (data && data.people.iconName) || null,
     });
     const alert = () => {
         Alert.alert('Advertencia', 'Seguro que quiere cerrar sesión?', [
@@ -31,7 +33,10 @@ const Settings = ({ navigation }: any) => {
     };
     return (
         <View>
-            <UserCard userName={userDataLocal.userName} />
+            <UserCard
+                userIconName={userDataLocal.userIconName}
+                userName={userDataLocal.userName}
+            />
             <View>
                 <SettingsButton
                     icon="file-edit-outline"
@@ -62,9 +67,12 @@ const Settings = ({ navigation }: any) => {
                     buttonName="Cerrar sesión"
                     onAction={() => alert()}
                 />
+                <TouchableOpacity>
+                    <Text>Press me</Text>
+                </TouchableOpacity>
             </View>
             <CustomModal
-                setHeight={250}
+                setHeight={450}
                 viewMode={true}
                 title="Cambiar datos de usuario"
                 modalVisible={modalUserVisible}

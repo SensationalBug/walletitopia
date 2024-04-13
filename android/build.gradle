@@ -1,4 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+}
 
 buildscript {
     ext {
@@ -13,9 +18,18 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+         jcenter()
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("com.android.tools.build:gradle:4.2.0")
+    }
+}
+
+allprojects {
+    repositories {
+        google() // Agrega este repositorio
+        jcenter()
     }
 }
