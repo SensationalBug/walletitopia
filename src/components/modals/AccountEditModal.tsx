@@ -11,9 +11,9 @@ const AccountEditModal = ({ modalVisible, setModalVisible, data }: any) => {
     const { setAccountToEditData, editAccount }: any =
         useContext(AccountContext);
     const { acc_name, monto_inicial, tipo_de_cuenta, _id } = data;
-    useEffect(() => {
-        updStateData(setAccountToEditData, _id, 'accountId');
-    }, [setAccountToEditData, updStateData, _id]);
+    // useEffect(() => {
+    //     updStateData(setAccountToEditData, _id, 'accountId');
+    // }, [setAccountToEditData, updStateData, _id]);
     return (
         <Modal transparent={true} animationType="slide" visible={modalVisible}>
             <View style={styles.modalContainer}>

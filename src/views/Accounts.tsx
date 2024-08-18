@@ -11,24 +11,23 @@ import AccountEditModal from '../components/modals/AccountEditModal';
 
 const Accounts = () => {
     const { Toast }: any = useContext(UserContext);
-    const { accounts }: any = useContext(AccountContext);
-
+    const { accounts, getAccounts }: any = useContext(AccountContext);
     const [data, setData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [modalEditVisible, setModalEditVisible] = useState(false);
     return (
         <View style={styles.container}>
-            {accounts?.length ? (
+            {accounts.length ? (
                 <FlatList
                     data={accounts}
                     keyExtractor={(item: any) => item._id}
-                    renderItem={(item: any) => (
+                    renderItem={
                         <AccountCard
                             {...item}
                             setData={setData}
                             setModalEditVisible={setModalEditVisible}
                         />
-                    )}
+                    }
                 />
             ) : (
                 <NoAccountMessage position="center" />

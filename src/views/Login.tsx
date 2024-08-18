@@ -16,7 +16,7 @@ const Login = ({ navigation }: any) => {
     return (
         <View style={LoginStyles.container}>
             <CustomSwitch window={window} setWindow={setWindow} />
-            {window ? <SignupBox /> : <LoginBox />}
+            {window ? <SignupBox /> : <LoginBox navigation={navigation} />}
             <Toast config={toastConfig} />
         </View>
     );

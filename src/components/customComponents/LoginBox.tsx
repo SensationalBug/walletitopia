@@ -13,13 +13,16 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { UserContext } from '../../controller/UserContext';
 import { LoginBoxStyles } from '../../styles/GlobalStyles';
 import PwdRequestContent from '../contents/PwdRequestContent';
-import { clearFields } from '../../utils/clearFields';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootStackParamList } from '../../utils/navigation.types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const LoginBox = () => {
+type NavigationProps = {
+    navigation: NativeStackNavigationProp<RootStackParamList>;
+};
+
+const LoginBox: React.FC<NavigationProps> = ({ navigation }) => {
     const layout = useWindowDimensions();
-    const { data, userLogin, isLocalData, loading }: any =
-        useContext(UserContext);
+    const { data, isLocalData, loading }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [userData, setUserData] = useState({
         userNameOrEmail: '',
@@ -30,7 +33,8 @@ const LoginBox = () => {
         if (canBiometric) {
             try {
                 await RNBiometrics.requestBioAuth('Coloque su huella', ' ');
-                userLogin();
+                // userLogin();
+                navigation.navigate('Main');
             } catch (error) {
                 console.log(error);
             }
@@ -74,16 +78,17 @@ const LoginBox = () => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() =>
-                        userLogin(
-                            userData.userNameOrEmail,
-                            userData.password,
-                        ).then(() =>
-                            clearFields(setUserData, [
-                                'userNameOrEmail',
-                                'password',
-                            ]),
-                        )
+                    onPress={
+                        () => navigation.navigate('Main')
+                        // userLogin(
+                        //     userData.userNameOrEmail,
+                        //     userData.password,
+                        // ).then(() =>
+                        //     clearFields(setUserData, [
+                        //         'userNameOrEmail',
+                        //         'password',
+                        //     ]),
+                        // )
                     }
                     style={LoginBoxStyles.submitButton}>
                     <Text style={LoginBoxStyles.submitButtonText}>

@@ -2,7 +2,6 @@ import { Button, TextInput } from 'react-native-paper';
 import { UserContext } from '../../controller/UserContext';
 import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
 const EnableBiometrics = ({ setModalFingerVisible }: any) => {
@@ -42,13 +41,6 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
             paddingLeft: 5,
         },
     });
-    const saveData = () => {
-        return new Promise(async resolve => {
-            await AsyncStorage.setItem('userEmail', userFingerData.userEmail);
-            await AsyncStorage.setItem('userPwd', userFingerData.userPwd);
-            resolve('ok');
-        });
-    };
     const deleteData = () => {
         Alert.alert(
             'Advertencia',
@@ -60,7 +52,6 @@ const EnableBiometrics = ({ setModalFingerVisible }: any) => {
                 {
                     text: 'Si',
                     onPress: () => {
-                        AsyncStorage.removeItem('userEmail');
                         setModalFingerVisible(false);
                         setIsLocalData(false);
                     },
