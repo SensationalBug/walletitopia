@@ -7,10 +7,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import AddGastoModal from '../components/modals/AddGastoModal';
 import { validateTables } from '../db/db.scripts';
 import { AccountContext } from '../controller/AccountsContext';
+import { CategoriesContext } from '../controller/CategoriesContext';
 // import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 
 const Home = ({ navigation }: any) => {
     const { getAccounts }: any = useContext(AccountContext);
+    const { getCategories }: any = useContext(CategoriesContext);
     const [modalVisible, setModalVisible] = useState(false);
     const { Toast, data }: any = useContext(UserContext);
     const [accountsData, setAccountsData] = useState({});
@@ -20,8 +22,11 @@ const Home = ({ navigation }: any) => {
     // }, [getAccounts, accounts]);
 
     useEffect(() => {
-        validateTables().then(() => getAccounts());
-    }, [getAccounts]);
+        validateTables().then(() => {
+            // getAccounts();
+            // getCategories();
+        });
+    }, [getAccounts, getCategories]);
 
     // const fecha = () => {
     //     const date = new Date();

@@ -8,7 +8,7 @@ import { AccountContext } from '../../controller/AccountsContext';
 import SliderButtonsAccount from '../sliderButtons/SliderButtonsAccount';
 
 interface types {
-    item: {
+    item?: {
         _id: string;
         acc_name: string;
         monto_inicial: number;

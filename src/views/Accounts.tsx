@@ -8,22 +8,24 @@ import AccountModal from '../components/modals/AccountModal';
 import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 import { AccountContext } from '../controller/AccountsContext';
 import AccountEditModal from '../components/modals/AccountEditModal';
+import { validateTables } from '../db/db.scripts';
 
 const Accounts = () => {
     const { Toast }: any = useContext(UserContext);
-    const { accounts, getAccounts }: any = useContext(AccountContext);
+    const { accounts, dropTables, getAccounts }: any =
+        useContext(AccountContext);
     const [data, setData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [modalEditVisible, setModalEditVisible] = useState(false);
     return (
         <View style={styles.container}>
-            {accounts.length ? (
+            {/* {accounts.length ? (
                 <FlatList
                     data={accounts}
                     keyExtractor={(item: any) => item._id}
                     renderItem={
                         <AccountCard
-                            {...item}
+                            // {...item}
                             setData={setData}
                             setModalEditVisible={setModalEditVisible}
                         />
@@ -31,14 +33,32 @@ const Accounts = () => {
                 />
             ) : (
                 <NoAccountMessage position="center" />
-            )}
+            )} */}
             <View style={styles.buttonsContainer}>
                 <View style={styles.FABContainer}>
+                    <FAB
+                        icon="equal"
+                        color="#fff"
+                        style={styles.FABStyle}
+                        onPress={() => getAccounts(true)}
+                    />
                     <FAB
                         icon="plus"
                         color="#fff"
                         style={styles.FABStyle}
                         onPress={() => setModalVisible(true)}
+                    />
+                    <FAB
+                        icon="minus"
+                        color="#fff"
+                        style={styles.FABStyle}
+                        onPress={() => dropTables(true)}
+                    />
+                    <FAB
+                        icon="minus"
+                        color="#fff"
+                        style={[styles.FABStyle, { backgroundColor: 'red' }]}
+                        onPress={() => validateTables()}
                     />
                 </View>
             </View>

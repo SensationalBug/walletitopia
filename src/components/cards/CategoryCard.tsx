@@ -2,25 +2,25 @@ import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, TouchableOpacity, Alert } from 'react-native';
 import { CategoryCardStyles } from '../../styles/GlobalStyles';
-import { CatContext } from '../../controller/CategoriesContext';
+import { CategoriesContext } from '../../controller/CategoriesContext';
 
 interface types {
-    _id: string;
+    id: number;
     icon_name: string;
-    category_name: string;
+    name: string;
     showAlert: any;
 }
 
-const CategoryCard = ({ _id, icon_name, category_name }: types) => {
-    const { deleteCat }: any = useContext(CatContext);
+const CategoryCard = ({ id, icon_name, name }: types) => {
+    const { deleteCat }: any = useContext(CategoriesContext);
     const showAlert = () => {
         Alert.alert(
             'Advertencia',
-            `Seguro que quieres eliminar la categoría ${category_name} ?`,
+            `Seguro que quieres eliminar la categoría ${name} ?`,
             [
                 {
                     text: 'Si',
-                    onPress: () => deleteCat(_id),
+                    onPress: () => deleteCat(id),
                 },
                 {
                     text: 'No',
@@ -37,7 +37,7 @@ const CategoryCard = ({ _id, icon_name, category_name }: types) => {
                 name={icon_name}
                 style={CategoryCardStyles.catData}
             />
-            <Text style={CategoryCardStyles.catData}>{category_name}</Text>
+            <Text style={CategoryCardStyles.catData}>{name}</Text>
         </TouchableOpacity>
     );
 };

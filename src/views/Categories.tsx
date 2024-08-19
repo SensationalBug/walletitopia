@@ -12,33 +12,38 @@ import { CategoryStyles } from '../styles/GlobalStyles';
 import { UserContext } from '../controller/UserContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalIcons from '../components/modals/ModalIcons';
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import CategoryCard from '../components/cards/CategoryCard';
 import { CategoriesContext } from '../controller/CategoriesContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { database } from '../db/db.scripts';
 
 const Categories = () => {
     const layout = useWindowDimensions();
     const flatList = useRef<FlatList<any>>(null);
     const {
-        getCat,
+        getCategories,
         catIcons,
         categories,
-        newCategoy,
+        newCategory,
         setNewCategory,
         selectedCatIcon,
-        validateCatInput,
         setSelectedCatIcon,
     }: any = useContext(CategoriesContext);
     const { updStateData }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
+
+    useEffect(() => {
+        getCategories();
+    }, [getCategories]);
+
     return (
         <View>
             <View>
                 <View style={CategoryStyles.catInputContainer}>
                     <TextInput
                         maxLength={20}
-                        value={newCategoy.name}
+                        value={newCategory.name}
                         style={CategoryStyles.catNameInput}
                         placeholder="Agregar nueva categoría"
                         onChangeText={value =>
@@ -64,7 +69,7 @@ const Categories = () => {
                         //         200,
                         //     );
                         // })
-                        getCat()
+                        getCategories()
                     }
                     style={CategoryStyles.addCatButton}>
                     <Text style={CategoryStyles.addCatButtonText}>
@@ -79,9 +84,8 @@ const Categories = () => {
                 <FlatList
                     ref={flatList}
                     numColumns={3}
-                    // data={data}
                     data={categories}
-                    keyExtractor={item => item._id}
+                    keyExtractor={item => item.id}
                     renderItem={({ item }) => <CategoryCard {...item} />}
                 />
             </View>

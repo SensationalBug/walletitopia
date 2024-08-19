@@ -57,9 +57,9 @@ const AccountProvider = ({ children }: props) => {
     const getAccounts = () => {
         database.transaction(
             tx => {
-                tx.executeSql('SELECT * from products', [], (_, results) => {
-                    const len = results.rows._array;
-                    setAccounts(len);
+                tx.executeSql('SELECT * from categories', [], (_, results) => {
+                    //    setAccounts(results);
+                    console.log(results.rows._array);
                 });
             },
             error => {

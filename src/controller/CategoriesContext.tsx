@@ -9,6 +9,7 @@ import axios from 'axios';
 import URL from '../../URL';
 import { UserContext } from './UserContext';
 import { useAxios } from '../customHooks/useAxios';
+import { database } from '../db/db.scripts';
 
 interface props {
     children: JSX.Element;
@@ -17,54 +18,46 @@ interface props {
 export const CategoriesContext = createContext({});
 
 const CategoriesProvider = ({ children }: props) => {
-    const { loading, executeAxios } = useAxios();
     const { userData, data, showToastAlert, updStateData }: any =
         useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [catIcons, setCatIcons] = useState([]);
     const [selectedCatIcon, setSelectedCatIcon] = useState('chevron-down');
-    const [newCategoy, setNewCategory] = useState({
+    const [newCategory, setNewCategory] = useState({
         name: '',
         iconName: '',
     });
+
+    useEffect(() => {
+        // getCategories();
+    });
+
     // Funcion para obtener todas las categorias
-    const getCat = useCallback(async () => {
-        // await executeAxios(
-        //     '/auth/login',
-        //     'POST',
-        //     {
-        //         // userNameOrEmail: userNameOrEmail,
-        //         // password: password,
-        //         userNameOrEmail: 'pedro',
-        //         password: '11111111',
-        //     },
-        //     'Credenciales Inválidas',
-        // );
-        axios({
-            method: 'get',
-            url: `${URL}/category`,
-            headers: {
-                // Authorization: `Bearer ${data.token}`,
-            },
-        })
-            .then(res => console.log(res.data))
-            .catch(err => console.log('Categoria', err));
-    }, []);
+    const getCategories = () => {
+        database.transaction(tnx => {
+            tnx.executeSql('SELECT * FROM categories', [], (_, result) => {
+                const rows = result.rows._array;
+                setCategories(rows);
+                console.log(rows);
+            });
+        });
+    };
+
     // Funcion para agregar una nueva categoria
     const addCat = () => {
         axios({
             method: 'post',
             url: `${URL}/categoria`,
             data: {
-                category_name: newCategoy.name,
-                icon_name: newCategoy.iconName,
+                category_name: newCategory.name,
+                icon_name: newCategory.iconName,
             },
             headers: {
                 // Authorization: `Bearer ${data.token}`,
             },
         })
             .then(() => {
-                getCat();
+                // getCat();
                 setSelectedCatIcon('chevron-down');
                 updStateData(setNewCategory, '', 'name');
                 updStateData(setNewCategory, '', 'iconName');
@@ -75,7 +68,7 @@ const CategoriesProvider = ({ children }: props) => {
     // Funcion para validar el campo categoria
     const validateCatInput = () => {
         return new Promise(resolve => {
-            const { name, iconName } = newCategoy;
+            const { name, iconName } = newCategory;
             if (name === '') {
                 showToastAlert('error', 'Inserta un nombre para la categoría');
                 return;
@@ -98,7 +91,7 @@ const CategoriesProvider = ({ children }: props) => {
             },
         })
             .then(() => {
-                getCat();
+                // getCat();
                 showToastAlert('error', 'La categoria ha sido eliminada');
             })
             .catch(err => {
@@ -126,11 +119,11 @@ const CategoriesProvider = ({ children }: props) => {
     return (
         <CategoriesContext.Provider
             value={{
-                getCat,
+                getCategories,
                 catIcons,
                 deleteCat,
                 categories,
-                newCategoy,
+                newCategory,
                 setNewCategory,
                 selectedCatIcon,
                 validateCatInput,

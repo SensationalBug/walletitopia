@@ -12,6 +12,17 @@ const UserProvider = ({ children }: props) => {
     const [useBiometrics, setUseBiometrics] = useState(false);
     const [isLocalData, setIsLocalData] = useState(false);
 
+    const updStateData = (
+        setState: React.Dispatch<React.SetStateAction<any>>,
+        value: string,
+        fieldName: string,
+    ) => {
+        setState((prevState: any) => ({
+            ...prevState,
+            [fieldName]: value,
+        }));
+    };
+
     return (
         <UserContext.Provider
             value={{
@@ -23,6 +34,7 @@ const UserProvider = ({ children }: props) => {
                 setUseBiometrics,
                 isLocalData,
                 setIsLocalData,
+                updStateData,
             }}>
             {children}
         </UserContext.Provider>
