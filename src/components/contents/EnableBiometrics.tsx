@@ -1,139 +1,75 @@
-import { Button, TextInput } from 'react-native-paper';
+import React, { useContext } from 'react';
 import { UserContext } from '../../controller/UserContext';
-import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native'; // Added Text
 
-const EnableBiometrics = ({ setModalFingerVisible }: any) => {
-    const [userFingerData, setUserFingerData] = useState({
-        userEmail: '',
-        userPwd: '',
-    });
-    const [data, setData] = useState('checkbox-blank-outline');
+// Removed TextInput, Button from react-native-paper
+// Removed AsyncStorage as it's handled in UserContext
+
+const EnableBiometrics = ({ setModalFingerVisible }: any) => { // setModalFingerVisible prop is kept
     const {
-        useBiometrics,
-        setUseBiometrics,
-        updStateData,
-        isLocalData,
-        setIsLocalData,
+        isBiometricProtectionEnabled,
+        toggleBiometricProtection,
+        // showToastAlert, // Assuming UserContext still provides this, if needed for other alerts
     }: any = useContext(UserContext);
+
     const styles = StyleSheet.create({
         contentView: {
             flex: 1,
-            justifyContent: 'flex-end',
-        },
-        textinputView: {
-            display: useBiometrics ? 'flex' : 'none',
+            justifyContent: 'center', // Centering the toggle
+            alignItems: 'center',
+            padding: 20,
         },
         checkBoxView: {
             alignItems: 'center',
+            // Removed styles for text inputs and old buttons
         },
-        checkBoxText: {
+        checkBoxText: { // Added style for a label
             color: '#fff',
+            fontSize: 18,
+            marginBottom: 10,
         },
-        checkBoxButton: {
-            color: '#fff',
-            borderRadius: 5,
-            marginVertical: 10,
-            backgroundColor: '#bf1313',
-        },
-        textInput: {
-            paddingLeft: 5,
-        },
+        // Removed textinputView and checkBoxButton (old button style)
     });
-    const saveData = () => {
-        return new Promise(async resolve => {
-            await AsyncStorage.setItem('userEmail', userFingerData.userEmail);
-            await AsyncStorage.setItem('userPwd', userFingerData.userPwd);
-            resolve('ok');
-        });
-    };
-    const deleteData = () => {
-        Alert.alert(
-            'Advertencia',
-            'Seguro que quieres desactivar el inicio con huella?',
-            [
-                {
-                    text: 'No',
-                },
-                {
-                    text: 'Si',
-                    onPress: () => {
-                        AsyncStorage.removeItem('userEmail');
-                        setModalFingerVisible(false);
-                        setIsLocalData(false);
+
+    const handleTogglePress = () => {
+        if (isBiometricProtectionEnabled) {
+            // Trying to disable
+            Alert.alert(
+                'Desactivar Protección',
+                '¿Seguro que quieres desactivar la protección con huella/biometría?',
+                [
+                    { text: 'No', style: 'cancel' },
+                    {
+                        text: 'Sí',
+                        onPress: () => {
+                            toggleBiometricProtection();
+                            if (setModalFingerVisible) setModalFingerVisible(false); // Close modal if prop is used
+                        }
                     },
-                },
-            ],
-        );
-    };
-    useEffect(() => {
-        if (isLocalData) {
-            setData('checkbox-marked-outline');
+                ],
+                { cancelable: true }
+            );
         } else {
-            if (useBiometrics) {
-                setData('eye-outline');
-            } else {
-                setData('checkbox-blank-outline');
-            }
+            // Trying to enable
+            toggleBiometricProtection();
+            if (setModalFingerVisible) setModalFingerVisible(false); // Close modal if prop is used
         }
-    }, [isLocalData, useBiometrics]);
+    };
+
+    const iconName = isBiometricProtectionEnabled ? 'checkbox-marked-outline' : 'checkbox-blank-outline';
+
     return (
         <View style={styles.contentView}>
-            {!isLocalData ? (
-                <View style={styles.textinputView}>
-                    <TextInput
-                        style={styles.textInput}
-                        value={userFingerData.userEmail}
-                        onChangeText={value =>
-                            updStateData(setUserFingerData, value, 'userEmail')
-                        }
-                        mode="outlined"
-                        placeholder="Correo electrónico"
-                    />
-                    <TextInput
-                        style={styles.textInput}
-                        value={userFingerData.userPwd}
-                        onChangeText={value =>
-                            updStateData(setUserFingerData, value, 'userPwd')
-                        }
-                        mode="outlined"
-                        secureTextEntry
-                        placeholder="Contraseña"
-                    />
-                    <Button
-                        mode="contained"
-                        style={styles.checkBoxButton}
-                        onPress={() =>
-                            saveData().then(() => {
-                                updStateData(
-                                    setUserFingerData,
-                                    '',
-                                    'userEmail',
-                                );
-                                updStateData(setUserFingerData, '', 'userPwd');
-                                setModalFingerVisible(false);
-                                setIsLocalData(true);
-                            })
-                        }>
-                        Guardar datos de huella
-                    </Button>
-                </View>
-            ) : (
-                <View>
-                    <Button
-                        mode="contained"
-                        style={styles.checkBoxButton}
-                        onPress={() => deleteData()}>
-                        Desactivar huella
-                    </Button>
-                </View>
-            )}
+            {/* Removed TextInput views and "Guardar datos de huella" button */}
+            {/* The "Desactivar huella" button is also effectively replaced by the toggle logic below */}
+            
             <View style={styles.checkBoxView}>
-                <TouchableOpacity
-                    onPress={() => setUseBiometrics(!useBiometrics)}>
-                    <Icon name={data} color={'#fff'} size={60} />
+                <Text style={styles.checkBoxText}>
+                    {isBiometricProtectionEnabled ? 'Biometría Activada' : 'Activar Biometría'}
+                </Text>
+                <TouchableOpacity onPress={handleTogglePress}>
+                    <Icon name={iconName} color={'#fff'} size={60} />
                 </TouchableOpacity>
             </View>
         </View>
