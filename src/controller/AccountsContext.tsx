@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {
     useState,
     useEffect,
@@ -6,35 +5,40 @@ import React, {
     useCallback,
     createContext,
 } from 'react';
-import URL from '../../URL';
-import { UserContext } from './UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from './UserContext'; // Assuming showToastAlert and updStateData are still from here
 
 interface props {
     children: JSX.Element;
 }
 
-// Funcion que trae la Hora
-const creationDate = () => {
-    const date = new Date();
-    return date;
-};
+// Helper function for generating unique IDs
+const generateId = () => `acc_id_${new Date().getTime()}_${Math.random().toString(36).substr(2, 9)}`;
+
+// AsyncStorage key
+const ACCOUNTS_STORAGE_KEY = '@app_accounts_data';
 
 export const AccountContext = createContext({});
 
 const AccountProvider = ({ children }: props) => {
-    const { data, showToastAlert, updStateData }: any = useContext(UserContext);
-    const [accounts, setAccounts] = useState([]);
+    // Removed 'data' from UserContext as token is no longer needed for API calls
+    const { showToastAlert, updStateData }: any = useContext(UserContext); 
+    const [accounts, setAccounts] = useState<any[]>([]); // Explicitly type if possible
+    const [isLoading, setIsLoading] = useState(false); // Added loading state
+
     const [newAccountData, setNewAccountData] = useState({
         accountType: '',
         accountName: '',
-        accountAmount: 0,
+        accountAmount: '', // Keep as string for input, parse on save
     });
     const [accountToEditData, setAccountToEditData] = useState({
         accountId: '',
         accountType: '',
         accountEditName: '',
-        accountEditAmount: 0,
+        accountEditAmount: '', // Keep as string for input, parse on save
     });
+
+    // clearFields remains the same as it's a local utility
     const clearFields = (
         setFunction: any,
         Type: string,
@@ -43,145 +47,183 @@ const AccountProvider = ({ children }: props) => {
     ) => {
         updStateData(setFunction, '', Type);
         updStateData(setFunction, '', Name);
-        updStateData(setFunction, 0, Amount);
+        updStateData(setFunction, '', Amount); // Reset to empty string for input
     };
-    // Funcion que retorna el icono de la cuenta correspondiente
+    
+    // accountIcon remains the same
     const accountIcon = (icon: string): any => {
         switch (icon) {
-            case 'Efectivo':
-                return 'dollar';
-            case 'Cuenta corriente':
-                return 'bank';
-            case 'Cuenta de ahorros':
-                return 'money';
-            case 'Tarjeta de crédito':
-                return 'credit-card';
+            case 'Efectivo': return 'dollar';
+            case 'Cuenta corriente': return 'bank';
+            case 'Cuenta de ahorros': return 'money';
+            case 'Tarjeta de crédito': return 'credit-card';
+            default: return 'question-circle'; // Default icon
         }
     };
-    // Funcion para formatear el dinero
+
+    // formatter remains the same
     const formatter = new Intl.NumberFormat('es-DO', {
         style: 'currency',
         currency: 'DOP',
     });
+
     // Funcion para obtener todas las cuentas
-    const getAccounts = useCallback(() => {
-        axios({
-            method: 'get',
-            url: `${URL}/cuentas`,
-            headers: {
-                // Authorization: `Bearer ${data.token}`,
-            },
-        })
-            .then(res => setAccounts(res.data))
-            .catch(() => setAccounts([]));
-    }, []);
-    // Funcion para añadir cuentas
-    const addAccount = () => {
-        const { accountName, accountAmount, accountType } = newAccountData;
-        axios({
-            method: 'post',
-            url: `${URL}/cuentas`,
-            headers: {
-                // Authorization: `Bearer ${data.token}`,
-            },
-            data: {
-                acc_name: accountName,
-                monto_inicial: accountAmount,
-                tipo_de_cuenta: accountType,
-                fecha_de_creacion: creationDate(),
-            },
-        })
-            .then(() => {
-                getAccounts();
-                clearFields(
-                    setNewAccountData,
-                    'accountType',
-                    'accountName',
-                    'accountAmount',
-                );
-                showToastAlert('success', 'Cuenta agregada');
-            })
-            .catch(err => console.log(err));
+    const getAccounts = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const accountsJson = await AsyncStorage.getItem(ACCOUNTS_STORAGE_KEY);
+            setAccounts(accountsJson ? JSON.parse(accountsJson) : []);
+        } catch (error) {
+            console.error("Failed to load accounts from storage", error);
+            setAccounts([]);
+            showToastAlert('error', 'Error al cargar las cuentas');
+        } finally {
+            setIsLoading(false);
+        }
+    }, [showToastAlert]); // Added showToastAlert as a dependency if it's used inside
+
+    // Funcion para añadir cuentas (internal, called by validateAddAccount)
+    const addAccountInternal = async () => {
+        setIsLoading(true);
+        try {
+            const currentAccountsJson = await AsyncStorage.getItem(ACCOUNTS_STORAGE_KEY);
+            let currentAccounts = currentAccountsJson ? JSON.parse(currentAccountsJson) : [];
+            
+            const accountToAdd = {
+                id: generateId(), // Generate unique ID
+                acc_name: newAccountData.accountName,
+                monto_inicial: parseFloat(String(newAccountData.accountAmount)) || 0,
+                tipo_de_cuenta: newAccountData.accountType,
+                fecha_de_creacion: new Date().toISOString(), // Use current ISO date string
+            };
+            
+            currentAccounts.push(accountToAdd);
+            await AsyncStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(currentAccounts));
+            
+            await getAccounts(); // Refresh state from storage
+            clearFields(
+                setNewAccountData,
+                'accountType',
+                'accountName',
+                'accountAmount',
+            );
+            showToastAlert('success', 'Cuenta agregada');
+        } catch (error) {
+            console.error("Failed to add account", error);
+            showToastAlert('error', 'Error al agregar la cuenta');
+        } finally {
+            setIsLoading(false);
+        }
     };
+    
     // Funcion para validar los campos antes de agregar la cuenta
-    const validateAddAccount = () => {
-        return new Promise(resolve => {
-            const { accountName, accountAmount, accountType } = newAccountData;
-            if (!accountName || !accountAmount || !accountType) {
-                showToastAlert('error', 'Completar todos los campos');
-                return;
-            }
-            addAccount();
-            resolve('ok');
-        });
+    const validateAddAccount = async () => { // Made async
+        const { accountName, accountAmount, accountType } = newAccountData;
+        if (!accountName || !accountAmount || !accountType) {
+            showToastAlert('error', 'Completar todos los campos');
+            return;
+        }
+        // Basic amount validation (optional, can be more complex)
+        if (isNaN(parseFloat(String(accountAmount))) || parseFloat(String(accountAmount)) < 0) {
+            showToastAlert('error', 'Monto inválido');
+            return;
+        }
+        await addAccountInternal(); // Await the async internal function
     };
+
     // Funcion para borrar cuentas
-    const deleteAccount = (id: string) => {
-        axios({
-            method: 'delete',
-            url: `${URL}/cuentas/${id}`,
-            headers: {
-                // Authorization: `Bearer ${data.token}`,
-            },
-        })
-            .then(() => {
-                getAccounts();
-                showToastAlert('success', 'Cuenta eliminada');
-            })
-            .catch(err => console.log(err));
+    const deleteAccount = async (id: string) => {
+        setIsLoading(true);
+        try {
+            const currentAccountsJson = await AsyncStorage.getItem(ACCOUNTS_STORAGE_KEY);
+            let currentAccounts = currentAccountsJson ? JSON.parse(currentAccountsJson) : [];
+            const updatedAccounts = currentAccounts.filter((acc: any) => acc.id !== id);
+            
+            await AsyncStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(updatedAccounts));
+            
+            await getAccounts(); // Refresh state
+            showToastAlert('success', 'Cuenta eliminada');
+        } catch (error) {
+            console.error("Failed to delete account", error);
+            showToastAlert('error', 'Error al eliminar la cuenta');
+        } finally {
+            setIsLoading(false);
+        }
     };
+
     // Funcion para editar cuentas
-    const editAccount = () => {
-        const {
-            accountId,
-            accountType,
-            accountEditName,
-            accountEditAmount,
-        }: any = accountToEditData;
-        axios({
-            method: 'patch',
-            url: `${URL}/cuentas/${accountId}`,
-            headers: {
-                // Authorization: `Bearer ${data.token}`,
-            },
-            data: {
-                acc_name: accountEditName,
-                monto_inicial: accountEditAmount,
-                tipo_de_cuenta: accountType,
-                fecha_de_creacion: creationDate(),
-            },
-        })
-            .then(() => {
-                if (accountType || accountEditName || accountEditAmount) {
-                    getAccounts();
-                    clearFields(
-                        setAccountToEditData,
-                        'accountType',
-                        'accountEditName',
-                        'accountEditAmount',
-                    );
-                    // clearFields2();
-                    showToastAlert('success', 'Cuenta editada');
-                }
-            })
-            .catch(err => console.log(err));
+    const editAccount = async () => {
+        setIsLoading(true);
+        const { accountId, accountType, accountEditName, accountEditAmount } = accountToEditData;
+
+        if (!accountEditName || !accountEditAmount || !accountType || !accountId) {
+             showToastAlert('error', 'Completar todos los campos para editar.');
+             setIsLoading(false);
+             return;
+        }
+        if (isNaN(parseFloat(String(accountEditAmount))) || parseFloat(String(accountEditAmount)) < 0) {
+            showToastAlert('error', 'Monto inválido para editar');
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const currentAccountsJson = await AsyncStorage.getItem(ACCOUNTS_STORAGE_KEY);
+            let currentAccounts = currentAccountsJson ? JSON.parse(currentAccountsJson) : [];
+            const accountIndex = currentAccounts.findIndex((acc: any) => acc.id === accountId);
+
+            if (accountIndex !== -1) {
+                const updatedAccount = {
+                    ...currentAccounts[accountIndex],
+                    acc_name: accountEditName,
+                    monto_inicial: parseFloat(String(accountEditAmount)) || 0,
+                    tipo_de_cuenta: accountType,
+                    // fecha_de_modificacion: new Date().toISOString(), // Optionally add modification date
+                };
+                currentAccounts[accountIndex] = updatedAccount;
+                await AsyncStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(currentAccounts));
+                
+                await getAccounts(); // Refresh state
+                clearFields(
+                    setAccountToEditData,
+                    'accountType',
+                    'accountEditName',
+                    'accountEditAmount',
+                );
+                 // Also clear accountId from edit form state
+                updStateData(setAccountToEditData, '', 'accountId');
+                showToastAlert('success', 'Cuenta editada');
+            } else {
+                showToastAlert('error', 'Cuenta no encontrada para editar');
+            }
+        } catch (error) {
+            console.error("Failed to edit account", error);
+            showToastAlert('error', 'Error al editar la cuenta');
+        } finally {
+            setIsLoading(false);
+        }
     };
+
     // UseEffect que trae todas las cuentas al abrir la app
-    // useEffect(() => {
-    //     data.token ? getAccounts() : null;
-    // }, [getAccounts, data]);
+    useEffect(() => {
+        getAccounts();
+    }, [getAccounts]); // getAccounts is memoized with useCallback
+
     return (
         <AccountContext.Provider
             value={{
                 accounts,
-                getAccounts,
+                getAccounts, // async
+                newAccountData, // Added to allow controlled inputs
                 setNewAccountData,
-                validateAddAccount,
+                validateAddAccount, // async
                 formatter,
-                deleteAccount,
-                editAccount,
+                deleteAccount, // async
+                editAccount, // async
+                accountToEditData, // Added to allow controlled inputs
                 setAccountToEditData,
                 accountIcon,
+                isLoading, // Added isLoading
             }}>
             {children}
         </AccountContext.Provider>

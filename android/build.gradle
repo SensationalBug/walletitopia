@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply plugin: 'com.android.library'
+// apply plugin: 'com.android.library' // REMOVED
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -18,18 +18,20 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-         jcenter()
+         // jcenter() // REMOVED
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
+        // classpath("com.android.tools.build:gradle") // REMOVED
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("com.android.tools.build:gradle:4.2.0")
+        // classpath("com.android.tools.build:gradle:4.2.0") // REMOVED
+        classpath("com.android.tools.build:gradle:8.1.0") // ADDED
     }
 }
 
 allprojects {
     repositories {
         google() // Agrega este repositorio
-        jcenter()
+        mavenCentral() // ADDED
+        // jcenter() // REMOVED
     }
 }
