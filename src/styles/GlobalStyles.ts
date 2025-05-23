@@ -79,7 +79,7 @@ export const LoginBoxStyles = StyleSheet.create({
         alignItems: 'center',
     },
     input: {
-        width: '85%',
+        width: '90%',
         fontSize: 20,
         color: '#000',
         marginTop: 10,
@@ -94,7 +94,7 @@ export const LoginBoxStyles = StyleSheet.create({
         alignSelf: 'flex-end',
     },
     forgotText: {
-        fontSize: 12,
+        fontSize: 15,
         color: '#000',
     },
     submitButton: {
@@ -115,26 +115,25 @@ export const LoginBoxStyles = StyleSheet.create({
         marginVertical: 10,
     },
     // SignupBox specific styles
-    terminos: {
+    termsBox: {
         marginTop: 20,
         flexDirection: 'row',
     },
-    terminosText: {
+    modalText: {
         color: '#122e49',
         paddingLeft: 20,
         textDecorationLine: 'underline',
     },
     policies: {
-        paddingBottom: 10,
+        paddingBottom: 20,
         justifyContent: 'flex-end',
     },
     policiesText: {
-        color: '#122e49',
-        textDecorationLine: 'underline',
+        color: '#fff',
     },
 });
 
-export const TermsPrivacyStyles = StyleSheet.create({
+export const CustomModalStyles = StyleSheet.create({
     modalContainer: {
         height: '100%',
         alignItems: 'center',
@@ -147,6 +146,7 @@ export const TermsPrivacyStyles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         backgroundColor: '#122e49',
+        justifyContent: 'space-between',
     },
     header: {
         width: '100%',
@@ -169,12 +169,16 @@ export const TermsPrivacyStyles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F24C3D',
     },
-    messageContainer: {
+    containerScroll: {
+        width: '100%',
         marginVertical: 5,
         marginHorizontal: 5,
     },
-    message: {
-        color: '#fff',
+    containerView: {
+        width: '100%',
+        height: '90%',
+        marginVertical: 5,
+        marginHorizontal: 5,
     },
 });
 
@@ -435,6 +439,23 @@ export const MetricsCardStyles = StyleSheet.create({
     },
 });
 
+export const SettingsButtonStyle = StyleSheet.create({
+    buttonContainer: {
+        height: 80,
+        margin: 5,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        backgroundColor: '#fff',
+        justifyContent: 'space-between',
+    },
+    buttonText: {
+        fontSize: 20,
+        color: '#000',
+    },
+});
+
 export const SettingsModalButtonsStyles = StyleSheet.create({
     buttonsContainer: {
         width: '100%',
@@ -444,8 +465,8 @@ export const SettingsModalButtonsStyles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     button: {
-        width: 100,
         height: 50,
+        width: 100,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',

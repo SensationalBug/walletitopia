@@ -3,7 +3,7 @@ import FontAwesome from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../views/Home';
-import Accounts from '../views/Accounts';
+// import Accounts from '../views/Accounts';
 import Categories from '../views/Categories';
 import Settings from '../views/Settings';
 // import Metrics from '../views/Metrics';
@@ -16,7 +16,7 @@ const homeIcon = (color: any, iconName: string) => (
 const TabNavigator = () => {
     return (
         <Tab.Navigator
-            initialRouteName="Ajustes"
+            initialRouteName="Categorias"
             screenOptions={{
                 tabBarActiveTintColor: '#122e49',
                 tabBarInactiveTintColor: '#c4c4c4',
@@ -34,17 +34,17 @@ const TabNavigator = () => {
                             : homeIcon(color, 'home-outline'),
                 }}
             />
-            <Tab.Screen
-                name="Cuentas"
-                component={Accounts}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused, color }: any) =>
-                        focused
-                            ? homeIcon(color, 'wallet')
-                            : homeIcon(color, 'wallet-outline'),
-                }}
-            />
+            {/* <Tab.Screen
+                // name="Cuentas"
+                // component={Accounts}
+                // options={{
+                //     headerShown: false,
+                //     tabBarIcon: ({ focused, color }: any) =>
+                //         focused
+                //             ? homeIcon(color, 'wallet')
+                //             : homeIcon(color, 'wallet-outline'),
+                // }}
+            /> */}
             <Tab.Screen
                 name="Categorias"
                 component={Categories}

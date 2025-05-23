@@ -11,11 +11,13 @@ import NoAccountMessage from '../components/customComponents/NoAccountMessage';
 const Home = ({ navigation }: any) => {
     const { accounts, getAccounts }: any = useContext(AccountContext);
     const [modalVisible, setModalVisible] = useState(false);
-    const { Toast }: any = useContext(UserContext);
-    const [data, setData] = useState({});
-    useEffect(() => {
-        getAccounts();
-    }, [getAccounts, accounts]);
+    const { Toast, data }: any = useContext(UserContext);
+    const [accountsData, setAccountsData] = useState({});
+
+    // useEffect(() => {
+    //     getAccounts();
+    // }, [getAccounts, accounts]);
+
     const fecha = () => {
         const date = new Date();
         return (
@@ -24,11 +26,14 @@ const Home = ({ navigation }: any) => {
             </Text>
         );
     };
+
     return (
         <View style={HomeStyles.container}>
             <View>
                 <Text style={HomeStyles.mainTitle}>Bienvenido</Text>
-                <Text style={HomeStyles.mainName}>Nombre de usuario</Text>
+                <Text style={HomeStyles.mainName}>
+                    {data && data.people.fullName}
+                </Text>
                 {fecha()}
             </View>
             {accounts.length ? (
@@ -38,7 +43,7 @@ const Home = ({ navigation }: any) => {
                     renderItem={(item: any) => (
                         <HomeCard
                             {...item}
-                            setData={setData}
+                            setData={setAccountsData}
                             navigation={navigation}
                             setModalVisible={setModalVisible}
                         />
@@ -48,7 +53,7 @@ const Home = ({ navigation }: any) => {
                 <NoAccountMessage />
             )}
             <AddGastoModal
-                data={data}
+                data={accountsData}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
             />

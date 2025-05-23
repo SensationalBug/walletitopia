@@ -3,7 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Main from '../Main';
-import Login from '../views/Login';
+// import Login from '../views/Login'; // Removed Login import
+import EntryScreen from '../views/EntryScreen'; // Import the new EntryScreen
+import BiometricLockScreen from '../views/BiometricLockScreen'; // Import BiometricLockScreen
 import HomeDetail from '../views/HomeDetail';
 import MetricsDetail from '../views/MetricsDetail';
 
@@ -11,10 +13,15 @@ const Navigation = () => {
     const Stack = createNativeStackNavigator();
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
+            <Stack.Navigator initialRouteName="Entry">
                 <Stack.Screen
-                    name="Login"
-                    component={Login}
+                    name="Entry"
+                    component={EntryScreen} // Use the new EntryScreen
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="BiometricLock"
+                    component={BiometricLockScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen

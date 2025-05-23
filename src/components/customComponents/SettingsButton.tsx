@@ -1,48 +1,17 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { SettingsButtonStyle } from '../../styles/GlobalStyles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const SettingsButton = ({ buttonName, onAction, icon, disabled }: any) => {
-    const opacity = {
-        on: 1,
-        off: 0.2,
-    };
+const SettingsButton = ({ buttonName, onAction, icon }: any) => {
     return (
         <TouchableOpacity
             onPress={onAction}
-            disabled={disabled || false}
-            style={styles.buttonContainer}>
-            <Text
-                style={[
-                    styles.buttonText,
-                    { opacity: disabled ? opacity.off : opacity.on },
-                ]}>
-                {buttonName}
-            </Text>
-            <Icon
-                name={icon}
-                size={20}
-                color="#000"
-                style={[{ opacity: disabled ? opacity.off : opacity.on }]}
-            />
+            style={SettingsButtonStyle.buttonContainer}>
+            <Text style={[SettingsButtonStyle.buttonText]}>{buttonName}</Text>
+            <Icon name={icon} size={30} color="#000" />
         </TouchableOpacity>
     );
 };
 
 export default SettingsButton;
-
-const styles = StyleSheet.create({
-    buttonContainer: {
-        paddingHorizontal: 20,
-        height: '15%',
-        borderBottomWidth: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomColor: '#000',
-        justifyContent: 'space-between',
-    },
-    buttonText: {
-        fontSize: 20,
-        color: '#000',
-    },
-});

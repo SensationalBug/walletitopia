@@ -22,8 +22,7 @@ const creationDate = () => {
 export const AccountContext = createContext({});
 
 const AccountProvider = ({ children }: props) => {
-    const { userData, showToastAlert, updStateData }: any =
-        useContext(UserContext);
+    const { data, showToastAlert, updStateData }: any = useContext(UserContext);
     const [accounts, setAccounts] = useState([]);
     const [newAccountData, setNewAccountData] = useState({
         accountType: '',
@@ -70,12 +69,12 @@ const AccountProvider = ({ children }: props) => {
             method: 'get',
             url: `${URL}/cuentas`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
         })
             .then(res => setAccounts(res.data))
             .catch(() => setAccounts([]));
-    }, [userData.token]);
+    }, []);
     // Funcion para añadir cuentas
     const addAccount = () => {
         const { accountName, accountAmount, accountType } = newAccountData;
@@ -83,7 +82,7 @@ const AccountProvider = ({ children }: props) => {
             method: 'post',
             url: `${URL}/cuentas`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
             data: {
                 acc_name: accountName,
@@ -122,7 +121,7 @@ const AccountProvider = ({ children }: props) => {
             method: 'delete',
             url: `${URL}/cuentas/${id}`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
         })
             .then(() => {
@@ -143,7 +142,7 @@ const AccountProvider = ({ children }: props) => {
             method: 'patch',
             url: `${URL}/cuentas/${accountId}`,
             headers: {
-                Authorization: `Bearer ${userData.token}`,
+                // Authorization: `Bearer ${data.token}`,
             },
             data: {
                 acc_name: accountEditName,
@@ -168,9 +167,9 @@ const AccountProvider = ({ children }: props) => {
             .catch(err => console.log(err));
     };
     // UseEffect que trae todas las cuentas al abrir la app
-    useEffect(() => {
-        userData.token ? getAccounts() : null;
-    }, [getAccounts, userData.token]);
+    // useEffect(() => {
+    //     data.token ? getAccounts() : null;
+    // }, [getAccounts, data]);
     return (
         <AccountContext.Provider
             value={{

@@ -14,12 +14,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalIcons from '../components/modals/ModalIcons';
 import React, { useContext, useState, useRef } from 'react';
 import CategoryCard from '../components/cards/CategoryCard';
-import { CatContext } from '../controller/CategoriesContext';
+import { CategoriesContext } from '../controller/CategoriesContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
 const Categories = () => {
     const layout = useWindowDimensions();
     const flatList = useRef<FlatList<any>>(null);
     const {
+        getCat,
         catIcons,
         categories,
         newCategoy,
@@ -27,7 +29,7 @@ const Categories = () => {
         selectedCatIcon,
         validateCatInput,
         setSelectedCatIcon,
-    }: any = useContext(CatContext);
+    }: any = useContext(CategoriesContext);
     const { updStateData }: any = useContext(UserContext);
     const [modalVisible, setModalVisible] = useState(false);
     return (
@@ -46,6 +48,7 @@ const Categories = () => {
                     <TouchableOpacity
                         onPress={() => {
                             setModalVisible(true);
+                            // Esto hace que el teclado se cierre
                             Keyboard.dismiss();
                         }}
                         style={CategoryStyles.addCatIcon}>
@@ -54,13 +57,14 @@ const Categories = () => {
                 </View>
                 <TouchableOpacity
                     onPress={() =>
-                        validateCatInput().then(() => {
-                            Keyboard.dismiss();
-                            setTimeout(
-                                () => flatList?.current?.scrollToEnd(),
-                                200,
-                            );
-                        })
+                        // validateCatInput().then(() => {
+                        //     Keyboard.dismiss();
+                        //     setTimeout(
+                        //         () => flatList?.current?.scrollToEnd(),
+                        //         200,
+                        //     );
+                        // })
+                        getCat()
                     }
                     style={CategoryStyles.addCatButton}>
                     <Text style={CategoryStyles.addCatButtonText}>
@@ -75,6 +79,7 @@ const Categories = () => {
                 <FlatList
                     ref={flatList}
                     numColumns={3}
+                    // data={data}
                     data={categories}
                     keyExtractor={item => item._id}
                     renderItem={({ item }) => <CategoryCard {...item} />}
@@ -82,6 +87,7 @@ const Categories = () => {
             </View>
             <ModalIcons
                 icons={catIcons}
+                // icons={icons}
                 setFuction={setNewCategory}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
